@@ -1,0 +1,16 @@
+﻿@typeparam T
+<Router AppAssembly="typeof(T).Assembly" />
+
+@functions
+{
+		[Inject] ILocalisationHelper LocalisationHelper { get; set; }
+		protected override async Task OnInitAsync()
+		{
+			await base.OnInitAsync();
+			await LocalisationHelper.BuildLocalCulture();
+			await LocalisationHelper.BuildLocalTimeZone();
+			Console.WriteLine($"TZ:{LocalisationHelper.LocalTimeZoneInfo.DisplayName} {LocalisationHelper.LocalTimeZoneInfo.GetUtcOffset(DateTime.Now)}");
+			Console.WriteLine($"CI:{LocalisationHelper.LocalCultureInfo.Name}");
+		}
+		//
+}

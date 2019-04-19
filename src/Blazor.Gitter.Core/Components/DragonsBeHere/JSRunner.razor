@@ -1,0 +1,48 @@
+﻿<img src="@($"//:0/{Src}")" onerror="@jsToRun" onloadstart="@jsToRun" hidden />
+<input id="@ReturnValueID" type="text" bind="@ReturnValue" hidden />
+@functions
+{
+	string Src;
+	string jsToRun;
+	string ReturnValueID = $"js_{DateTime.UtcNow.ToFileTime()}";
+	string returnValue;
+
+	[Parameter] protected string JsToRun { get => jsToRun; set => RunJS(value); }
+	[Parameter] protected Action<string> ValueReturned { get; set; }
+
+	public void RunJS(string js)
+	{
+		jsToRun = js ?? jsToRun;
+		Src = DateTime.UtcNow.ToFileTime().ToString();
+		Task.Delay(1);
+		StateHasChanged();
+	}
+
+	public void GetValueJS(string js)
+	{
+		jsToRun = $"{ReturnValueID}.value = eval('{SafeJsString(js ?? jsToRun)}');" +
+							$"{ReturnValueID}.dispatchEvent(new Event('change'));";
+		Src = DateTime.UtcNow.ToFileTime().ToString();
+		Task.Delay(1);
+		StateHasChanged();
+	}
+
+	string ReturnValue
+	{
+		get => returnValue;
+		set
+		{
+			returnValue = value;
+			ValueReturned?.Invoke(returnValue);
+		}
+	}
+
+	string SafeJsString(string content) =>
+			content
+			.Replace(@"\", @"\\")
+			.Replace("\r", @"\r")
+			.Replace("\n", @"\n")
+			.Replace("'", @"\'")
+			.Replace("\"", @"\""");
+
+}

@@ -1,0 +1,58 @@
+<div class="blg-top-left sidebar top-row pl-4 navbar navbar-dark">
+	<a class="navbar-brand" href="">@Title</a>
+</div>
+
+<div class="blg-center-left scrollable" >
+	<h3 class="ml-3">My Rooms</h3>
+	<ul class="nav flex-column scrollable">
+		<li class="nav-item px-3">
+			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+				<span class="oi oi-home" aria-hidden="true"></span> Home
+			</NavLink>
+		</li>
+		@if (State?.HasChatRooms ?? false)
+		{
+			@foreach (IChatRoom Room in State.GetMyRooms().OrderByDescending(r => r.LastAccessTime))
+			{
+				<li class="nav-item px-3">
+					<NavLink class="nav-link" href=@($"/room/{Room.Id}")>
+						<img src="@Room.AvatarUrl" />
+						@Room.Name
+						@if (Room.UnreadItems > 0)
+						{
+							<span class="badge badge-secondary badge-pill ml-1">@Room.UnreadItems</span>
+						}
+					</NavLink>
+				</li>
+			}
+		}
+	</ul>
+</div>
+
+@functions {
+		[Inject] IJSRuntime jSRuntime { get; set; }
+		[Inject] IAppState State { get; set; }
+
+		bool collapseNavMenu = false;
+
+		string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+		string Title => jSRuntime is IJSInProcessRuntime ? "Blazor Gitter - WASM" : "Blazor Gitter - Server";
+		void ToggleNavMenu()
+		{
+			collapseNavMenu = !collapseNavMenu;
+		}
+		protected override async Task OnParametersSetAsync()
+		{
+			await base.OnParametersSetAsync();
+			if (State is object)
+			{
+				State.GotChatRooms = async () =>
+				{
+					Console.WriteLine("Updating Menu");
+					await Invoke(StateHasChanged);
+					await Task.Delay(1);
+				};
+			}
+		}
+		//
+}
