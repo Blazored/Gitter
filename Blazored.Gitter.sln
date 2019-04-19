@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Gitter.Core", "src\B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Gitter.Server", "src\Blazor.Gitter.Server\Blazor.Gitter.Server.csproj", "{E5EBDE7F-C42E-4594-BDF3-B8B91003E486}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Gitter.Library", "src\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj", "{F40F2548-F756-4F17-ACB7-D5AC10D7DF56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Gitter.Library", "src\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj", "{F40F2548-F756-4F17-ACB7-D5AC10D7DF56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{927C6A8E-683E-43BE-94DB-5D13C2E55258}"
+	ProjectSection(SolutionItems) = preProject
+		src\README.md = src\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
