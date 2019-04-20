@@ -179,8 +179,14 @@
 					if (messages is object)
 					{
 						count = messages.Count;
-						messages.AddRange(Messages);
-						Messages = messages;
+						if (!string.IsNullOrWhiteSpace(options.BeforeId))
+						{
+							Messages.InsertRange(0, messages);
+						}
+						else
+						{
+							Messages.AddRange(messages);
+						}
 						await Invoke(StateHasChanged);
 						await Task.Delay(1);
 					}
