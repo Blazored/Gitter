@@ -4,9 +4,10 @@ namespace Blazor.Gitter.Library
 {
     public class GitterMessageOptions : IChatMessageOptions
     {
+        public string BeforeId { get; set; }
         public string AfterId { get; set; }
         public string Lang { get; set; }
-        public int Limit { get; set; }
+        public int Limit { get; set; } = 20;
         public override string ToString()
         {
             StringBuilder s = new StringBuilder("?");
@@ -14,6 +15,11 @@ namespace Blazor.Gitter.Library
             if (!string.IsNullOrEmpty(AfterId))
             {
                 s.Append($"afterId={AfterId.Trim()}");
+            }
+            if (!string.IsNullOrEmpty(BeforeId))
+            {
+                if (s.Length > 1) s.Append("&");
+                s.Append($"beforeId={BeforeId.Trim()}");
             }
             if (!string.IsNullOrEmpty(Lang))
             {
