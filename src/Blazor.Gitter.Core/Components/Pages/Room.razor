@@ -2,13 +2,13 @@
 @page "/room/{roomid}"
 @implements IDisposable
 
-<div class="blg-center scrollable">
+<div id="blgmessagelist" class="blg-center scrollable" onscroll="@MessagesScrolled">
 	@if (Messages is object)
 	{
 		<div class="list-group list-group-flush">
 			@foreach (var message in Messages.OrderBy(m => m.Sent))
 			{
-				<div id="@message.Id" class=@MessageClassList(message)>
+				<div id="@message.Id" class="@MessageClassList(message)">
 					<div class="d-flex w-100 justify-content-between">
 						<img src="@message.FromUser.AvatarUrlSmall" width="38" height="38" style="border-radius:25%;" />
 						<h5 class="mb-1">@message.FromUser.DisplayName</h5>
@@ -51,6 +51,10 @@
 		bool KeepWatching = false;
 		bool FirstLoad = true;
 		string LastRoom = string.Empty;
+		static SemaphoreSlim ssFetch = new SemaphoreSlim(1, 1);
+		static SemaphoreSlim ssScroll = new SemaphoreSlim(1, 1);
+		bool IsFetchingOlder = false;
+		bool NoMoreOldMessages = false;
 
 		protected override async Task OnAfterRenderAsync()
 		{
@@ -72,6 +76,8 @@
 			{
 				FirstLoad = true;
 				LastRoom = RoomId;
+				NoMoreOldMessages = false;
+				IsFetchingOlder = false;
 			}
 			if (GitterApi is object)
 			{
@@ -152,30 +158,94 @@
 				options.AfterId = "";
 				if (Messages?.Any() ?? false)
 				{
-					options.AfterId = Messages.Last().Id;
+					options.AfterId = Messages.OrderBy(m => m.Sent).Last().Id;
 				}
-				await FetchNewMessages(options);
+				await FetchNewMessages(options, token);
 				await Task.Delay(2000, token);
 			}
 			token.ThrowIfCancellationRequested();
 		}
 
-		async Task FetchNewMessages(IChatMessageOptions options)
+		async Task<int> FetchNewMessages(IChatMessageOptions options, CancellationToken token)
 		{
 			List<IChatMessage> messages = null;
-			try
+			int count = 0;
+			if (!token.IsCancellationRequested)
 			{
-				messages = (await GitterApi.GetChatMessages(RoomId, options)).ToList();
+				await ssFetch.WaitAsync(token);
+				try
+				{
+					messages = (await GitterApi.GetChatMessages(RoomId, options)).ToList();
+					if (messages is object)
+					{
+						count = messages.Count;
+						messages.AddRange(Messages);
+						Messages = messages;
+						await Invoke(StateHasChanged);
+						await Task.Delay(1);
+					}
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine(e);
+				}
+				finally
+				{
+					ssFetch.Release();
+				}
 			}
-			catch (Exception e)
+			return count;
+		}
+
+		async Task<int> FetchOldMessages(CancellationToken token)
+		{
+			var options = GitterApi.GetNewOptions();
+			options.Lang = Localisation.LocalCultureInfo.Name;
+			if (!token.IsCancellationRequested && IsFetchingOlder)
 			{
-				Console.WriteLine(e);
+				options.AfterId = "";
+				if (Messages?.Any() ?? false)
+				{
+					options.BeforeId = Messages.OrderBy(m => m.Sent).First().Id;
+					var count = await FetchNewMessages(options, token);
+					await Invoke(StateHasChanged);
+					await Task.Delay(100);
+					await JSRuntime.InvokeAsync<object>("eval", $"document.getElementById('{options.BeforeId}').scrollIntoView()");
+					return count;
+				}
 			}
-			if (messages is object)
+			token.ThrowIfCancellationRequested();
+			return 0;
+		}
+
+		async Task MessagesScrolled(UIEventArgs args)
+		{
+			if (!NoMoreOldMessages && !IsFetchingOlder && Messages.Any())
 			{
-				Messages.AddRange(messages.OrderBy(m => m.Sent));
-				await Invoke(StateHasChanged);
-				await Task.Delay(1);
+				await ssScroll.WaitAsync();
+				try
+				{
+
+					var scroll = await JSRuntime.InvokeAsync<double>("eval", $"document.getElementById('blgmessagelist').scrollTop");
+					if (scroll < 200)
+					{
+						IsFetchingOlder = true;
+
+						var count = await FetchOldMessages(tokenSource.Token);
+						if (count == 0)
+						{
+							NoMoreOldMessages = true;
+						}
+						IsFetchingOlder = false;
+					}
+				}
+				catch
+				{
+				}
+				finally
+				{
+					ssScroll.Release();
+				}
 			}
 		}
 
@@ -183,15 +253,12 @@
 		{
 			if (tokenSource is object && tokenSource.Token.CanBeCanceled)
 			{
-				Console.WriteLine("CANCELLING...");
 				try
 				{
 					tokenSource.Cancel();
 					if (RoomWatcher is object)
 					{
-						Console.WriteLine("WAITING...");
 						var _ = RoomWatcher?.Wait(2000);
-						Console.WriteLine("DISPOSING...");
 					}
 					tokenSource.Dispose();
 				}
@@ -200,6 +267,7 @@
 					Console.WriteLine(e);
 				}
 			}
-			Console.WriteLine("DISPOSED!!!");
+			NoMoreOldMessages = false;
+			IsFetchingOlder = false;
 		}
 }
