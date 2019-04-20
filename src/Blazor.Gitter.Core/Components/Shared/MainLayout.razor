@@ -1,42 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits MainLayoutModel
 
 <NavMenu />
 
 <BlazorEmbedLibrary.EmbeddedContent Assemblies="@AssemblyList" />
 
 @Body
-
-@functions
-{
-	[Inject] IChatApi GitterApi { get; set; }
-	[Inject] ILocalStorageService LocalStorage { get; set; }
-	[Inject] IAppState SharedAppState { get; set; }
-	List<System.Reflection.Assembly> AssemblyList;
-
-	protected override async Task OnInitAsync()
-	{
-		await base.OnInitAsync();
-		SharedAppState.GotApiKey = async () => await SignIn();
-		AssemblyList = new List<System.Reflection.Assembly>()
-	{
-			typeof(Blazored.LocalStorage.LocalStorageService).Assembly
-		};
-	}
-
-	async Task SignIn()
-	{
-		if (!(GitterApi is object))
-		{
-			Console.WriteLine("MainLayout: No Gitter Api");
-			return;
-		}
-		if (!SharedAppState.HasChatUser)
-		{
-			Console.WriteLine($"MainLayout signing in using {SharedAppState.GetApiKey()}");
-			GitterApi.SetAccessToken(SharedAppState.GetApiKey());
-			SharedAppState.SetMyUser(await GitterApi.GetCurrentUser());
-			await Invoke(StateHasChanged);
-			await Task.Delay(1);
-		}
-	}
-}

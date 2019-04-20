@@ -1,3 +1,5 @@
+@inherits NavMenuModel
+
 <div class="blg-top-left sidebar top-row pl-4 navbar navbar-dark">
 	<a class="navbar-brand" href="">@Title</a>
 </div>
@@ -28,31 +30,3 @@
 		}
 	</ul>
 </div>
-
-@functions {
-		[Inject] IJSRuntime jSRuntime { get; set; }
-		[Inject] IAppState State { get; set; }
-
-		bool collapseNavMenu = false;
-
-		string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-		string Title => jSRuntime is IJSInProcessRuntime ? "Blazor Gitter - WASM" : "Blazor Gitter - Server";
-		void ToggleNavMenu()
-		{
-			collapseNavMenu = !collapseNavMenu;
-		}
-		protected override async Task OnParametersSetAsync()
-		{
-			await base.OnParametersSetAsync();
-			if (State is object)
-			{
-				State.GotChatRooms = async () =>
-				{
-					Console.WriteLine("Updating Menu");
-					await Invoke(StateHasChanged);
-					await Task.Delay(1);
-				};
-			}
-		}
-		//
-}
