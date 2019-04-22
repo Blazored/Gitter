@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
@@ -13,10 +14,14 @@ namespace Blazor.Gitter.Core.Components.Shared
         private readonly IJSRuntime JSRuntime;
         private readonly ILocalStorageService LocalStorage;
         private readonly IComponentContext ComponentContext;
+        private readonly ILocalisationHelper LocalisationHelper;
         private string apiKey;
         private IChatUser myUser;
         private List<IChatRoom> myRooms;
         private bool initialised;
+        private DateTime TimeoutTime;
+        private Timer TimeoutTimer;
+        private const int TIMEOUT = 1;
 
         /// <summary>
         /// Attach to this to be notified when there is an ApiKey available
@@ -31,11 +36,15 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// </summary>
         public Action GotChatRooms { get; set; }
 
-        public AppState(IJSRuntime jSRuntime, ILocalStorageService localStorage, IComponentContext componentContext)
+        public AppState(IJSRuntime jSRuntime, 
+            ILocalStorageService localStorage, 
+            IComponentContext componentContext,
+            ILocalisationHelper localisationHelper)
         {
             JSRuntime = jSRuntime;
             LocalStorage = localStorage;
             ComponentContext = componentContext;
+            LocalisationHelper = localisationHelper;
             Task.Factory.StartNew(Initialise);
         }
 
@@ -49,6 +58,8 @@ namespace Blazor.Gitter.Core.Components.Shared
                 {
                     try
                     {
+                        await LocalisationHelper.BuildLocalCulture();
+                        await LocalisationHelper.BuildLocalTimeZone();
                         Console.WriteLine($"reading GitterKey from storage - {done} attempts left");
                         SetApiKey(await LocalStorage.GetItem<string>("GitterKey"));
                         break;
@@ -117,6 +128,53 @@ namespace Blazor.Gitter.Core.Components.Shared
             {
                 GotChatRooms?.Invoke();
             }
+        }
+
+        public string GetLocalTime(DateTime dateTime, string format="G")
+        {
+            return TimeZoneInfo
+                .ConvertTime(
+                    dateTime,
+                    LocalisationHelper.LocalTimeZoneInfo
+                )
+                .ToString(
+                    format,
+                    LocalisationHelper.LocalCultureInfo
+                );
+        }
+        public DateTime GetTimeoutTime() => TimeoutTime;
+        public event EventHandler ActivityTimeout;
+        public event EventHandler ActivityResumed;
+        public event EventHandler<DateTime> TimeoutChanged;
+
+        private void SetTimeoutTime(DateTime value)
+        {
+            if (!(TimeoutTimer is object))
+            {
+                TimeoutTimer = new Timer() { AutoReset = false, Interval = new TimeSpan(0,TIMEOUT,0).TotalMilliseconds };
+                TimeoutTimer.Elapsed += TimeoutTimer_Elapsed;
+            }
+            if (TimeoutTimer.Enabled)
+            {
+                TimeoutTimer.Stop();
+            }
+            TimeoutTime = value;
+            TimeoutTimer.Start();
+            TimeoutChanged?.Invoke(this,value);
+        }
+
+        private void TimeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            ActivityTimeout?.Invoke(this, null);
+        }
+
+        public void RecordActivity()
+        {
+            if (!(TimeoutTimer?.Enabled ?? false))
+            {
+                ActivityResumed?.Invoke(this, null);
+            }
+            SetTimeoutTime(DateTime.UtcNow.AddMinutes(TIMEOUT));
         }
     }
 }
