@@ -1,0 +1,18 @@
+﻿@inherits RoomSearchBase
+
+<div class="@OuterClass">
+	<h3>Search</h3>
+	<form onsubmit="@Search">
+		<input class="form-control" type="text" placeholder="e.g. context" bind="@SearchText" />
+	</form>
+	<button class="btn btn-secondary form-control" onclick="@(()=>SearchResult=null)">Clear</button>
+	@if (SearchResult is object)
+	{
+		<div class="list-group list-group-flush scrollable">
+			@foreach (var message in SearchResult)
+			{
+				<Message MessageData="@message" UserId="@UserId" />
+			}
+		</div>
+	}
+</div>
