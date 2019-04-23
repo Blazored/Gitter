@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inherits IndexModel
+
 <div class="blg-center mx-auto">
 	@if (State?.HasChatUser ?? false)
 	{
@@ -31,84 +33,3 @@
 		}
 	}
 </div>
-@functions
-{
-	[Inject] IChatApi GitterApi { get; set; }
-	[Inject] IAppState State { get; set; }
-
-	string ErrorMessage;
-
-	protected override void OnInit()
-	{
-		base.OnInit();
-		State.GotChatUser = async () => await FetchRooms();
-	}
-
-	string ApiKey
-	{
-		get => State.GetApiKey();
-		set => State.SetApiKey(value);
-	}
-
-	async Task SignIn(bool remember)
-	{
-		Console.WriteLine($"Index: SignIn {(remember ? "remember" : "")}");
-		if (!State.HasApiKey)
-		{
-			ErrorMessage = "Did you notice that box? It says Enter your own Gitter API Key!";
-			await Invoke(StateHasChanged);
-			await Task.Delay(1);
-			return;
-		}
-		if (remember)
-		{
-			await State.SaveApiKey();
-		}
-		ErrorMessage = "";
-		await Invoke(StateHasChanged);
-		await Task.Delay(1);
-		if (!(GitterApi is object))
-		{
-			ErrorMessage = "You don't appear to have an instance if IChatApi configured in startup.";
-			await Invoke(StateHasChanged);
-			await Task.Delay(1);
-			return;
-		}
-		//if (!State.HasChatUser)
-		//{
-		//	Console.WriteLine($"Index signing in using {State.GetApiKey()}");
-		//	GitterApi.SetAccessToken(State.GetApiKey());
-		//	State.SetMyUser(await GitterApi.GetCurrentUser());
-		//	await Invoke(StateHasChanged);
-		//	await Task.Delay(1);
-		//}
-	}
-
-	async Task FetchRooms()
-	{
-		Console.WriteLine("Getting Rooms...");
-		try
-		{
-			State.SetMyRooms((await GitterApi.GetChatRooms(State.GetMyUser().Id)).ToList());
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine(ex);
-		}
-		Console.WriteLine($"ROOMS:{State.GetMyRooms()?.Count()}");
-		await Invoke(StateHasChanged);
-		await Task.Delay(1);
-	}
-
-	string RoomButtonClass(IChatRoom room)
-	{
-		return new BlazorComponentUtilities.CssBuilder()
-					.AddClass("btn")
-					.AddClass("btn-secondary", room.UnreadItems == 0 && room.Mentions == 0)
-					.AddClass("btn-success", room.UnreadItems > 0 && room.Mentions == 0)
-					.AddClass("btn-warning", room.Mentions > 0)
-					.AddClass("ml-1")
-					.AddClass("mb-1")
-					.Build();
-	}
-}

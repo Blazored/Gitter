@@ -14,4 +14,10 @@
     <ProjectReference Include="..\Blazor.Gitter.Core\Blazor.Gitter.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\css\site.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
