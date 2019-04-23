@@ -78,6 +78,16 @@ namespace Blazor.Gitter.Library
             return await HttpClient.GetJsonAsync<GitterMessage[]>($"{APIROOMS}/{RoomId}/chatMessages{Options}");
         }
 
+        public async Task<IEnumerable<IChatMessage>> SearchChatMessages(string RoomId, IChatMessageOptions Options)
+        {
+            Console.WriteLine(Options);
+            if (string.IsNullOrWhiteSpace(Options.Query))
+            {
+                return default;
+            }
+            return await GetChatMessages(RoomId, Options);
+        }
+
         public async Task<IChatMessage> SendChatMessage(string RoomId, string Message)
         {
             var content = new NewMessage() { text = Message };
@@ -91,6 +101,6 @@ namespace Blazor.Gitter.Library
     }
     class NewMessage
     {
-        public string text;        
+        public string text;
     }
 }

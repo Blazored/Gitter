@@ -2,26 +2,23 @@
 @page "/room/{roomid}"
 
 @inherits RoomModel
+
+<div class="blg-top-center d-flex justify-content-start align-items-center text-muted">
+	<img src="@ThisRoom.AvatarUrl" width="48" height="48" />
+	<h3 class="h3-responsive mr-2">@ThisRoom.Name</h3>
+	<small class="text-muted text-truncate">@ThisRoom.Topic</small>
+</div>
+
 <div id="blgmessagelist" class="blg-center scrollable" onscroll="@MessagesScrolled">
 	@if (Messages is object)
 	{
-		<div class="list-group list-group-flush">
-			@foreach (var message in Messages.OrderBy(m => m.Sent))
-			{
-				<div id="@message.Id" class="@MessageClassList(message)">
-					<div class="d-flex w-100 justify-content-between">
-						<img src="@message.FromUser.AvatarUrlSmall" width="38" height="38" style="border-radius:25%;" />
-						<h5 class="mb-1">@message.FromUser.DisplayName</h5>
-						<small>@($"@{message.FromUser.Username}")</small>
-						<small class="text-muted">@(LocalTime(message.Sent))</small>
-					</div>
-					<p class="mb-1">
-						@(new MarkupString(message.Html))
-					</p>
-				</div>
-			}
+	<div class="list-group list-group-flush">
+		@foreach (var message in Messages.OrderBy(m => m.Sent))
+		{
+			<Message MessageData="@message" UserId="@State.GetMyUser().Id" />
+		}
 
-		</div>
+	</div>
 	}
 </div>
 
@@ -34,3 +31,19 @@
 	<button type="submit" class="btn btn-primary btn-sm ml-1">Ok</button>
 </form>
 
+<div class="blg-center-right p-1 d-flex flex-column">
+	<h3>Search</h3>
+	<form onsubmit="@Search">
+		<input class="form-control" type="text" placeholder="e.g. context" bind="@SearchText" />
+	</form>
+	<button class="btn btn-secondary form-control" onclick="@(()=>SearchResult=null)">Clear</button>
+	@if (SearchResult is object)
+	{
+		<div class="list-group list-group-flush scrollable">
+			@foreach (var message in SearchResult)
+			{
+				<Message MessageData="@message" UserId="@State.GetMyUser().Id" />
+			}
+		</div>
+	}
+</div>

@@ -23,6 +23,9 @@ namespace Blazor.Gitter.Core.Components.Pages
 
         internal List<IChatMessage> Messages;
         internal string NewMessage;
+        internal IChatRoom ThisRoom;
+        internal List<IChatMessage> SearchResult;
+        internal string SearchText;
 
         CancellationTokenSource tokenSource;
         Task RoomWatcher;
@@ -59,6 +62,7 @@ namespace Blazor.Gitter.Core.Components.Pages
             }
             if (GitterApi is object)
             {
+                ThisRoom = (State.GetMyRooms()).Where(r => r.Id == RoomId).FirstOrDefault();
                 Console.WriteLine("Loading room...");
                 Messages = new List<IChatMessage>();
                 await Invoke(StateHasChanged);
@@ -83,18 +87,6 @@ namespace Blazor.Gitter.Core.Components.Pages
                         "G",
                         Localisation.LocalCultureInfo
                     );
-
-        internal string MessageClassList(IChatMessage message) =>
-            new BlazorComponentUtilities.CssBuilder()
-                        .AddClass("list-group-item")
-                        .AddClass("list-group-item-action")
-                        .AddClass("flex-column")
-                        .AddClass("align-items-start")
-                        .AddClass("bg-inherit")
-                        .AddClass("text-inherit")
-                        .AddClass("list-group-item-success", message.Unread)
-                        .AddClass("list-group-item-warning", message.Mentions.Any(m => m.UserId == State.GetMyUser().Id))
-                        .Build();
 
         async Task<bool> CheckStateForRedirect()
         {
@@ -240,6 +232,24 @@ namespace Blazor.Gitter.Core.Components.Pages
                 {
                     ssScroll.Release();
                 }
+            }
+        }
+
+        internal async Task Search(UIEventArgs args)
+        {
+            var options = GitterApi.GetNewOptions();
+            options.Query = SearchText;
+            options.Limit = 100;
+            SearchResult = new List<IChatMessage>();
+            var messages = (await GitterApi.SearchChatMessages(RoomId, options)).ToList();
+            while (messages?.Any() ?? false)
+            {
+                SearchResult.AddRange(messages.OrderBy(m => m.Sent).Reverse());
+                Console.WriteLine($"Got {messages.Count} results. First is {SearchResult.First().Id} Last is {SearchResult.Last().Id}");
+                await Invoke(StateHasChanged);
+                await Task.Delay(2000);
+                options.Skip += messages.Count;
+                messages = (await GitterApi.SearchChatMessages(RoomId, options)).ToList();
             }
         }
 
