@@ -21,7 +21,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         private bool initialised;
         private DateTime TimeoutTime;
         private Timer TimeoutTimer;
-        private const int TIMEOUT = 1;
+        private const int TIMEOUT = 30;
 
         /// <summary>
         /// Attach to this to be notified when there is an ApiKey available
@@ -147,7 +147,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         public event EventHandler ActivityResumed;
         public event EventHandler<DateTime> TimeoutChanged;
 
-        private void SetTimeoutTime(DateTime value)
+        private void SetTimeoutTime()
         {
             if (!(TimeoutTimer is object))
             {
@@ -157,10 +157,13 @@ namespace Blazor.Gitter.Core.Components.Shared
             if (TimeoutTimer.Enabled)
             {
                 TimeoutTimer.Stop();
+            } else
+            {
+                ActivityResumed?.Invoke(this, null);
             }
-            TimeoutTime = value;
+            TimeoutTime = DateTime.UtcNow.AddMinutes(TIMEOUT);
             TimeoutTimer.Start();
-            TimeoutChanged?.Invoke(this,value);
+            TimeoutChanged?.Invoke(this,TimeoutTime);
         }
 
         private void TimeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -170,11 +173,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         public void RecordActivity()
         {
-            if (!(TimeoutTimer?.Enabled ?? false))
-            {
-                ActivityResumed?.Invoke(this, null);
-            }
-            SetTimeoutTime(DateTime.UtcNow.AddMinutes(TIMEOUT));
+            SetTimeoutTime();
         }
     }
 }

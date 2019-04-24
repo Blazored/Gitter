@@ -3,7 +3,7 @@
 <div id="blgmessagelist" class="@OuterClass" onscroll="@MessagesScrolled">
 	@if (Messages is object)
 	{
-		<div class="list-group list-group-flush">
+		<div class="@InnerClass">
 			@foreach (var message in Messages.OrderBy(m => m.Sent))
 			{
 				<Message MessageData="@message" UserId="@UserId" />

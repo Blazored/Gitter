@@ -14,10 +14,12 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] IJSRuntime JSRuntime { get; set; }
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] ILocalisationHelper Localisation { get; set; }
+        [Inject] IAppState State { get; set; }
 
         [Parameter] protected IChatRoom ChatRoom { get; set; }
         [Parameter] internal string UserId { get; set; }
         [Parameter] internal string OuterClassList { get; set; }
+        [Parameter] internal string InnerClassList { get; set; }
 
         private bool OuterClassListIsEmpty => string.IsNullOrWhiteSpace(OuterClassList);
         internal string OuterClass => new BlazorComponentUtilities.CssBuilder()
@@ -26,21 +28,62 @@ namespace Blazor.Gitter.Core.Components.Shared
             .AddClass(OuterClassList, !OuterClassListIsEmpty)
             .Build();
 
+        private bool InnerClassListIsEmpty => string.IsNullOrWhiteSpace(InnerClassList);
+        internal string InnerClass => new BlazorComponentUtilities.CssBuilder()
+            .AddClass("list-group", InnerClassListIsEmpty)
+            .AddClass("list-group-flush", InnerClassListIsEmpty)
+            .Build();
+
         internal List<IChatMessage> Messages;
         SemaphoreSlim ssScroll = new SemaphoreSlim(1, 1);
         SemaphoreSlim ssFetch = new SemaphoreSlim(1, 1);
         bool IsFetchingOlder = false;
         bool NoMoreOldMessages = false;
         bool FirstLoad = true;
+        bool FollowAlong = true;
         CancellationTokenSource tokenSource;
         System.Timers.Timer RoomWatcher;
         IChatRoom LastRoom;
+
+        protected override void OnInit()
+        {
+            base.OnInit();
+            State.ActivityTimeout += ActivityTimeout;
+            State.ActivityResumed += ActivityResumed;
+        }
+
+        private void ActivityResumed(object sender, EventArgs e)
+        {
+            Console.WriteLine("MESSAGES: Resuming");
+            StartRoomWatcher();
+            Invoke(StateHasChanged);
+            Task.Delay(1);
+        }
+
+        private void ActivityTimeout(object sender, EventArgs e)
+        {
+            Console.WriteLine("MESSAGES: Pausing");
+            try
+            {
+                RoomWatcher?.Stop();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetBaseException().Message);
+            }
+            Invoke(StateHasChanged);
+            Task.Delay(1);
+        }
 
         protected override async Task OnAfterRenderAsync()
         {
             if (FirstLoad && Messages?.Count > 0)
             {
                 FirstLoad = false;
+                State.RecordActivity();
+            }
+            if (FollowAlong && Messages?.Count > 0)
+            {
                 await JSRuntime.InvokeAsync<object>("eval", $"document.getElementById('{GetLastMessageId()}').scrollIntoView()");
             }
         }
@@ -59,15 +102,20 @@ namespace Blazor.Gitter.Core.Components.Shared
                 await Invoke(StateHasChanged);
                 await Task.Delay(1);
 
-                if (!(RoomWatcher is object))
-                {
-                    tokenSource = new CancellationTokenSource();
-                    RoomWatcher = new System.Timers.Timer(10);
-                    RoomWatcher.Elapsed += async (s, e) => await MonitorNewMessages();
-                }
-                RoomWatcher.Interval = 10;
-                RoomWatcher.Start();
+                StartRoomWatcher();
             }
+        }
+
+        private void StartRoomWatcher()
+        {
+            if (!(RoomWatcher is object))
+            {
+                tokenSource = new CancellationTokenSource();
+                RoomWatcher = new System.Timers.Timer(10);
+                RoomWatcher.Elapsed += async (s, e) => await MonitorNewMessages();
+            }
+            RoomWatcher.Interval = 10;
+            RoomWatcher.Start();
         }
 
         internal async Task MessagesScrolled(UIEventArgs args)
@@ -77,8 +125,9 @@ namespace Blazor.Gitter.Core.Components.Shared
                 await ssScroll.WaitAsync();
                 try
                 {
-
+                    State.RecordActivity();
                     var scroll = await JSRuntime.InvokeAsync<double>("eval", $"document.getElementById('blgmessagelist').scrollTop");
+                    var bottom = await JSRuntime.InvokeAsync<double>("eval", $"const el=document.getElementById('blgmessagelist'); return el.scrollHeight - el.offsetHeight");
                     if (scroll < 100)
                     {
                         IsFetchingOlder = true;
@@ -89,6 +138,14 @@ namespace Blazor.Gitter.Core.Components.Shared
                             NoMoreOldMessages = true;
                         }
                         IsFetchingOlder = false;
+                    }
+                    if (scroll>=bottom)
+                    {
+                        FollowAlong = true;
+                    }
+                    else
+                    {
+                        FollowAlong = false;
                     }
                 }
                 catch
