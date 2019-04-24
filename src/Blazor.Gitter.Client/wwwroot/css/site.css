@@ -136,3 +136,8 @@ app {
 .text-inherit {
     color: #fff;
 }
+
+li:hover li:focus {
+    color: white; /*color turns white if not changed*/
+    background: none;
+}

@@ -2,35 +2,11 @@
 @page "/room/{roomid}"
 
 @inherits RoomModel
-<div id="blgmessagelist" class="blg-center scrollable" onscroll="@MessagesScrolled">
-	@if (Messages is object)
-	{
-		<div class="list-group list-group-flush">
-			@foreach (var message in Messages.OrderBy(m => m.Sent))
-			{
-				<div id="@message.Id" class="@MessageClassList(message)">
-					<div class="d-flex w-100 justify-content-between">
-						<img src="@message.FromUser.AvatarUrlSmall" width="38" height="38" style="border-radius:25%;" />
-						<h5 class="mb-1">@message.FromUser.DisplayName</h5>
-						<small>@($"@{message.FromUser.Username}")</small>
-						<small class="text-muted">@(LocalTime(message.Sent))</small>
-					</div>
-					<p class="mb-1">
-						@(new MarkupString(message.Html))
-					</p>
-				</div>
-			}
 
-		</div>
-	}
-</div>
+<RoomTitle ChatRoom="@ThisRoom" />
 
-<form onsubmit="@SendMessage" class="d-flex align-items-center blg-bottom-center">
-	<img src="@State.GetMyUser().AvatarUrlSmall" width="38" height="38" class="rounded-lg mr-1" />
-	<textarea id="messageinput"
-						class="form-control flex-grow-1"
-						bind="@NewMessage"
-						placeholder="Join the conversation..." />
-	<button type="submit" class="btn btn-primary btn-sm ml-1">Ok</button>
-</form>
+<RoomMessages ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
 
+<RoomSend ChatRoom="@ThisRoom" User="@State.GetMyUser()" />
+
+<RoomSearch ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />

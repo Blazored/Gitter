@@ -12,6 +12,7 @@ namespace Blazor.Gitter.Library
         Task<IEnumerable<IChatRoom>> GetChatRooms(string UserId);
         Task<IChatMessage> GetChatMessage(string RoomId,string MessageId);
         Task<IEnumerable<IChatMessage>> GetChatMessages(string RoomId,IChatMessageOptions Options);
+        Task<IEnumerable<IChatMessage>> SearchChatMessages(string RoomId,IChatMessageOptions Options);
         Task<IChatMessage> SendChatMessage(string RoomId, string Message);
         void SetAccessToken(string Token);
         IChatMessageOptions GetNewOptions();
