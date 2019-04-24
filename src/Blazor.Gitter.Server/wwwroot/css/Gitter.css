@@ -58,9 +58,3 @@ pre .string, pre .css .id, pre .subst, pre .type, pre .ruby .class .parent, pre 
 pre .comment, pre .annotation, pre .decorator, pre .pi, pre .doctype, pre .deletion, pre .shebang, pre .apache .sqbracket, pre .tex .formula {
     color: #908b74
 }
-
-img {
-    margin-right: 0.5em;
-    border-radius: 5px;
-}
-

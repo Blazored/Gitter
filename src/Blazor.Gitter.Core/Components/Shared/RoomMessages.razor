@@ -1,0 +1,14 @@
+﻿@inherits RoomMessagesBase
+
+<div id="blgmessagelist" class="@OuterClass" onscroll="@MessagesScrolled">
+	@if (Messages is object)
+	{
+		<div class="list-group list-group-flush">
+			@foreach (var message in Messages.OrderBy(m => m.Sent))
+			{
+				<Message MessageData="@message" UserId="@UserId" />
+			}
+
+		</div>
+	}
+</div>
