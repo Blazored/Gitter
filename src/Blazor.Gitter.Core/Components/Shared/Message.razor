@@ -1,11 +1,11 @@
 ﻿@inherits MessageModel
 
 <div id="@MessageData.Id" class="@MessageClassList(MessageData)">
-	<div class="d-flex w-100 justify-content-between">
+	<div class="d-flex w-100">
 		<img src="@MessageData.FromUser.AvatarUrlSmall" width="38" height="38" style="border-radius:25%;" title="Filter by @MessageData.FromUser.Username" />
-		<h5 class="mb-1">@MessageData.FromUser.DisplayName</h5>
-		<small>@($"@{MessageData.FromUser.Username}")</small>
-		<small class="text-muted">@(LocalTime(MessageData.Sent))</small>
+		<h5 class="mb-1 ml-2 mr-2">@MessageData.FromUser.DisplayName</h5>
+		<small class="mt-1">@($"( @{MessageData.FromUser.Username} )")</small>
+		<small class="text-muted ml-auto">@(LocalTime(MessageData.Sent))</small>
 	</div>
 	<p class="mb-1">
 			@(new MarkupString(MessageData.Html))
