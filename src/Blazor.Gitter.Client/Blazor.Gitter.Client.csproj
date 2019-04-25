@@ -21,4 +21,18 @@
     <ProjectReference Include="..\Blazor.Gitter.Core\Blazor.Gitter.Core.csproj" />
   </ItemGroup>
 
+  <Target Name="PreCompile" BeforeTargets="Build">
+    <Exec Command="gulp clean" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="Build">
+    <Exec Command="gulp default" />
+  </Target>
+
+  <Target Name="Startup" Condition="'$(Configuration)'=='Debug'">
+    <Exec Command="gulp clean" />
+    <Exec Command="gulp default" />
+    <Exec Command="gulp watch" />
+  </Target>
+
 </Project>
