@@ -3,8 +3,10 @@
 <form onsubmit="@SendMessage" class="@OuterClass">
 	<img src="@User.AvatarUrlSmall" width="38" height="38" class="rounded-lg mr-1" />
 	<textarea id="messageinput"
-						class="form-control flex-grow-1"
+						class="flex-grow-1 newmessage"
 						bind="@NewMessage"
+						oninput="@HandleSizing"
+						style="@NewMessageStyle"
 						placeholder="Join the conversation..." />
 	<button type="submit" class="btn btn-primary btn-sm ml-1">Ok</button>
 </form>

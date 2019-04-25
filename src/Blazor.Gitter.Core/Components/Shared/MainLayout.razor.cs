@@ -23,7 +23,8 @@ namespace Blazor.Gitter.Core.Components.Shared
             SharedAppState.GotApiKey = async () => await SignIn();
             AssemblyList = new List<System.Reflection.Assembly>()
                 {
-                    typeof(ILocalStorageService).Assembly
+                    typeof(ILocalStorageService).Assembly,
+                    typeof(MainLayout).Assembly
                 };
         }
 
