@@ -173,13 +173,10 @@ blockquote {
     font-style: italic;
     background-color: rgba(128,128,128,0.1);
     color: azure;
-    quotes: "\201C""\201D""\2018""\2019";
+    quotes: "Quote:" "";
 }
 
     blockquote::before {
         content: open-quote;
     }
 
-    blockquote::after {
-        content: close-quote;
-    }

@@ -1,4 +1,5 @@
-﻿using Blazor.Gitter.Library;
+﻿using Blazor.Gitter.Core.Browser;
+using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -40,7 +41,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         bool IsFetchingOlder = false;
         bool NoMoreOldMessages = false;
         bool FirstLoad = true;
-        bool FollowAlong = true;
         CancellationTokenSource tokenSource;
         System.Timers.Timer RoomWatcher;
         IChatRoom LastRoom;
@@ -54,15 +54,11 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void ActivityResumed(object sender, EventArgs e)
         {
-            Console.WriteLine("MESSAGES: Resuming");
             StartRoomWatcher();
-            Invoke(StateHasChanged);
-            Task.Delay(1);
         }
 
         private void ActivityTimeout(object sender, EventArgs e)
         {
-            Console.WriteLine("MESSAGES: Pausing");
             try
             {
                 RoomWatcher?.Stop();
@@ -71,20 +67,15 @@ namespace Blazor.Gitter.Core.Components.Shared
             {
                 Console.WriteLine(ex.GetBaseException().Message);
             }
-            Invoke(StateHasChanged);
-            Task.Delay(1);
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override void OnAfterRender()
         {
+            base.OnAfterRender();
             if (FirstLoad && Messages?.Count > 0)
             {
                 FirstLoad = false;
                 State.RecordActivity();
-            }
-            if (FollowAlong && Messages?.Count > 0)
-            {
-                await JSRuntime.InvokeAsync<object>("eval", $"document.getElementById('{GetLastMessageId()}').scrollIntoView()");
             }
         }
 
@@ -99,9 +90,6 @@ namespace Blazor.Gitter.Core.Components.Shared
                 IsFetchingOlder = false;
                 Console.WriteLine("Loading room...");
                 Messages = new List<IChatMessage>();
-                await Invoke(StateHasChanged);
-                await Task.Delay(1);
-
                 StartRoomWatcher();
             }
         }
@@ -111,10 +99,10 @@ namespace Blazor.Gitter.Core.Components.Shared
             if (!(RoomWatcher is object))
             {
                 tokenSource = new CancellationTokenSource();
-                RoomWatcher = new System.Timers.Timer(10);
+                RoomWatcher = new System.Timers.Timer(250);
                 RoomWatcher.Elapsed += async (s, e) => await MonitorNewMessages();
             }
-            RoomWatcher.Interval = 10;
+            RoomWatcher.Interval = 250;
             RoomWatcher.Start();
         }
 
@@ -125,9 +113,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 await ssScroll.WaitAsync();
                 try
                 {
-                    State.RecordActivity();
-                    var scroll = await JSRuntime.InvokeAsync<double>("eval", $"document.getElementById('blgmessagelist').scrollTop");
-                    var bottom = await JSRuntime.InvokeAsync<double>("eval", $"const el=document.getElementById('blgmessagelist'); return el.scrollHeight - el.offsetHeight");
+                    var scroll = await JSRuntime.GetScrollTop("blgmessagelist");
                     if (scroll < 100)
                     {
                         IsFetchingOlder = true;
@@ -139,14 +125,6 @@ namespace Blazor.Gitter.Core.Components.Shared
                         }
                         IsFetchingOlder = false;
                     }
-                    if (scroll>=bottom)
-                    {
-                        FollowAlong = true;
-                    }
-                    else
-                    {
-                        FollowAlong = false;
-                    }
                 }
                 catch
                 {
@@ -155,24 +133,44 @@ namespace Blazor.Gitter.Core.Components.Shared
                 {
                     ssScroll.Release();
                 }
+                State.RecordActivity();
             }
         }
 
         async Task MonitorNewMessages()
         {
             RoomWatcher.Stop();
-            if (RoomWatcher.Interval == 10)
+            if (RoomWatcher.Interval == 250)
             {
                 RoomWatcher.Interval = 2000;
             }
             var options = GitterApi.GetNewOptions();
             options.Lang = Localisation.LocalCultureInfo.Name;
             options.AfterId = "";
+
+            bool bottom = false;
+            try
+            {
+                bottom = await JSRuntime.IsScrolledToBottom("blgmessagelist");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
             if (Messages?.Any() ?? false)
             {
                 options.AfterId = GetLastMessageId();
             }
             await FetchNewMessages(options, tokenSource.Token);
+
+            if (Messages?.Any() ?? false)
+            {
+                if (bottom)
+                {
+                    _ = await JSRuntime.ScrollIntoView(GetLastMessageId());
+                }
+            }
             RoomWatcher.Start();
         }
 
@@ -226,7 +224,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                     var count = await FetchNewMessages(options, token);
                     await Invoke(StateHasChanged);
                     await Task.Delay(100);
-                    await JSRuntime.InvokeAsync<object>("eval", $"document.getElementById('{options.BeforeId}').scrollIntoView()");
+                    _ = await JSRuntime.ScrollIntoView(options.BeforeId);
                     return count;
                 }
             }
@@ -248,6 +246,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             RoomWatcher?.Stop();
             RoomWatcher?.Dispose();
             Messages = null;
+            RoomWatcher = null;
         }
     }
 }
