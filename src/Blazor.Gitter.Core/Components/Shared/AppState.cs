@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -23,7 +24,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         private bool initialised;
         private DateTime TimeoutTime;
         private Timer TimeoutTimer;
-        private const int TIMEOUT = 30;
+        private Stopwatch LastTriggerTimeOutChanged;
+
+        private const int TIMEOUT = 60;
 
         /// <summary>
         /// Attach to this to be notified when there is an ApiKey available
@@ -176,7 +179,15 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
             TimeoutTime = DateTime.UtcNow.AddMinutes(TIMEOUT);
             TimeoutTimer.Start();
-            TimeoutChanged?.Invoke(this, TimeoutTime);
+            if (!(LastTriggerTimeOutChanged is object))
+            {
+                LastTriggerTimeOutChanged = new Stopwatch();
+            }
+            if (!LastTriggerTimeOutChanged.IsRunning || LastTriggerTimeOutChanged.ElapsedMilliseconds >= 1000)
+            {
+                TimeoutChanged?.Invoke(this, TimeoutTime);
+                LastTriggerTimeOutChanged.Restart();
+            }
         }
 
         private void TimeoutTimer_Elapsed(object sender, ElapsedEventArgs e)

@@ -17,7 +17,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] ILocalisationHelper Localisation { get; set; }
         [Inject] IAppState State { get; set; }
 
-        [Parameter] protected IChatRoom ChatRoom { get; set; }
+        [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal string UserId { get; set; }
 
         internal bool LoadingMessages;
