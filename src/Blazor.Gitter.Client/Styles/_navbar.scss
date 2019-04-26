@@ -1,0 +1,31 @@
+﻿.navbar {
+    display: flex;
+    flex-direction: row;
+    background-color: $background-darkest;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.navbar__brand {
+    text-decoration: none;
+}
+
+.navbar__logo {
+    color: $text;
+    font-size: $font-size-large;
+    
+
+    span {
+        color: $accent;
+        text-transform: uppercase;
+        font-weight: $font-weight-bold;
+    }
+}
+
+.navbar__mode {
+    color: $text-dark;
+}
+
+navbar__user {
+    width: 40px;
+}

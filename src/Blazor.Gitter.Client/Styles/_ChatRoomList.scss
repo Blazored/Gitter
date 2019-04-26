@@ -1,0 +1,33 @@
+﻿.chat-room-list {
+    padding: 1rem;
+}
+
+.chat-room-list__heading {
+    margin-top: 0;
+}
+
+.chat-room-list__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-room-list__list-item {
+    padding: 1rem 0;
+}
+
+.chat-room-list__link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: $font-size-small;
+    
+    img {
+        width: 35px;
+        margin-right: 1rem;
+    }
+}
+
+chat-room-list__unread-items {
+
+}

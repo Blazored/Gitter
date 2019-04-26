@@ -1,0 +1,37 @@
+@inherits NavbarBase
+
+<div class="navbar">
+
+    <NavLink class="navbar__brand" href="/">
+        <span class="navbar__logo">Blazored<span>Gitter</span></span> <span class="navbar__mode">@Mode</span>
+    </NavLink>
+
+    @if (State?.HasChatUser ?? false)
+    {
+        IChatUser chatUser = State.GetMyUser();
+
+        <div class="navbar__user">
+            <img src="@chatUser.AvatarUrlMedium" />
+        </div>
+    }
+
+</div>
+
+@*@if (State?.HasChatUser ?? false)
+{
+    IChatUser chatUser = State.GetMyUser();
+
+    <article>
+        <header>
+            <img src="@chatUser.AvatarUrlMedium" />
+            <h1>Logged in as @chatUser.DisplayName</h1>
+            <h2>@chatUser.Username</h2>
+        </header>
+        <section>
+            <header><h2>Links</h2></header>
+            <ul>
+                <li>Github: <a href="https://github.com/@chatUser.Url">@chatUser.Url</a></li>
+            </ul>
+        </section>
+    </article>
+}*@

@@ -1,12 +1,12 @@
 ﻿@inherits RoomSendBase
 
-<form onsubmit="@SendMessage" class="@OuterClass">
+<form onsubmit="@SendMessage" class="chat-room__send-message-form">
 	<img src="@User.AvatarUrlSmall" width="38" height="38" class="rounded-lg mr-1" />
 	<textarea id="messageinput"
-						class="flex-grow-1 newmessage"
+						class="chat-room__send-message"
 						bind="@NewMessage"
 						oninput="@HandleSizing"
 						style="@NewMessageStyle"
 						placeholder="Join the conversation..." />
-	<button type="submit" class="btn btn-primary btn-sm ml-1">Ok</button>
+	<button type="submit" class="chat-room__send-button">Ok</button>
 </form>

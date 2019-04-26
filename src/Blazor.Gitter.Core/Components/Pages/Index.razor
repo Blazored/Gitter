@@ -1,35 +1,37 @@
 ﻿@page "/"
 @inherits IndexModel
 
-<div class="blg-center mx-auto">
-	@if (State?.HasChatUser ?? false)
-	{
-		IChatUser chatUser = State.GetMyUser();
+@if (State?.HasChatUser ?? false)
+{
+    IChatUser chatUser = State.GetMyUser();
 
-		<article>
-			<header>
-				<img src="@chatUser.AvatarUrlMedium" />
-				<h1>Logged in as @chatUser.DisplayName</h1>
-				<h2>@chatUser.Username</h2>
-			</header>
-			<section>
-				<header><h2>Links</h2></header>
-				<ul>
-					<li>Github: <a href="https://github.com/@chatUser.Url">@chatUser.Url</a></li>
-				</ul>
-			</section>
-		</article>
-	}
-	else
-	{
-		<div class="input-form">
-			<input class="form-control" type="text" length="40" pattern="[a-zA-Z0-9]{40}" bind="@ApiKey" placeholder="Enter your own Gitter API Key" required />
-			<button type="submit" onclick=@(()=>SignIn(true)) class="btn btn-primary">Sign In And Remember Me</button>
-			<button type="submit" onclick=@(()=>SignIn(false)) class="btn btn-secondary">Sign In Once</button>
-		</div>
-		@if (!string.IsNullOrWhiteSpace(ErrorMessage))
-		{
-			<span class="alert">@ErrorMessage</span>
-		}
-	}
-</div>
+    <article>
+        <header>
+            <img src="@chatUser.AvatarUrlMedium" />
+            <h1>Logged in as @chatUser.DisplayName</h1>
+            <h2>@chatUser.Username</h2>
+        </header>
+        <section>
+            <header><h2>Links</h2></header>
+            <ul>
+                <li>Github: <a href="https://github.com/@chatUser.Url">@chatUser.Url</a></li>
+            </ul>
+        </section>
+    </article>
+}
+else
+{
+    <div class="login">
+        <h1 class="login__heading">Login</h1>
+        <input class="login__input" type="text" length="40" pattern="[a-zA-Z0-9]{40}" bind="@ApiKey" placeholder="Enter your own Gitter API Key" required />
+        <div class="login__buttons">
+            <button type="submit" onclick=@(() =>SignIn(true)) class="login__button login__button--primary">Sign In And Remember Me</button>
+            <button type="submit" onclick=@(() =>SignIn(false)) class="login__button login__button--secondary">Sign In Once</button>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+        {
+            <span class="alert">@ErrorMessage</span>
+        }
+    </div>
+}

@@ -1,0 +1,92 @@
+﻿.chat-room {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.chat-room__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    position: relative;
+}
+
+.chat-room__search {}
+
+.chat-room__title {
+    position: fixed;
+    top: 56px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 1rem;
+    background-color: $background-darker;
+}
+
+.chat-room__logo {
+    margin-right: 1rem;
+}
+
+.chat-room__heading {
+    margin: 0 1rem 0 0;
+}
+
+.chat-room__topic {
+    color: $text-dark;
+    font-size: $font-size-small;
+}
+
+.chat-room-messages {}
+
+.chat-room-messages__list {}
+
+.chat-room-messages__message-container {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem;
+    border-bottom: 1px solid lighten($background, 5%);
+}
+
+.chat-room-messages__message-container--unread {
+}
+
+.chat-room-messages__message-container--mention {
+}
+
+.chat-room-messages__avatar {
+    margin-right: 1rem;
+    border-radius: 2rem;
+}
+
+.chat-room-messages__message-meta-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-room-messages__message-meta {
+    display: flex;
+    align-items: center;
+}
+
+.chat-room-messages__display-name {
+    margin: 0 1rem 0 0;
+    color: $text-dimmed;
+    font-weight: $font-weight-bold;
+}
+
+.chat-room-messages__username {
+    margin-right: 1rem;
+    color: $text-dark;
+}
+
+.chat-room-messages__timestamp {
+    color: $text-dark;
+}
+
+.chat-room-messages__message {}
+
+.chat-room__send-message-form {
+    padding: 2rem;
+    background-color: $background-darker;
+}
