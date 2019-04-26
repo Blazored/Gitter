@@ -94,6 +94,21 @@ namespace Blazor.Gitter.Library
 
             return (await HttpClient.PostJsonAsync<GitterMessage[]>($"{APIROOMS}/{RoomId}/chatMessages", content)).First();
         }
+
+        public async Task<bool> MarkChatMessageAsRead(string UserId, string RoomId, string MessageId)
+        {
+            var content = new MarkUnread { chat = new string[] { MessageId } };
+
+            try
+            {
+                var result = await HttpClient.PostJsonAsync<object>($"{APIUSERPATH}/{UserId}/{APIROOMS}/{RoomId}/unreadItems", content);
+                Console.WriteLine($"MARK:Object is {result?.GetType().Name} = {result}");
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
         public IChatMessageOptions GetNewOptions()
         {
             return new GitterMessageOptions();
@@ -102,5 +117,9 @@ namespace Blazor.Gitter.Library
     class NewMessage
     {
         public string text;
+    }
+    class MarkUnread
+    {
+        public string[] chat;
     }
 }

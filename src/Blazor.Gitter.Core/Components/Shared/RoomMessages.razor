@@ -6,7 +6,7 @@
 		<div class="@InnerClass">
 			@foreach (var message in Messages.OrderBy(m => m.Sent))
 			{
-				<Message MessageData="@message" UserId="@UserId" />
+				<Message MessageData="@message" UserId="@UserId" RoomId="@ChatRoom.Id" />
 			}
 
 		</div>
