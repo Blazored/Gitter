@@ -1,7 +1,7 @@
 ﻿@inherits RoomSendBase
 
 <form onsubmit="@SendMessage" class="chat-room__send-message-form">
-	<img src="@User.AvatarUrlSmall" width="38" height="38" class="rounded-lg mr-1" />
+	<img src="@User.AvatarUrlSmall" width="38" height="38" class="chat-room__send-message-avatar" />
 	<textarea id="messageinput"
 						class="chat-room__send-message"
 						bind="@NewMessage"

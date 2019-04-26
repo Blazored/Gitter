@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     flex: 1;
+    max-width: 100%;
 }
 
 .chat-room__content {
@@ -11,7 +12,10 @@
     position: relative;
 }
 
-.chat-room__search {}
+.chat-room__search {
+    display: flex;
+    width: 30vw;
+}
 
 .chat-room__title {
     position: fixed;
@@ -26,6 +30,7 @@
 
 .chat-room__logo {
     margin-right: 1rem;
+    border-radius: .5rem;
 }
 
 .chat-room__heading {
@@ -49,14 +54,18 @@
 }
 
 .chat-room-messages__message-container--unread {
+    border-right: 4px solid #2ecc71;
+    background-color: rgba(46,204,113,.08);
 }
 
 .chat-room-messages__message-container--mention {
+    border-right: 4px solid $accent;
+    background-color: rgba(255,102,0,.08);
 }
 
 .chat-room-messages__avatar {
     margin-right: 1rem;
-    border-radius: 2rem;
+    border-radius: .5rem;
 }
 
 .chat-room-messages__message-meta-container {
@@ -84,9 +93,64 @@
     color: $text-dark;
 }
 
-.chat-room-messages__message {}
+.chat-room-messages__message {
+    font-size: $font-size-small;
+
+    blockquote {
+        border-left: 4px solid #ff6600;
+        margin: 0;
+        padding: 1rem 2rem;
+        background: #212222;
+        font-weight: 100;
+        font-style: italic;
+        border-radius: .5rem;
+    }
+}
 
 .chat-room__send-message-form {
     padding: 2rem;
     background-color: $background-darker;
+    display: flex;
+    align-items: center;
 }
+
+.chat-room__send-message-avatar {
+    margin-right: 1rem;
+    border-radius: 2rem;
+}
+
+.chat-room__send-message {
+    flex: 1;
+    background-color: $background;
+    padding: 1rem;
+    box-shadow: none;
+    border: 0;
+    outline: none;
+    border-radius: .5rem;
+    color: $text;
+}
+
+.chat-room__send-button {
+    border: none;
+    background-color: $accent;
+    padding: 1.5rem 2rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    color: $text;
+
+    &:hover {
+        background-color: darken($accent, 5%);
+    }
+}
+
+.chat-room__search-heading {
+
+}
+
+.chat-room__search-box {
+
+}
+
+.chat-room__search-button {}
+
+.chat-room__search-results {}
