@@ -13,12 +13,6 @@ steps:
   inputs:
     version: 3.0.100-preview4-011223
 
-- task: Npm@1
-  displayName: 'Installing NPM packages...'
-  inputs:
-    command: 'install'
-    workingDir: 'src/Blazor.Gitter.client/'
-
 - script: dotnet build --configuration $(buildConfiguration) src/Blazor.Gitter.client/Blazor.Gitter.client.csproj
   displayName: 'Building $(buildConfiguration)...'
 
