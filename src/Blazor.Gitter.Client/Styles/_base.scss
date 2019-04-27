@@ -32,3 +32,5 @@ a {
         color: darken($accent, 5%);
     }
 }
+
+@include scrollbars();

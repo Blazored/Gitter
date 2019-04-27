@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
@@ -14,27 +13,22 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal string UserId { get; set; }
-        [Parameter] internal string OuterClassList { get; set; }
-
-        private bool OuterClassListIsEmpty => string.IsNullOrWhiteSpace(OuterClassList);
-        internal string OuterClass => new BlazorComponentUtilities.CssBuilder()
-            .AddClass("blg-center-right", OuterClassListIsEmpty)
-            .AddClass("d-flex", OuterClassListIsEmpty)
-            .AddClass("flex-column", OuterClassListIsEmpty)
-            .AddClass("p-1", OuterClassListIsEmpty)
-            .AddClass(OuterClassList, !OuterClassListIsEmpty)
-            .Build();
 
         internal List<IChatMessage> SearchResult;
         internal string SearchText;
 
+        protected bool Searching;
+
         internal async Task Search(UIEventArgs args)
         {
+            Searching = true;
+
             var options = GitterApi.GetNewOptions();
             options.Query = SearchText;
             options.Limit = 100;
             SearchResult = new List<IChatMessage>();
             var messages = await GitterApi.SearchChatMessages(ChatRoom.Id, options);
+
             while (messages?.Any() ?? false)
             {
                 SearchResult.AddRange(messages.OrderBy(m => m.Sent).Reverse());
@@ -44,6 +38,8 @@ namespace Blazor.Gitter.Core.Components.Shared
                 options.Skip += messages.Count();
                 messages = await GitterApi.SearchChatMessages(ChatRoom.Id, options);
             }
+
+            Searching = false;
         }
     }
 }

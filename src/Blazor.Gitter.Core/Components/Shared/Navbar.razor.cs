@@ -10,5 +10,10 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         internal string Mode => jSRuntime is IJSInProcessRuntime ? "WASM" : "Server";
 
+        protected override void OnInit()
+        {
+            State.GotChatUser += StateHasChanged;
+        }
+
     }
 }

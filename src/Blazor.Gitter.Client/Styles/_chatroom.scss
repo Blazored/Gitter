@@ -3,6 +3,7 @@
     flex-direction: row;
     flex: 1;
     max-width: 100%;
+    height: 100%;
 }
 
 .chat-room__content {
@@ -10,16 +11,59 @@
     flex: 1;
     flex-direction: column;
     position: relative;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .chat-room__search {
     display: flex;
-    width: 30vw;
+    flex-direction: column;
+    width: 18vw;
+    padding: 1.5rem 2rem 2rem 2rem;
+    height: 100%;
+    overflow-y: auto;
 }
 
+.chat-room__search-heading {
+    margin-top: 0;
+}
+
+.chat-room__search-form {
+    display: flex;
+}
+
+.chat-room__search-box {
+    flex: 1;
+    margin-bottom: 2rem;
+    line-height: 3rem;
+    padding: 1rem;
+    border-radius: .5rem;
+    border: none;
+}
+
+.chat-room__clear-search-button {
+    margin-bottom: 1rem;
+    padding: 1.5rem 2rem;
+    border-radius: .5rem;
+    border: none;
+    cursor: pointer;
+    color: $accent;
+    border: 1px solid $accent;
+    background-color: transparent;
+
+    &:hover {
+        color: darken($accent, 5%);
+        border-color: darken($accent, 5%);
+    }
+}
+
+.chat-room__search-results {
+}
+
+
 .chat-room__title {
-    position: fixed;
-    top: 56px;
+    position: sticky;
+    top: 0;
     width: 100%;
     display: flex;
     align-items: center;
@@ -71,11 +115,13 @@
 .chat-room-messages__message-meta-container {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .chat-room-messages__message-meta {
     display: flex;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 .chat-room-messages__display-name {
@@ -97,9 +143,10 @@
     font-size: $font-size-small;
 
     blockquote {
+        display: block;
         border-left: 4px solid #ff6600;
         margin: 0;
-        padding: 1rem 2rem;
+        padding: .1rem 2rem;
         background: #212222;
         font-weight: 100;
         font-style: italic;
@@ -108,6 +155,8 @@
 }
 
 .chat-room__send-message-form {
+    position: sticky;
+    bottom: 0;
     padding: 2rem;
     background-color: $background-darker;
     display: flex;
@@ -116,7 +165,7 @@
 
 .chat-room__send-message-avatar {
     margin-right: 1rem;
-    border-radius: 2rem;
+    border-radius: .5rem;
 }
 
 .chat-room__send-message {
@@ -142,15 +191,3 @@
         background-color: darken($accent, 5%);
     }
 }
-
-.chat-room__search-heading {
-
-}
-
-.chat-room__search-box {
-
-}
-
-.chat-room__search-button {}
-
-.chat-room__search-results {}

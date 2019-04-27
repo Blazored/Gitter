@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -15,6 +16,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         private readonly ILocalStorageService LocalStorage;
         private readonly IComponentContext ComponentContext;
         private readonly ILocalisationHelper LocalisationHelper;
+        private readonly IChatApi GitterApi;
         private string apiKey;
         private IChatUser myUser;
         private List<IChatRoom> myRooms;
@@ -30,22 +32,26 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// <summary>
         /// Attach to this to be notified when there is a ChatUser available
         /// </summary>
-        public Action GotChatUser { get; set; }
+        public event Action GotChatUser;
         /// <summary>
         /// Attach to this to be notified when there are ChatRooms available
         /// </summary>
-        public Action GotChatRooms { get; set; }
+        public event Action GotChatRooms;
 
-        public AppState(IJSRuntime jSRuntime, 
-            ILocalStorageService localStorage, 
+        public event Action OnChange;
+
+        public AppState(IJSRuntime jSRuntime,
+            ILocalStorageService localStorage,
             IComponentContext componentContext,
-            ILocalisationHelper localisationHelper)
+            ILocalisationHelper localisationHelper,
+            IChatApi gitterApi)
         {
             JSRuntime = jSRuntime;
             LocalStorage = localStorage;
             ComponentContext = componentContext;
             LocalisationHelper = localisationHelper;
-            Task.Factory.StartNew(Initialise);
+            GitterApi = gitterApi;
+            //Task.Factory.StartNew(Initialise);
         }
 
         public bool Initialised => initialised;
@@ -75,7 +81,13 @@ namespace Blazor.Gitter.Core.Components.Shared
                 }
                 await Task.Delay(1000);
             }
+
             initialised = true;
+        }
+
+        public void TriggerLoggedIn()
+        {
+            GotChatUser?.Invoke();
         }
 
         public bool HasApiKey => !string.IsNullOrWhiteSpace(apiKey);
@@ -107,7 +119,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         }
         public void SetMyUser(IChatUser value)
         {
-            Console.WriteLine($"Setting ChatUser {value.DisplayName} - {value.Username} - there is {(GotChatUser is object ? "" : "not")} a subscriber");
+            Console.WriteLine($"Setting ChatUser {value.DisplayName} - {value.Username} - there is {(GotChatUser != null ? "" : "not")} a subscriber");
             myUser = value;
             if (HasChatUser)
             {
@@ -130,7 +142,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
         }
 
-        public string GetLocalTime(DateTime dateTime, string format="G")
+        public string GetLocalTime(DateTime dateTime, string format = "G")
         {
             return TimeZoneInfo
                 .ConvertTime(
@@ -151,19 +163,20 @@ namespace Blazor.Gitter.Core.Components.Shared
         {
             if (!(TimeoutTimer is object))
             {
-                TimeoutTimer = new Timer() { AutoReset = false, Interval = new TimeSpan(0,TIMEOUT,0).TotalMilliseconds };
+                TimeoutTimer = new Timer() { AutoReset = false, Interval = new TimeSpan(0, TIMEOUT, 0).TotalMilliseconds };
                 TimeoutTimer.Elapsed += TimeoutTimer_Elapsed;
             }
             if (TimeoutTimer.Enabled)
             {
                 TimeoutTimer.Stop();
-            } else
+            }
+            else
             {
                 ActivityResumed?.Invoke(this, null);
             }
             TimeoutTime = DateTime.UtcNow.AddMinutes(TIMEOUT);
             TimeoutTimer.Start();
-            TimeoutChanged?.Invoke(this,TimeoutTime);
+            TimeoutChanged?.Invoke(this, TimeoutTime);
         }
 
         private void TimeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -175,5 +188,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         {
             SetTimeoutTime();
         }
+
+        private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }

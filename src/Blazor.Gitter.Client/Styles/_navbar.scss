@@ -26,6 +26,11 @@
     color: $text-dark;
 }
 
-navbar__user {
-    width: 40px;
+.navbar__user {
+    line-height: 0;
+
+    img {
+        width: 32px;
+        border-radius: .5rem;
+    }
 }

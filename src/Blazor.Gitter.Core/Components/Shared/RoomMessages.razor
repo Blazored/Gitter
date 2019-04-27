@@ -1,14 +1,26 @@
 ﻿@inherits RoomMessagesBase
-
 <div id="blgmessagelist" class="chat-room-messages" onscroll="@MessagesScrolled">
-	@if (Messages is object)
-	{
-		<div class="chat-room-messages__list">
-			@foreach (var message in Messages.OrderBy(m => m.Sent))
-			{
-				<Message MessageData="@message" UserId="@UserId" />
-			}
+    @if (LoadingMessages)
+    {
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div class="loader-logo">
+                Searching...
+            </div>
+        </div>
+    }
+    else
+    {
 
-		</div>
-	}
+        @if (Messages is object)
+        {
+            <div class="chat-room-messages__list">
+                @foreach (var message in Messages.OrderBy(m => m.Sent))
+                {
+                    <Message MessageData="@message" UserId="@UserId" />
+                }
+            </div>
+        }
+
+    }
 </div>

@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
@@ -8,18 +6,24 @@ namespace Blazor.Gitter.Core.Components.Shared
     {
         [Inject] internal IAppState State { get; set; }
 
-        protected override async Task OnParametersSetAsync()
+        protected bool HasRooms;
+
+        protected override void OnInit()
         {
-            await base.OnParametersSetAsync();
-            if (State is object)
+            if (!State.HasChatRooms)
             {
-                State.GotChatRooms = async () =>
-                {
-                    Console.WriteLine("Updating Menu");
-                    await Invoke(StateHasChanged);
-                    await Task.Delay(1);
-                };
+                State.GotChatRooms += RefreshRooms;
             }
+            else
+            {
+                HasRooms = true;
+            }
+        }
+
+        private void RefreshRooms()
+        {
+            HasRooms = true;
+            StateHasChanged();
         }
     }
 }
