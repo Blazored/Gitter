@@ -2,6 +2,10 @@
     padding: 1rem;
 }
 
+.chat-room-list--visible {
+
+}
+
 .chat-room-list__heading {
     margin-top: 0;
 }
@@ -29,6 +33,11 @@
     }
 }
 
-chat-room-list__unread-items {
+.chat-room-list__unread-items {
     margin-left: 1rem;
+    width: 33px;
+    text-align: center;
+    color: white;
+    border-radius: 2rem;
+    border: 2px solid #ff6600;
 }
