@@ -3,10 +3,25 @@
 
 @inherits RoomModel
 
-<RoomTitle ChatRoom="@ThisRoom" />
-
-<RoomMessages ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
-
-<RoomSend ChatRoom="@ThisRoom" User="@State.GetMyUser()" />
-
-<RoomSearch ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
+@if (IsLoading)
+{
+    <div class="loader-container">
+        <div class="loader"></div>
+        <div class="loader-logo">
+            Loading Room...
+        </div>
+    </div>
+}
+else
+{
+    <div class="chat-room">
+        <div class="chat-room__content">
+            <RoomTitle ChatRoom="@ThisRoom" />
+            <RoomMessages ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
+            <RoomSend ChatRoom="@ThisRoom" User="@State.GetMyUser()" />
+        </div>
+        <aside class="chat-room__search">
+            <RoomSearch ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
+        </aside>
+    </div>
+}

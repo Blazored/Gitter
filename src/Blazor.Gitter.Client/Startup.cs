@@ -21,7 +21,7 @@ namespace Blazor.Gitter.Client
 
         public void Configure(IComponentsApplicationBuilder app)
         {
-            app.AddComponent<Core.App<Core.Components.Shared.NavMenu>>("app");
+            app.AddComponent<Core.App<Core.Components.Shared.Navbar>>("app");
         }
     }
 }

@@ -1,19 +1,24 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width" />
-	<title>Blazor - Client Side</title>
-	<base href="/" />
-	<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-	<link href="css/site.css" rel="stylesheet" />
-	<link href="css/Layout.css" rel="stylesheet" />
-	<link href="css/Gitter.css" rel="stylesheet" />
-	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Blazored Gitter - Client Side</title>
+    <base href="/" />
+    <link href="css/blazored-gitter.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
-	<app class="blg-grid-container">Loading...</app>
+    <app>
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div class="loader-logo">
+                Blazored<span>Gitter</span>
+            </div>
+        </div>
+    </app>
 
     <script src="_framework/blazor.webassembly.js"></script>
 </body>

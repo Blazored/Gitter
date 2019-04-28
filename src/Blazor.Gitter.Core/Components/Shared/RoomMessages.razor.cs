@@ -19,21 +19,8 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         [Parameter] protected IChatRoom ChatRoom { get; set; }
         [Parameter] internal string UserId { get; set; }
-        [Parameter] internal string OuterClassList { get; set; }
-        [Parameter] internal string InnerClassList { get; set; }
 
-        private bool OuterClassListIsEmpty => string.IsNullOrWhiteSpace(OuterClassList);
-        internal string OuterClass => new BlazorComponentUtilities.CssBuilder()
-            .AddClass("blg-center", OuterClassListIsEmpty)
-            .AddClass("scrollable", OuterClassListIsEmpty)
-            .AddClass(OuterClassList, !OuterClassListIsEmpty)
-            .Build();
-
-        private bool InnerClassListIsEmpty => string.IsNullOrWhiteSpace(InnerClassList);
-        internal string InnerClass => new BlazorComponentUtilities.CssBuilder()
-            .AddClass("list-group", InnerClassListIsEmpty)
-            .AddClass("list-group-flush", InnerClassListIsEmpty)
-            .Build();
+        internal bool LoadingMessages;
 
         internal List<IChatMessage> Messages;
         SemaphoreSlim ssScroll = new SemaphoreSlim(1, 1);
@@ -84,6 +71,8 @@ namespace Blazor.Gitter.Core.Components.Shared
             await base.OnParametersSetAsync();
             if (!ChatRoom.Equals(LastRoom))
             {
+                LoadingMessages = true;
+
                 LastRoom = ChatRoom;
                 RoomWatcher?.Stop();
                 NoMoreOldMessages = false;
@@ -91,6 +80,8 @@ namespace Blazor.Gitter.Core.Components.Shared
                 Console.WriteLine("Loading room...");
                 Messages = new List<IChatMessage>();
                 StartRoomWatcher();
+
+                LoadingMessages = false;
             }
         }
 

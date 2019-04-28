@@ -1,20 +1,14 @@
 ﻿using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Pages
 {
     public class RoomModel : ComponentBase
     {
         [Inject] IUriHelper UriHelper { get; set; }
-        [Inject] IChatApi GitterApi { get; set; }
         [Inject] internal IAppState State { get; set; }
 
         [Parameter] protected string RoomId { get; set; }
@@ -25,6 +19,8 @@ namespace Blazor.Gitter.Core.Components.Pages
         string LastRoom = string.Empty;
         internal bool KeepWatching = true;
 
+        protected bool IsLoading;
+
         protected override void OnAfterRender()
         {
             if (CheckStateForRedirect())
@@ -33,16 +29,19 @@ namespace Blazor.Gitter.Core.Components.Pages
             }
         }
 
-        protected override async Task OnParametersSetAsync()
+        protected override void OnParametersSet()
         {
-            await base.OnParametersSetAsync();
             if (!LastRoom.Equals(RoomId))
             {
                 FirstLoad = true;
                 LastRoom = RoomId;
-                if (GitterApi is object)
+                if (State is object)
                 {
-                    ThisRoom = (State.GetMyRooms()).Where(r => r.Id == RoomId).FirstOrDefault();
+                    IsLoading = true;
+                    Console.WriteLine($"Loading Room {IsLoading}");
+                    ThisRoom = State.GetMyRooms().Where(r => r.Id == RoomId).FirstOrDefault();
+                    IsLoading = false;
+                    Console.WriteLine($"Loading Room Complete {IsLoading}");
                 }
             }
         }

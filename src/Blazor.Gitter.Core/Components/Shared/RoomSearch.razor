@@ -1,18 +1,29 @@
 ﻿@inherits RoomSearchBase
 
-<div class="@OuterClass">
-	<h3>Search</h3>
-	<form onsubmit="@Search">
-		<input class="form-control" type="text" placeholder="e.g. context" bind="@SearchText" />
-	</form>
-	<button class="btn btn-secondary form-control" onclick="@(()=>SearchResult=null)">Clear</button>
-	@if (SearchResult is object)
-	{
-		<div class="list-group list-group-flush scrollable">
-			@foreach (var message in SearchResult)
-			{
-				<Message MessageData="@message" UserId="@UserId" />
-			}
-		</div>
-	}
-</div>
+<h3 class="chat-room__search-heading">Search</h3>
+<form onsubmit="@Search" class="chat-room__search-form">
+    <input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" />
+</form>
+<button class="chat-room__clear-search-button" onclick="@(()=>SearchResult=null)">Clear</button>
+
+@if (Searching)
+{
+    <div class="chat-room__search-loader">
+        <div class="loader"></div>
+        <div class="loader-logo">
+            Searching...
+        </div>
+    </div>
+}
+else
+{
+    @if (SearchResult is object)
+    {
+        <div class="chat-room__search-results">
+            @foreach (var message in SearchResult)
+            {
+                <Message MessageData="@message" UserId="@UserId" />
+            }
+        </div>
+    }
+}

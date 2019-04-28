@@ -1,0 +1,30 @@
+﻿@inherits ChatRoomListBase
+
+@if (HasRooms)
+{
+    <div class="chat-room-list">
+        <ul class="chat-room-list__list">
+            <li>
+                <NavLink href="" Match="NavLinkMatch.All">
+                    Home
+                </NavLink>
+            </li>
+            @if (State?.HasChatRooms ?? false)
+            {
+                @foreach (IChatRoom Room in State.GetMyRooms().OrderByDescending(r => r.LastAccessTime))
+                {
+                    <li class="chat-room-list__list-item">
+                        <NavLink class="chat-room-list__link" href=@($"/room/{Room.Id}")>
+                            <img src="@Room.AvatarUrl" />
+                            @Room.Name
+                            @if (Room.UnreadItems > 0)
+                            {
+                                <span class="chat-room-list__unread-items">@Room.UnreadItems</span>
+                            }
+                        </NavLink>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+}

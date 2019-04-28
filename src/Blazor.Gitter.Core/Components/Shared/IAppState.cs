@@ -8,8 +8,9 @@ namespace Blazor.Gitter.Core.Components.Shared
     public interface IAppState
     {
         Action GotApiKey { get; set; }
-        Action GotChatUser { get; set; }
-        Action GotChatRooms { get; set; }
+        event Action GotChatUser;
+        event Action GotChatRooms;
+        event Action OnChange;
         event EventHandler ActivityTimeout;
         event EventHandler ActivityResumed;
         event EventHandler<DateTime> TimeoutChanged;
@@ -17,6 +18,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         bool HasChatRooms { get; }
         bool HasChatUser { get; }
         bool Initialised { get; }
+        void TriggerLoggedIn();
         string GetApiKey();
         List<IChatRoom> GetMyRooms();
         IChatUser GetMyUser();

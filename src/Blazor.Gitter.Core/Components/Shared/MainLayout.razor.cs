@@ -4,23 +4,25 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Layouts;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
     public class MainLayoutModel : LayoutComponentBase
     {
+        [Inject] protected IAppState State { get; set; }
         [Inject] IChatApi GitterApi { get; set; }
-        [Inject] ILocalStorageService LocalStorage { get; set; }
-        [Inject] IAppState SharedAppState { get; set; }
 
         internal List<System.Reflection.Assembly> AssemblyList;
 
         protected override async Task OnInitAsync()
         {
             await base.OnInitAsync();
-            SharedAppState.GotApiKey = async () => await SignIn();
+
+            await State.Initialise();
+            await AttemptLogin();
+
             AssemblyList = new List<System.Reflection.Assembly>()
                 {
                     typeof(ILocalStorageService).Assembly,
@@ -28,22 +30,43 @@ namespace Blazor.Gitter.Core.Components.Shared
                 };
         }
 
-        async Task SignIn()
+        private async Task AttemptLogin()
         {
-            if (!(GitterApi is object))
+            var apiKey = State.GetApiKey();
+
+            if (string.IsNullOrWhiteSpace(apiKey))
             {
-                Console.WriteLine("MainLayout: No Gitter Api");
+                Console.WriteLine($"No API key available, login required");
                 return;
             }
-            if (!SharedAppState.HasChatUser)
+
+            if (State.HasChatUser)
             {
-                Console.WriteLine($"MainLayout signing in using {SharedAppState.GetApiKey()}");
-                GitterApi.SetAccessToken(SharedAppState.GetApiKey());
-                SharedAppState.SetMyUser(await GitterApi.GetCurrentUser());
-                await Invoke(StateHasChanged);
-                await Task.Delay(1);
+                Console.WriteLine($"Already logged in");
+                State.TriggerLoggedIn();
+                return;
             }
+
+            Console.WriteLine($"Signing in using {apiKey}");
+            GitterApi.SetAccessToken(apiKey);
+            State.SetMyUser(await GitterApi.GetCurrentUser());
+
+            await FetchRooms();
         }
 
+        private async Task FetchRooms()
+        {
+            Console.WriteLine("Getting Rooms...");
+            try
+            {
+                State.SetMyRooms((await GitterApi.GetChatRooms(State.GetMyUser().Id)).ToList());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            Console.WriteLine($"ROOMS:{State.GetMyRooms()?.Count()}");
+        }
     }
 }

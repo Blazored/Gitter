@@ -1,0 +1,18 @@
+@inherits NavbarBase
+
+<div class="navbar">
+
+    <NavLink class="navbar__brand" href="/">
+        <span class="navbar__logo">Blazored<span>Gitter</span></span> <span class="navbar__mode">@Mode</span>
+    </NavLink>
+
+    @if (State?.HasChatUser ?? false)
+    {
+        IChatUser chatUser = State.GetMyUser();
+
+        <div class="navbar__user">
+            <img src="@chatUser.AvatarUrlMedium" />
+        </div>
+    }
+
+</div>
