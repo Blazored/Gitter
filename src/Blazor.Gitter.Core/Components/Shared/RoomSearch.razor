@@ -4,7 +4,7 @@
 <form onsubmit="@Search" class="chat-room__search-form">
     <input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" />
 </form>
-<button class="chat-room__clear-search-button" onclick="@(()=>SearchResult=null)">Clear</button>
+<button class="chat-room__clear-search-button" onclick="@ClearSearch">Clear</button>
 
 @if (Searching)
 {

@@ -17,7 +17,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] ILocalisationHelper Localisation { get; set; }
         [Inject] IAppState State { get; set; }
 
-        [Parameter] protected IChatRoom ChatRoom { get; set; }
+        [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal string UserId { get; set; }
 
         internal bool LoadingMessages;
@@ -28,6 +28,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         bool IsFetchingOlder = false;
         bool NoMoreOldMessages = false;
         bool FirstLoad = true;
+        internal bool Paused = true;
         CancellationTokenSource tokenSource;
         System.Timers.Timer RoomWatcher;
         IChatRoom LastRoom;
@@ -42,6 +43,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         private void ActivityResumed(object sender, EventArgs e)
         {
             StartRoomWatcher();
+            Console.WriteLine("RESUMED");
         }
 
         private void ActivityTimeout(object sender, EventArgs e)
@@ -49,6 +51,10 @@ namespace Blazor.Gitter.Core.Components.Shared
             try
             {
                 RoomWatcher?.Stop();
+                Paused = true;
+                Invoke(StateHasChanged);
+                //Task.Delay(1);
+                Console.WriteLine("PAUSED");
             }
             catch (Exception ex)
             {
@@ -95,6 +101,9 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
             RoomWatcher.Interval = 250;
             RoomWatcher.Start();
+            Paused = false;
+            Invoke(StateHasChanged);
+            Task.Delay(1);
         }
 
         internal async Task MessagesScrolled(UIEventArgs args)
@@ -162,7 +171,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                     _ = await JSRuntime.ScrollIntoView(GetLastMessageId());
                 }
             }
-            RoomWatcher.Start();
+            RoomWatcher?.Start();
         }
 
         async Task<int> FetchNewMessages(IChatMessageOptions options, CancellationToken token)

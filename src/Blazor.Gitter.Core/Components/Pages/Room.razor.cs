@@ -3,6 +3,7 @@ using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Pages
 {
@@ -19,7 +20,26 @@ namespace Blazor.Gitter.Core.Components.Pages
         string LastRoom = string.Empty;
         internal bool KeepWatching = true;
 
-        protected bool IsLoading;
+        protected bool IsLoading = true ;
+
+        protected override async Task OnInitAsync()
+        {
+            await base.OnInitAsync();
+            if (!State.HasChatRooms)
+            {
+                State.GotChatRooms += State_GotChatRooms;
+            }
+            else
+            {
+                LoadRoom();
+            }
+        }
+
+        private void State_GotChatRooms()
+        {
+            LoadRoom();
+            State.GotChatRooms -= State_GotChatRooms;
+        }
 
         protected override void OnAfterRender()
         {
@@ -35,15 +55,20 @@ namespace Blazor.Gitter.Core.Components.Pages
             {
                 FirstLoad = true;
                 LastRoom = RoomId;
-                if (State is object)
+                if (State.HasChatRooms)
                 {
-                    IsLoading = true;
-                    Console.WriteLine($"Loading Room {IsLoading}");
-                    ThisRoom = State.GetMyRooms().Where(r => r.Id == RoomId).FirstOrDefault();
-                    IsLoading = false;
-                    Console.WriteLine($"Loading Room Complete {IsLoading}");
+                    LoadRoom();
                 }
             }
+        }
+
+        private void LoadRoom()
+        {
+            Console.WriteLine($"Loading Room {IsLoading}");
+            ThisRoom = State.GetRoom(RoomId);
+            IsLoading = false;
+            Console.WriteLine($"Loading Room Complete {IsLoading}");
+            StateHasChanged();
         }
 
         bool CheckStateForRedirect()
@@ -52,11 +77,7 @@ namespace Blazor.Gitter.Core.Components.Pages
             {
                 return true;
             }
-            if (!(State is object)) // || !(GitterApi is object))
-            {
-                return true;
-            }
-            if (!State.HasChatRooms)
+            if (!(State is object)) 
             {
                 return true;
             }
