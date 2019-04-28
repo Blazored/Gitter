@@ -55,6 +55,10 @@ namespace Blazor.Gitter.Core.Components.Pages
             {
                 FirstLoad = true;
                 LastRoom = RoomId;
+                if (State.HasChatRooms)
+                {
+                    LoadRoom();
+                }
             }
         }
 

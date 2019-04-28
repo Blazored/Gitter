@@ -39,9 +39,9 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         internal async Task MarkRead()
         {
-            try
+            if (await slim.WaitAsync(1))
             {
-                if (await slim.WaitAsync(1))
+                try
                 {
                     if (MessageData.Unread)
                     {
@@ -53,11 +53,11 @@ namespace Blazor.Gitter.Core.Components.Shared
                         }
                     }
                 }
-            }
-            catch {}
-            finally
-            {
-                slim.Release();
+                catch { }
+                finally
+                {
+                    slim.Release();
+                }
             }
         }
     }
