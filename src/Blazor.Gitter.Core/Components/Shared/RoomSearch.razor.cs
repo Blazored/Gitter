@@ -41,5 +41,12 @@ namespace Blazor.Gitter.Core.Components.Shared
 
             Searching = false;
         }
+
+        internal Task ClearSearch(UIMouseEventArgs args)
+        {
+            SearchResult = null;
+            SearchText = string.Empty;
+            return Task.CompletedTask;
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@inherits RoomMessagesBase
-<div id="blgmessagelist" class="chat-room-messages" onscroll="@MessagesScrolled">
+<div id="blgmessagelist" class="chat-room-messages@((Paused ? "--paused" : ""))" onscroll="@MessagesScrolled">
     @if (LoadingMessages)
     {
         <div class="loader-container">

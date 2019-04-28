@@ -132,9 +132,12 @@
     font-size: $font-size-small;
 }
 
-.chat-room-messages {}
+.chat-room-messages {
+    overflow-y: auto;
+}
 
-.chat-room-messages__list {}
+.chat-room-messages__list {
+}
 
 .chat-room-messages__message-container {
     display: flex;
@@ -200,6 +203,26 @@
         border-radius: .5rem;
         color: #969696;
     }
+}
+
+.chat-room-messages--paused {
+    overflow-y: auto;
+}
+
+.chat-room-messages--paused::after {
+    content: "Paused";
+    position: absolute;
+    display: flex;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+    background-color: $background-darker;
+    opacity: 0.7;
+    color: $accent;
 }
 
 .chat-room__send-message-form {

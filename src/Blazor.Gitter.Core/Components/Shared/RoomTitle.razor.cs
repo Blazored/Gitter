@@ -37,7 +37,6 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void ActivityResumed(object sender, EventArgs e)
         {
-            Console.WriteLine("TITLE: Resuming");
             IsPaused = false;
             Invoke(StateHasChanged);
             Task.Delay(1);
@@ -45,7 +44,6 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void ActivityTimeout(object sender, EventArgs e)
         {
-            Console.WriteLine("TITLE: Paused");
             IsPaused = true;
             Invoke(StateHasChanged);
             Task.Delay(1);
