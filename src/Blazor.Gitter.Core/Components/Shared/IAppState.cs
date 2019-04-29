@@ -25,7 +25,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         IChatRoom GetRoom(string RoomId);
         IChatUser GetMyUser();
         DateTime GetTimeoutTime();
-        string GetLocalTime(DateTime dateTime,string format);
         Task Initialise();
         Task SaveApiKey();
         void SetApiKey(string value);

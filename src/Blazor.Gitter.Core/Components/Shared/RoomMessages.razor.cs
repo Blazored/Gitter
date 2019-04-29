@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ namespace Blazor.Gitter.Core.Components.Shared
     {
         [Inject] IJSRuntime JSRuntime { get; set; }
         [Inject] IChatApi GitterApi { get; set; }
-        [Inject] ILocalisationHelper Localisation { get; set; }
         [Inject] IAppState State { get; set; }
 
         [Parameter] internal IChatRoom ChatRoom { get; set; }
@@ -145,7 +145,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 RoomWatcher.Interval = 2000;
             }
             var options = GitterApi.GetNewOptions();
-            options.Lang = Localisation.LocalCultureInfo.Name;
+            options.Lang = CultureInfo.CurrentCulture.Name;
             options.AfterId = "";
 
             bool bottom = false;
@@ -214,7 +214,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         async Task<int> FetchOldMessages(CancellationToken token)
         {
             var options = GitterApi.GetNewOptions();
-            options.Lang = Localisation.LocalCultureInfo.Name;
+            options.Lang = CultureInfo.CurrentCulture.Name;
             if (!token.IsCancellationRequested && IsFetchingOlder)
             {
                 options.AfterId = "";

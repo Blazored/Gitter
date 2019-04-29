@@ -1,7 +1,9 @@
 ﻿using Blazor.Gitter.Library;
+using Blazored.Localisation.Services;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,11 +15,13 @@ namespace Blazor.Gitter.Core.Components.Shared
     {
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] IAppState State { get; set; }
-        [Inject] ILocalisationHelper Localisation { get; set; }
+        [Inject] IBrowserDateTimeProvider BrowserDateTimeProvider { get; set; }
         [Parameter] internal IChatMessage MessageData { get; set; }
         [Parameter] protected string RoomId { get; set; }
         [Parameter] protected string UserId { get; set; }
         [Parameter] protected Action<IChatMessage> QuoteMessage { get; set; }
+
+        protected IBrowserDateTime BrowserDateTime { get; set; }
 
         SemaphoreSlim slim = new SemaphoreSlim(1, 1);
 
@@ -27,16 +31,11 @@ namespace Blazor.Gitter.Core.Components.Shared
                 .AddClass("chat-room-messages__message-container--unread", message.Unread)
                 .AddClass("chat-room-messages__message-container--mention", message.Mentions.Any(m => m.UserId == UserId))
                 .Build();
-        internal string LocalTime(DateTime dateTime) =>
-        TimeZoneInfo
-            .ConvertTime(
-                dateTime,
-                Localisation.LocalTimeZoneInfo
-            )
-            .ToString(
-                "G",
-                Localisation.LocalCultureInfo
-            );
+
+        protected override async Task OnInitAsync()
+        {
+            BrowserDateTime = await BrowserDateTimeProvider.GetInstance();
+        }
 
         internal async Task MarkRead()
         {

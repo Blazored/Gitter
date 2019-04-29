@@ -1,4 +1,5 @@
 ﻿using Blazor.Gitter.Library;
+using Blazored.Localisation.Services;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -16,7 +17,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         private readonly IJSRuntime JSRuntime;
         private readonly ILocalStorageService LocalStorage;
         private readonly IComponentContext ComponentContext;
-        private readonly ILocalisationHelper LocalisationHelper;
+        private readonly IBrowserDateTimeProvider BrowserDateTimeProvider;
         private readonly IChatApi GitterApi;
         private string apiKey;
         private IChatUser myUser;
@@ -52,15 +53,14 @@ namespace Blazor.Gitter.Core.Components.Shared
         public AppState(IJSRuntime jSRuntime,
             ILocalStorageService localStorage,
             IComponentContext componentContext,
-            ILocalisationHelper localisationHelper,
+            IBrowserDateTimeProvider browserDateTimeProvider,
             IChatApi gitterApi)
         {
             JSRuntime = jSRuntime;
             LocalStorage = localStorage;
             ComponentContext = componentContext;
-            LocalisationHelper = localisationHelper;
+            BrowserDateTimeProvider = browserDateTimeProvider;
             GitterApi = gitterApi;
-            //Task.Factory.StartNew(Initialise);
         }
 
         public bool Initialised => initialised;
@@ -73,8 +73,6 @@ namespace Blazor.Gitter.Core.Components.Shared
                 {
                     try
                     {
-                        await LocalisationHelper.BuildLocalCulture();
-                        await LocalisationHelper.BuildLocalTimeZone();
                         Console.WriteLine($"reading GitterKey from storage - {done} attempts left");
                         SetApiKey(await LocalStorage.GetItem<string>("GitterKey"));
                         break;
@@ -161,18 +159,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 return default;
             }
         }
-        public string GetLocalTime(DateTime dateTime, string format = "G")
-        {
-            return TimeZoneInfo
-                .ConvertTime(
-                    dateTime,
-                    LocalisationHelper.LocalTimeZoneInfo
-                )
-                .ToString(
-                    format,
-                    LocalisationHelper.LocalCultureInfo
-                );
-        }
+
         public DateTime GetTimeoutTime() => TimeoutTime;
         public event EventHandler ActivityTimeout;
         public event EventHandler ActivityResumed;
