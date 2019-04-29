@@ -225,6 +225,12 @@
     }
 }
 
+.chat-room-messages__status {
+    @extend .chat-room-messages__message;
+    color: $text-dimmed;
+    font-style: italic;
+}
+
 .chat-room-messages--paused {
     overflow-y: auto;
 }

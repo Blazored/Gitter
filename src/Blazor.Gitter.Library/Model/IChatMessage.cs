@@ -18,5 +18,6 @@ namespace Blazor.Gitter.Library
         IChatIssue[] Issues { get; }
         object Meta { get; set; } //unused
         int V { get; set; }
+        bool IsStatus { get; }
     }
 }
