@@ -189,6 +189,26 @@
     color: $text-dark;
 }
 
+.chat-room-messages__actions {
+    color: $text-dimmed;
+    font-weight: $font-weight-bold;
+    margin-left: auto;
+    display: flex;
+
+    button {
+        border-radius: .5rem;
+        cursor: pointer;
+        color: $accent;
+        border: 1px solid $accent;
+        background-color: transparent;
+
+        &:hover {
+            color: darken($accent, 5%);
+            border-color: darken($accent, 5%);
+        }
+    }
+}
+
 .chat-room-messages__message {
     font-size: $font-size-small;
 
