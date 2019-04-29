@@ -40,8 +40,14 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// Attach to this to be notified when there are ChatRooms available
         /// </summary>
         public event Action GotChatRooms;
-
+        /// <summary>
+        /// Attach to this to be notified that some as yet undiscovered state has changed
+        /// </summary>
         public event Action OnChange;
+        /// <summary>
+        /// Attach to this to be notified that there is a message to quote 
+        /// </summary>
+        public event Action<IChatMessage> GotMessageToQuote;
 
         public AppState(IJSRuntime jSRuntime,
             ILocalStorageService localStorage,
@@ -211,5 +217,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         }
 
         private void NotifyStateChanged() => OnChange?.Invoke();
+
+        public void QuoteMessage(IChatMessage message)
+        {
+            GotMessageToQuote?.Invoke(message);
+        }
     }
 }

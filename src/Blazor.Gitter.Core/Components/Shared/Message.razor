@@ -8,6 +8,9 @@
             <h5 class="chat-room-messages__display-name">@MessageData.FromUser.DisplayName</h5>
             <small class="chat-room-messages__username">@($"@{MessageData.FromUser.Username}")</small>
             <small class="chat-room-messages__timestamp">@(LocalTime(MessageData.Sent))</small>
+						<span class="chat-room-messages__actions">
+							<button onclick="@QuoteThis">Q</button>
+						</span>
         </div>
         <div class="chat-room-messages__message">
             @(new MarkupString(MessageData.Html))

@@ -17,6 +17,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Parameter] internal IChatMessage MessageData { get; set; }
         [Parameter] protected string RoomId { get; set; }
         [Parameter] protected string UserId { get; set; }
+        [Parameter] protected Action<IChatMessage> QuoteMessage { get; set; }
 
         SemaphoreSlim slim = new SemaphoreSlim(1, 1);
 
@@ -59,6 +60,12 @@ namespace Blazor.Gitter.Core.Components.Shared
                     slim.Release();
                 }
             }
+        }
+
+        internal void QuoteThis()
+        {
+            Console.WriteLine($"MSG:Start Quoting {MessageData.FromUser.DisplayName}");
+            State.QuoteMessage(MessageData);
         }
     }
 }
