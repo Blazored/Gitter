@@ -15,7 +15,7 @@
 			@if (MessageData.IsStatus)
 			{
 				<div class="chat-room-messages__status">
-					@(new MarkupString(MessageData.Html.Replace("/me", $"@{MessageData.FromUser.Username}")));
+					@(new MarkupString(MessageData.Html.Replace("/me", $"@{MessageData.FromUser.Username}")))
 				</div>
 			}
 			else
