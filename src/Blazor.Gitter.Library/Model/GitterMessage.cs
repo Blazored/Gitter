@@ -21,6 +21,7 @@ namespace Blazor.Gitter.Library
         IChatMention[] IChatMessage.Mentions { get => Mentions; }
         IChatIssue[] IChatMessage.Issues { get => Issues; }
         IChatUrl[] IChatMessage.Urls { get => Urls; }
+        public bool IsStatus => Text.StartsWith("/me");
     }
 }
 
