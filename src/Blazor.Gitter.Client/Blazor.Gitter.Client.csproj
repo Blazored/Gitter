@@ -27,4 +27,12 @@
     <Watch Include="Styles\*.scss" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\loader.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Styles\" />
+  </ItemGroup>
+
 </Project>

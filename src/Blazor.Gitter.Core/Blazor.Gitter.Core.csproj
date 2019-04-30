@@ -21,20 +21,44 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="content\css\Blazor.Gitter.Core.scss" />
+    <EmbeddedResource Remove="content\css\_base.scss" />
+    <EmbeddedResource Remove="content\css\_chatroom.scss" />
+    <EmbeddedResource Remove="content\css\_ChatRoomList.scss" />
+    <EmbeddedResource Remove="content\css\_layout.scss" />
+    <EmbeddedResource Remove="content\css\_login.scss" />
+    <EmbeddedResource Remove="content\css\_mixins.scss" />
+    <EmbeddedResource Remove="content\css\_navbar.scss" />
+    <EmbeddedResource Remove="content\css\_normalize.scss" />
+    <EmbeddedResource Remove="content\css\_variables.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="compilerconfig.json" />
     <None Remove="content\chat.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="compilerconfig.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BlazorComponentUtilities" Version="1.0.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="1.2.1" />
     <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
+    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview4-19216-03" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0-preview4.19216.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

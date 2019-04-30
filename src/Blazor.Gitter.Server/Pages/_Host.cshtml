@@ -19,15 +19,20 @@
 					crossorigin="anonymous"
 					integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
 	</environment>
-	<link href="css/site.css" rel="stylesheet" />
-	<link href="css/Layout.css" rel="stylesheet" />
-	<link href="css/Gitter.css" rel="stylesheet" />
+	<link href="css/loader.css" rel="stylesheet" />
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
-	<app class="blg-grid-container">Loading...</app>
+    <app>
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div class="loader-logo">
+                Blazored<span>Gitter</span>.SSE
+            </div>
+        </div>
+    </app>
 
-	<script src="_framework/blazor.server.js"></script>
+    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

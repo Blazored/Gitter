@@ -328,3 +328,9 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# generated css files
+loader.css
+loader.min.css
+blazor.gitter.core.css
+blazor.gitter.core.min.css

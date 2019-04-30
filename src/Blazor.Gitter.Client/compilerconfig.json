@@ -1,6 +1,6 @@
 [
   {
-    "outputFile": "wwwroot/css/blazored-gitter.min.css",
-    "inputFile": "Styles/BlazoredGitter.scss"
+    "outputFile": "wwwroot/css/loader.css",
+    "inputFile": "wwwroot/css/loader.scss"
   }
 ]

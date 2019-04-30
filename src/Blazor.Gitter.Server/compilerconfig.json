@@ -1,0 +1,6 @@
+[
+  {
+    "outputFile": "wwwroot/css/loader.css",
+    "inputFile": "../blazor.gitter.client/wwwroot/css/loader.scss"
+  }
+]
