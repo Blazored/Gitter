@@ -183,12 +183,13 @@ namespace Blazor.Gitter.Core.Components.Shared
                         count = messages.Count();
                         if (!string.IsNullOrWhiteSpace(options.BeforeId))
                         {
-                            Messages.InsertRange(0, messages);
+                            Messages.InsertRange(0, RemoveDuplicates(Messages, messages));
                         }
                         else
                         {
-                            Messages.AddRange(messages);
+                            Messages.AddRange(RemoveDuplicates(Messages, messages));
                         }
+                        
                         await Invoke(StateHasChanged);
                         await Task.Delay(1);
                     }
@@ -203,6 +204,12 @@ namespace Blazor.Gitter.Core.Components.Shared
                 }
             }
             return count;
+
+            IEnumerable<IChatMessage> RemoveDuplicates(IEnumerable<IChatMessage> Existing, IEnumerable<IChatMessage> Merging)
+            {
+                IEnumerable<string> ExistingIds = Existing.Select(m => m.Id);
+                return Merging.Where(m => !ExistingIds.Contains(m.Id));
+            }
         }
 
         async Task<int> FetchOldMessages(CancellationToken token)
