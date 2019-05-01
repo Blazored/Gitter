@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
-    public class NavbarBase : ComponentBase
+    public class NavbarBase : ComponentBase, IDisposable
     {
         [Inject] IJSRuntime jSRuntime { get; set; }
         [Inject] internal IAppState State { get; set; }
@@ -12,8 +13,17 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         protected override void OnInit()
         {
-            State.GotChatUser += StateHasChanged;
+            State.GotChatUser += State_GotChatUser;
         }
 
+        private void State_GotChatUser(object sender, System.EventArgs e)
+        {
+            Invoke(StateHasChanged);
+        }
+
+        public void Dispose()
+        {
+            State.GotChatUser -= State_GotChatUser;
+        }
     }
 }

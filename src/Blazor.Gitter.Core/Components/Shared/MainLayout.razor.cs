@@ -9,28 +9,26 @@ using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
-    public class MainLayoutModel : LayoutComponentBase
+    public class MainLayoutModel : LayoutComponentBase, IDisposable
     {
         [Inject] protected IAppState State { get; set; }
         [Inject] IChatApi GitterApi { get; set; }
 
-        internal List<System.Reflection.Assembly> AssemblyList;
 
         protected override async Task OnInitAsync()
         {
             await base.OnInitAsync();
 
             State.GotApiKey += State_GotApiKey;
-            await State.Initialise();
-
-            AssemblyList = new List<System.Reflection.Assembly>()
-                {
-                    typeof(ILocalStorageService).Assembly,
-                    typeof(MainLayout).Assembly
-                };
+            State.GotChatUser += State_GotChatUser;
         }
 
-        private void State_GotApiKey()
+        private void State_GotChatUser(object sender, EventArgs e)
+        {
+            Invoke(StateHasChanged);
+        }
+
+        private void State_GotApiKey(object sender, EventArgs e)
         {
             Task.Factory.StartNew(async () => await AttemptLogin());
         }
@@ -41,21 +39,23 @@ namespace Blazor.Gitter.Core.Components.Shared
 
             if (string.IsNullOrWhiteSpace(apiKey))
             {
-                Console.WriteLine($"ML:No API key available, login required");
                 return;
             }
 
             if (State.HasChatUser)
             {
-                Console.WriteLine($"ML:Already logged in");
-                State.TriggerLoggedIn();
                 return;
             }
 
-            Console.WriteLine($"ML:Signing in using {apiKey}");
             GitterApi.SetAccessToken(apiKey);
             State.SetMyUser(await GitterApi.GetCurrentUser());
 
+        }
+
+        public void Dispose()
+        {
+            State.GotApiKey -= State_GotApiKey;
+            State.GotChatUser -= State_GotChatUser;
         }
     }
 }

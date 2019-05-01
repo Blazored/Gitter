@@ -35,7 +35,7 @@ namespace Blazor.Gitter.Core.Components.Pages
             }
         }
 
-        private void State_GotChatRooms()
+        private void State_GotChatRooms(object sender, EventArgs e)
         {
             LoadRoom();
             State.GotChatRooms -= State_GotChatRooms;
@@ -64,10 +64,8 @@ namespace Blazor.Gitter.Core.Components.Pages
 
         private void LoadRoom()
         {
-            Console.WriteLine($"Loading Room {IsLoading}");
             ThisRoom = State.GetRoom(RoomId);
             IsLoading = false;
-            Console.WriteLine($"Loading Room Complete {IsLoading}");
             StateHasChanged();
         }
 

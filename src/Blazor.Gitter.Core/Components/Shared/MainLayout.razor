@@ -1,26 +1,25 @@
 ﻿@inherits MainLayoutModel
 
-<BlazorEmbedLibrary.EmbeddedContent Assemblies="@AssemblyList" />
 
-@if (State.Initialised)
+@if (State.Initialised || !State.HasApiKey)
 {
-    <Navbar />
+	<Navbar />
 
-    <div class="wrapper">
-        <aside class="wrapper__left-menu">
-            <ChatRoomList />
-        </aside>
-        <main class="wrapper__content">
-            @Body
-        </main>
-    </div>
+	<div class="wrapper">
+		<aside class="wrapper__left-menu">
+			<ChatRoomList />
+		</aside>
+		<main class="wrapper__content">
+			@Body
+		</main>
+	</div>
 }
 else
 {
-    <div class="loader-container">
-        <div class="loader"></div>
-        <div class="loader-logo">
-            Attempting Login...
-        </div>
-    </div>
+	<div class="loader-container">
+		<div class="loader"></div>
+		<div class="loader-logo">
+			Attempting Login...
+		</div>
+	</div>
 }

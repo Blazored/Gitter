@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
-    public class RoomSendBase : ComponentBase
+    public class RoomSendBase : ComponentBase, IDisposable
     {
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] IAppState State { get; set; }
@@ -51,9 +51,9 @@ namespace Blazor.Gitter.Core.Components.Shared
                 .Build();
         }
 
-        void QuoteMessage(IChatMessage message)
+        void QuoteMessage(object sender, ChatMessageEventArgs e)
         {
-            Console.WriteLine($"Send:Quoting {message.FromUser.DisplayName}");
+            IChatMessage message = e.ChatMessage;
             if (string.IsNullOrWhiteSpace(NewMessage))
             {
                 NewMessage = $"> {message.Text}\r\r@{message.FromUser.Username} ";
@@ -65,8 +65,13 @@ namespace Blazor.Gitter.Core.Components.Shared
                 NewMessage = $"{NewMessage}\r\r> {message.Text}\r\r@{message.FromUser.Username} ";
             }
             BuildClassString(NewMessage);
-            StateHasChanged();
+            Invoke(StateHasChanged);
             Task.Delay(1);
+        }
+
+        public void Dispose()
+        {
+            State.GotMessageToQuote -= QuoteMessage;
         }
     }
 }

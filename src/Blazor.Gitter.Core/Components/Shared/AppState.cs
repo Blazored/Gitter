@@ -11,13 +11,12 @@ using System.Timers;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
-    public class AppState : IAppState
+    public class AppState : IAppState, IDisposable
     {
-        private readonly IJSRuntime JSRuntime;
         private readonly ILocalStorageService LocalStorage;
         private readonly IComponentContext ComponentContext;
         private readonly ILocalisationHelper LocalisationHelper;
-        private readonly IChatApi GitterApi;
+        private readonly IUriHelper UriHelper;
         private string apiKey;
         private IChatUser myUser;
         private List<IChatRoom> myRooms;
@@ -27,40 +26,53 @@ namespace Blazor.Gitter.Core.Components.Shared
         private Stopwatch LastTriggerTimeOutChanged;
 
         private const int TIMEOUT = 60;
+        private const string LOGINPAGE = "/";
 
         /// <summary>
         /// Attach to this to be notified when there is an ApiKey available
         /// </summary>
-        public event Action GotApiKey;
+        public event EventHandler GotApiKey;
         /// <summary>
         /// Attach to this to be notified when there is a ChatUser available
         /// </summary>
-        public event Action GotChatUser;
+        public event EventHandler GotChatUser;
         /// <summary>
         /// Attach to this to be notified when there are ChatRooms available
         /// </summary>
-        public event Action GotChatRooms;
+        public event EventHandler GotChatRooms;
         /// <summary>
         /// Attach to this to be notified that some as yet undiscovered state has changed
         /// </summary>
-        public event Action OnChange;
+        public event EventHandler OnChange;
         /// <summary>
         /// Attach to this to be notified that there is a message to quote 
         /// </summary>
-        public event Action<IChatMessage> GotMessageToQuote;
+        public event EventHandler<ChatMessageEventArgs> GotMessageToQuote;
+        /// <summary>
+        /// Attach to this to be notifies that the user has been timed out due to lack of activity
+        /// </summary>
+        public event EventHandler ActivityTimeout;
+        /// <summary>
+        /// Attach to this to be notified that the user has become active
+        /// </summary>
+        public event EventHandler ActivityResumed;
+        /// <summary>
+        /// Attach to this to be notified that the time of expected user timeout has changed
+        /// </summary>
+        public event EventHandler<DateTime> TimeoutChanged;
 
-        public AppState(IJSRuntime jSRuntime,
+        public AppState(
             ILocalStorageService localStorage,
             IComponentContext componentContext,
             ILocalisationHelper localisationHelper,
-            IChatApi gitterApi)
+            IUriHelper uriHelper
+            )
         {
-            JSRuntime = jSRuntime;
             LocalStorage = localStorage;
             ComponentContext = componentContext;
             LocalisationHelper = localisationHelper;
-            GitterApi = gitterApi;
-            //Task.Factory.StartNew(Initialise);
+            UriHelper = uriHelper;
+            Task.Factory.StartNew(Initialise);
         }
 
         public bool Initialised => initialised;
@@ -79,24 +91,67 @@ namespace Blazor.Gitter.Core.Components.Shared
                         SetApiKey(await LocalStorage.GetItem<string>("GitterKey"));
                         break;
                     }
-                    catch (Exception e)
+                    catch 
                     {
-                        Console.WriteLine(e);
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Waiting for connection...");
-                }
+
                 await Task.Delay(1000);
             }
-
-            initialised = true;
+            if (HasApiKey)
+            {
+                initialised = true;
+            }
+            else
+            {
+                var currentUri = UriHelper.GetAbsoluteUri();
+                var baseUri = UriHelper.GetBaseUri();
+                var currentPage = UriHelper.ToBaseRelativePath(baseUri, currentUri);
+                if (!currentPage.Equals(LOGINPAGE,StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(currentPage))
+                {
+                    UriHelper.NavigateTo(LOGINPAGE);
+                }
+            }
         }
 
-        public void TriggerLoggedIn()
+        void RaiseGotChatUserEvent()
         {
-            GotChatUser?.Invoke();
+            GotChatUser?.Invoke(this, null);
+        }
+
+        void RaiseGotApiKeyEvent()
+        {
+            GotApiKey?.Invoke(this, null);
+        }
+
+        void RaiseGotChatRoomsEvent()
+        {
+            GotChatRooms?.Invoke(this, null);
+        }
+
+        void RaiseGotMessageToQuoteEvent(IChatMessage message)
+        {
+            GotMessageToQuote?.Invoke(this, new ChatMessageEventArgs() { ChatMessage = message });
+        }
+
+        void RaiseOnChangeEvent()
+        {
+            OnChange?.Invoke(this, null);
+        }
+
+        void RaiseActivityResumedEvent()
+        {
+            ActivityResumed?.Invoke(this, null);
+        }
+
+        void RaiseActivityTimeoutEvent()
+        {
+            ActivityTimeout?.Invoke(this, null);
+        }
+
+        void RaiseTimeoutChangedEvent(DateTime dateTime)
+        {
+            TimeoutChanged?.Invoke(this, dateTime);
         }
 
         public bool HasApiKey => !string.IsNullOrWhiteSpace(apiKey);
@@ -106,18 +161,16 @@ namespace Blazor.Gitter.Core.Components.Shared
         }
         public void SetApiKey(string value)
         {
-            Console.WriteLine($"Setting ApiKey = [{value}] - there is {(GotApiKey == null ? "not" : "")} a subscriber");
             apiKey = value;
             if (HasApiKey)
             {
-                GotApiKey?.Invoke();
+                RaiseGotApiKeyEvent();
             }
         }
         public async Task SaveApiKey()
         {
             if (HasApiKey)
             {
-                Console.WriteLine($"Storing ApiKey {apiKey}");
                 await LocalStorage.SetItem("GitterKey", apiKey);
             }
         }
@@ -128,11 +181,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         }
         public void SetMyUser(IChatUser value)
         {
-            Console.WriteLine($"Setting ChatUser {value.DisplayName} - {value.Username} - there is {(GotChatUser != null ? "" : "not")} a subscriber");
             myUser = value;
             if (HasChatUser)
             {
-                GotChatUser?.Invoke();
+                RaiseGotChatUserEvent();
             }
         }
 
@@ -143,11 +195,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         }
         public void SetMyRooms(List<IChatRoom> value)
         {
-            Console.WriteLine($"Setting Rooms {value?.Count} - there is {(GotChatRooms is object ? "" : "not")} a subscriber");
             myRooms = value;
             if (HasChatRooms)
             {
-                GotChatRooms?.Invoke();
+                RaiseGotChatRoomsEvent();
             }
         }
         public IChatRoom GetRoom(string RoomId)
@@ -173,10 +224,8 @@ namespace Blazor.Gitter.Core.Components.Shared
                     LocalisationHelper.LocalCultureInfo
                 );
         }
+
         public DateTime GetTimeoutTime() => TimeoutTime;
-        public event EventHandler ActivityTimeout;
-        public event EventHandler ActivityResumed;
-        public event EventHandler<DateTime> TimeoutChanged;
 
         private void SetTimeoutTime()
         {
@@ -191,7 +240,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
             else
             {
-                ActivityResumed?.Invoke(this, null);
+                RaiseActivityResumedEvent();
             }
             TimeoutTime = DateTime.UtcNow.AddMinutes(TIMEOUT);
             TimeoutTimer.Start();
@@ -201,14 +250,14 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
             if (!LastTriggerTimeOutChanged.IsRunning || LastTriggerTimeOutChanged.ElapsedMilliseconds >= 1000)
             {
-                TimeoutChanged?.Invoke(this, TimeoutTime);
+                RaiseTimeoutChangedEvent(TimeoutTime);
                 LastTriggerTimeOutChanged.Restart();
             }
         }
 
         private void TimeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            ActivityTimeout?.Invoke(this, null);
+            RaiseActivityTimeoutEvent();
         }
 
         public void RecordActivity()
@@ -216,11 +265,20 @@ namespace Blazor.Gitter.Core.Components.Shared
             SetTimeoutTime();
         }
 
-        private void NotifyStateChanged() => OnChange?.Invoke();
+        public void NotifyStateChanged() => RaiseOnChangeEvent();
 
         public void QuoteMessage(IChatMessage message)
         {
-            GotMessageToQuote?.Invoke(message);
+            RaiseGotMessageToQuoteEvent(message);
+        }
+
+        public void Dispose()
+        {
+            if (TimeoutTimer is object)
+            {
+                TimeoutTimer.Elapsed -= TimeoutTimer_Elapsed;
+                TimeoutTimer.Dispose();
+            }
         }
     }
 }
