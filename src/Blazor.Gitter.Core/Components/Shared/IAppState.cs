@@ -11,6 +11,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         event Action GotChatUser;
         event Action GotChatRooms;
         event Action OnChange;
+        event Action<IChatMessage> GotMessageToQuote;
         event EventHandler ActivityTimeout;
         event EventHandler ActivityResumed;
         event EventHandler<DateTime> TimeoutChanged;
@@ -31,5 +32,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         void SetMyRooms(List<IChatRoom> value);
         void SetMyUser(IChatUser value);
         void RecordActivity();
+        void QuoteMessage(IChatMessage message);
     }
 }

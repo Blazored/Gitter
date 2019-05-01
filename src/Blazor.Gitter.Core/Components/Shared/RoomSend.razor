@@ -3,10 +3,9 @@
 <form onsubmit="@SendMessage" class="chat-room__send-message-form">
 	<img src="@User.AvatarUrlSmall" width="38" height="38" class="chat-room__send-message-avatar" />
 	<textarea id="messageinput"
-			  class="chat-room__send-message"
+			  class="@NewMessageClass"
 			  bind="@NewMessage"
-			  oninput="@HandleSizing"
-			  style="@NewMessageStyle"
+			  oninput="@HandleSizing"			  
 			  placeholder="Join the conversation..." />
 	<button type="submit" class="chat-room__send-button">Ok</button>
 </form>

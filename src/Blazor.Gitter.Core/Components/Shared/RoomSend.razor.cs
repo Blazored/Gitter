@@ -1,6 +1,7 @@
 ﻿using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
@@ -12,9 +13,16 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal IChatUser User { get; set; }
 
-
+        private const string BaseClass = "chat-room__send-message";
         internal string NewMessage;
-        internal string NewMessageStyle;
+        internal string NewMessageClass = BaseClass;
+
+        protected override void OnInit()
+        {
+            base.OnInit();
+            State.GotMessageToQuote += QuoteMessage;
+        }
+
         internal void SendMessage(UIEventArgs args)
         {
             if (!string.IsNullOrWhiteSpace(NewMessage))
@@ -28,10 +36,37 @@ namespace Blazor.Gitter.Core.Components.Shared
         internal void HandleSizing(UIChangeEventArgs args)
         {
             State.RecordActivity();
-            
+
             string value = args.Value.ToString();
+            BuildClassString(value);
+        }
+
+        private void BuildClassString(string value)
+        {
             var lines = Math.Max(value.Split('\n').Length, value.Split('\r').Length);
-            NewMessageStyle = lines > 1 ? $"--box-height: {2 + ((lines - 1) * 1.48)}rem;" : "";
+            lines = Math.Min(lines, 10);
+            NewMessageClass = new BlazorComponentUtilities.CssBuilder()
+                .AddClass(BaseClass, lines <= 1)
+                .AddClass($"{BaseClass}--sh-{lines}", lines > 1)
+                .Build();
+        }
+
+        void QuoteMessage(IChatMessage message)
+        {
+            Console.WriteLine($"Send:Quoting {message.FromUser.DisplayName}");
+            if (string.IsNullOrWhiteSpace(NewMessage))
+            {
+                NewMessage = $"> {message.Text}\r\r@{message.FromUser.Username} ";
+            } else if (NewMessage.EndsWith("\r") || NewMessage.EndsWith("\n"))
+            {
+                NewMessage = $"{NewMessage}\r> {message.Text}\r\r@{message.FromUser.Username} ";
+            } else
+            {
+                NewMessage = $"{NewMessage}\r\r> {message.Text}\r\r@{message.FromUser.Username} ";
+            }
+            BuildClassString(NewMessage);
+            StateHasChanged();
+            Task.Delay(1);
         }
     }
 }

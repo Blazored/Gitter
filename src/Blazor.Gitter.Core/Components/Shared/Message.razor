@@ -3,14 +3,26 @@
 <div id="@MessageData.Id" class="@MessageClassList(MessageData)" onmouseout="@MarkRead">
     <img src="@MessageData.FromUser.AvatarUrlSmall" width="38" height="38" class="chat-room-messages__avatar" title="Filter by @MessageData.FromUser.Username" />
 
-    <div class="chat-room-messages__message-meta-container">
-        <div class="chat-room-messages__message-meta">
-            <h5 class="chat-room-messages__display-name">@MessageData.FromUser.DisplayName</h5>
-            <small class="chat-room-messages__username">@($"@{MessageData.FromUser.Username}")</small>
-            <small class="chat-room-messages__timestamp">@(LocalTime(MessageData.Sent))</small>
-        </div>
-        <div class="chat-room-messages__message">
-            @(new MarkupString(MessageData.Html))
-        </div>
-    </div>
+		<div class="chat-room-messages__message-meta-container">
+			<div class="chat-room-messages__message-meta">
+				<h5 class="chat-room-messages__display-name">@MessageData.FromUser.DisplayName</h5>
+				<small class="chat-room-messages__username">@($"@{MessageData.FromUser.Username}")</small>
+				<small class="chat-room-messages__timestamp">@(LocalTime(MessageData.Sent))</small>
+				<span class="chat-room-messages__actions">
+					<button onclick="@QuoteThis">Q</button>
+				</span>
+			</div>
+			@if (MessageData.IsStatus)
+			{
+				<div class="chat-room-messages__status">
+					@(new MarkupString(MessageData.Html.Replace("/me", $"@{MessageData.FromUser.Username}")))
+				</div>
+			}
+			else
+			{
+				<div class="chat-room-messages__message">
+					@(new MarkupString(MessageData.Html))
+				</div>
+			}
+		</div>
 </div>
