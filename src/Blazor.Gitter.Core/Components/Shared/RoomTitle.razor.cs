@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
-    public class RoomTitleBase : ComponentBase
+    public class RoomTitleBase : ComponentBase, IDisposable
     {
         [Inject] IAppState State { get; set; }
 
@@ -47,6 +47,12 @@ namespace Blazor.Gitter.Core.Components.Shared
             IsPaused = true;
             Invoke(StateHasChanged);
             Task.Delay(1);
+        }
+
+        public void Dispose()
+        {
+            State.ActivityTimeout -= ActivityTimeout;
+            State.ActivityResumed -= ActivityResumed;
         }
     }
 }

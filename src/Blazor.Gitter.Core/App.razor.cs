@@ -1,19 +1,26 @@
-﻿using Blazor.Gitter.Library;
+﻿using Blazor.Gitter.Core.Components.Shared;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core
 {
     public class AppModel : ComponentBase
     {
-        [Inject] ILocalisationHelper LocalisationHelper { get; set; }
-        
+
+        internal List<System.Reflection.Assembly> AssemblyList;
+
         protected override async Task OnInitAsync()
         {
             await base.OnInitAsync();
-            await LocalisationHelper.BuildLocalCulture();
-            await LocalisationHelper.BuildLocalTimeZone();
+
+            AssemblyList = new List<System.Reflection.Assembly>()
+                {
+                    typeof(ILocalStorageService).Assembly,
+                    typeof(MainLayout).Assembly
+                };
         }
     }
 }

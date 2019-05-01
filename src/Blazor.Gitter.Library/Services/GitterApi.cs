@@ -79,7 +79,6 @@ namespace Blazor.Gitter.Library
 
         public async Task<IEnumerable<IChatMessage>> SearchChatMessages(string RoomId, IChatMessageOptions Options)
         {
-            Console.WriteLine(Options);
             if (string.IsNullOrWhiteSpace(Options.Query))
             {
                 return default;
@@ -101,7 +100,6 @@ namespace Blazor.Gitter.Library
             try
             {
                 var result = await HttpClient.PostJsonAsync<object>($"{APIUSERPATH}/{UserId}/{APIROOMS}/{RoomId}/unreadItems", content);
-                Console.WriteLine($"MARK:Object is {result?.GetType().Name} = {result}");
                 return true;
             }
             catch { }
