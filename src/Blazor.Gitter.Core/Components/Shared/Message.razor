@@ -9,7 +9,8 @@
 				<small class="chat-room-messages__username">@($"@{MessageData.FromUser.Username}")</small>
 				<small class="chat-room-messages__timestamp">@(LocalTime(MessageData.Sent))</small>
 				<span class="chat-room-messages__actions">
-					<button onclick="@QuoteThis">Q</button>
+					<button onclick="@QuoteThis" style="margin-right:1em;">Q</button>					
+					<button onclick="@ReplyThis">R</button>
 				</span>
 			</div>
 			@if (MessageData.IsStatus)

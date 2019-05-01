@@ -32,5 +32,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         void SetMyUser(IChatUser value);
         void RecordActivity();
         void QuoteMessage(IChatMessage message);
+        void ReplyMessage(IChatMessage message);
     }
 }

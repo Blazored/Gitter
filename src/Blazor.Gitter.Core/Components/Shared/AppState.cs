@@ -129,9 +129,9 @@ namespace Blazor.Gitter.Core.Components.Shared
             GotChatRooms?.Invoke(this, null);
         }
 
-        void RaiseGotMessageToQuoteEvent(IChatMessage message)
+        void RaiseGotMessageToQuoteEvent(IChatMessage message, ChatMessageQuoteType quoteType)
         {
-            GotMessageToQuote?.Invoke(this, new ChatMessageEventArgs() { ChatMessage = message });
+            GotMessageToQuote?.Invoke(this, new ChatMessageEventArgs() { ChatMessage = message, QuoteType = quoteType });
         }
 
         void RaiseOnChangeEvent()
@@ -269,7 +269,12 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         public void QuoteMessage(IChatMessage message)
         {
-            RaiseGotMessageToQuoteEvent(message);
+            RaiseGotMessageToQuoteEvent(message, ChatMessageQuoteType.Quote);
+        }
+
+        public void ReplyMessage(IChatMessage message)
+        {
+            RaiseGotMessageToQuoteEvent(message, ChatMessageQuoteType.Reply);
         }
 
         public void Dispose()
