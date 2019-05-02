@@ -10,11 +10,13 @@ namespace Blazor.Gitter.Core.Components.Shared
         event EventHandler GotApiKey;
         event EventHandler GotChatUser;
         event EventHandler GotChatRooms;
+        event EventHandler<IChatMessageFilter> GotMessageFilter;
         event EventHandler OnChange;
         event EventHandler<ChatMessageEventArgs> GotMessageToQuote;
         event EventHandler ActivityTimeout;
         event EventHandler ActivityResumed;
         event EventHandler<DateTime> TimeoutChanged;
+
         bool HasApiKey { get; }
         bool HasChatRooms { get; }
         bool HasChatUser { get; }
@@ -30,6 +32,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         void SetApiKey(string value);
         void SetMyRooms(List<IChatRoom> value);
         void SetMyUser(IChatUser value);
+        void SetMessageFilter(IChatMessageFilter value);
         void RecordActivity();
         void QuoteMessage(IChatMessage message);
         void ReplyMessage(IChatMessage message);

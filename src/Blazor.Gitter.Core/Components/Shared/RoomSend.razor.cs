@@ -16,6 +16,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         private const string BaseClass = "chat-room__send-message";
         internal string NewMessage;
         internal string NewMessageClass = BaseClass;
+        internal bool FilterUnreadActive = false;
 
         protected override void OnInit()
         {
@@ -31,6 +32,22 @@ namespace Blazor.Gitter.Core.Components.Shared
                 NewMessage = "";
             }
             return;
+        }
+
+        internal Task FilterUnread()
+        {
+            switch (FilterUnreadActive)
+            {
+                case false:
+                    State.SetMessageFilter(new GitterMessageFilter() { FilterUnread = true });
+                    FilterUnreadActive = true;
+                    break;
+                case true:
+                    State.SetMessageFilter(new GitterMessageFilter() { FilterUnread = false });
+                    FilterUnreadActive = false;
+                    break;
+            }
+            return Task.CompletedTask;
         }
 
         internal void HandleSizing(UIChangeEventArgs args)
