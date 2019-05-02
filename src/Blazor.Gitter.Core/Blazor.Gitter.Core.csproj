@@ -34,6 +34,7 @@
     <EmbeddedResource Remove="content\css\_base.scss" />
     <EmbeddedResource Remove="content\css\_chatroom.scss" />
     <EmbeddedResource Remove="content\css\_ChatRoomList.scss" />
+    <EmbeddedResource Remove="content\css\_chatroom_send.scss" />
     <EmbeddedResource Remove="content\css\_layout.scss" />
     <EmbeddedResource Remove="content\css\_login.scss" />
     <EmbeddedResource Remove="content\css\_mixins.scss" />

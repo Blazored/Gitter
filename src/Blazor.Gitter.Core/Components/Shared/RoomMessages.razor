@@ -14,7 +14,7 @@
 
         @if (Messages is object)
         {
-            <div class="chat-room-messages__list">@MessageFilter.FilterUnread
+            <div class="chat-room-messages__list">
                 @foreach (var message in Messages.Where(m => (MessageFilter.FilterUnread == false) || (m.Unread == true) ).OrderBy(m => m.Sent))
                 {
                     <Message MessageData="@message" UserId="@UserId" RoomId="@ChatRoom.Id"/>
