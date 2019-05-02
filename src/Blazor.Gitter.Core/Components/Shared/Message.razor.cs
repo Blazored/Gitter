@@ -64,7 +64,6 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         internal void QuoteThis()
         {
-            Console.WriteLine($"MSG:Start Quoting {MessageData.FromUser.DisplayName}");
             State.QuoteMessage(MessageData);
         }
     }

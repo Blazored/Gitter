@@ -1,2 +1,4 @@
-﻿@typeparam T
+﻿@inherits AppModel
+@typeparam T
 <Router AppAssembly="typeof(T).Assembly" />
+<BlazorEmbedLibrary.EmbeddedContent Assemblies="@AssemblyList" />

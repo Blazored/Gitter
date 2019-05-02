@@ -43,7 +43,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         private void ActivityResumed(object sender, EventArgs e)
         {
             StartRoomWatcher();
-            Console.WriteLine("RESUMED");
         }
 
         private void ActivityTimeout(object sender, EventArgs e)
@@ -53,12 +52,9 @@ namespace Blazor.Gitter.Core.Components.Shared
                 RoomWatcher?.Stop();
                 Paused = true;
                 Invoke(StateHasChanged);
-                //Task.Delay(1);
-                Console.WriteLine("PAUSED");
             }
-            catch (Exception ex)
+            catch 
             {
-                Console.WriteLine(ex.GetBaseException().Message);
             }
         }
 
@@ -83,7 +79,6 @@ namespace Blazor.Gitter.Core.Components.Shared
                 RoomWatcher?.Stop();
                 NoMoreOldMessages = false;
                 IsFetchingOlder = false;
-                Console.WriteLine("Loading room...");
                 Messages = new List<IChatMessage>();
                 StartRoomWatcher();
 
@@ -153,9 +148,8 @@ namespace Blazor.Gitter.Core.Components.Shared
             {
                 bottom = await JSRuntime.IsScrolledToBottom("blgmessagelist");
             }
-            catch (Exception ex)
+            catch 
             {
-                Console.WriteLine(ex);
             }
 
             if (Messages?.Any() ?? false)
@@ -201,7 +195,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine($"RoomMessages.FetchNewMessages: {e.GetBaseException().Message}");
                 }
                 finally
                 {
@@ -243,6 +237,8 @@ namespace Blazor.Gitter.Core.Components.Shared
         }
         public void Dispose()
         {
+            State.ActivityTimeout -= ActivityTimeout;
+            State.ActivityResumed -= ActivityResumed;
             RoomWatcher?.Stop();
             RoomWatcher?.Dispose();
             Messages = null;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Pages
 {
-    public class IndexModel : ComponentBase
+    public class IndexModel : ComponentBase, IDisposable
     {
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] internal IAppState State { get; set; }
@@ -24,13 +24,16 @@ namespace Blazor.Gitter.Core.Components.Pages
         protected override void OnInit()
         {
             base.OnInit();
-            State.GotChatUser += () => StateHasChanged();
+            State.GotChatUser += State_GotChatUser;
+        }
+
+        private void State_GotChatUser(object sender, EventArgs e)
+        {
+            Invoke(StateHasChanged);
         }
 
         internal async Task SignIn(bool remember)
         {
-            Console.WriteLine($"Index: SignIn {(remember ? "remember" : "")}");
-
             if (!State.HasApiKey && string.IsNullOrWhiteSpace(apiKey))
             {
                 ErrorMessage = "Please Enter your own Gitter API Key!";
@@ -46,6 +49,11 @@ namespace Blazor.Gitter.Core.Components.Pages
 
             ErrorMessage = "";
             StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            State.GotChatUser -= State_GotChatUser;
         }
     }
 }

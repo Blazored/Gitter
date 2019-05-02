@@ -18,7 +18,7 @@ namespace Blazor.Gitter.Core.Browser
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine($"BrowserInterop.IsScrolledToBottom: {ex.GetBaseException().Message}");
             }
             return Task.FromResult(false);
         }

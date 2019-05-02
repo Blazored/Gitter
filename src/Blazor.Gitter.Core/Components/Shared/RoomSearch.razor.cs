@@ -28,9 +28,8 @@ namespace Blazor.Gitter.Core.Components.Shared
             {
                 await PerformSearch(tokenSource.Token);
             }
-            catch (Exception ex)
+            catch 
             {
-                Console.WriteLine(ex);
             }
         }
 
@@ -48,7 +47,6 @@ namespace Blazor.Gitter.Core.Components.Shared
             while ((messages?.Any() ?? false) && !token.IsCancellationRequested)
             {
                 SearchResult?.AddRange(messages.OrderBy(m => m.Sent).Reverse());
-                Console.WriteLine($"Got {messages.Count()} results. First is {SearchResult?.First().Id} Last is {SearchResult?.Last().Id} Token is {token.IsCancellationRequested}");
                 await Invoke(StateHasChanged);
                 await Task.Delay(1000);
                 options.Skip += messages.Count();
