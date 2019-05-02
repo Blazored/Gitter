@@ -1,6 +1,12 @@
 ﻿@inherits RoomSendBase
 
-<button class="chat-room__filter-button@(FilterUnreadActive ? "--active" : "")" onclick="@FilterUnread">Unread</button>
+<div class="chat-room__filter">
+	<button class="chat-room__filter-button@(MessageFilter.FilterUnread ? "--active" : "")" onclick="@FilterUnread">Unread</button>
+	@if (!string.IsNullOrWhiteSpace(MessageFilter.FilterByUserId))
+	{
+		<button class="chat-room__filter-button--active" onclick="@RemoveUserFilter">Clear User Filter</button>
+	}
+</div>
 <form onsubmit="@SendMessage" class="chat-room__send-message-form">
 	<img src="@User.AvatarUrlSmall" width="38" height="38" class="chat-room__send-message-avatar" />
 	<textarea id="messageinput"

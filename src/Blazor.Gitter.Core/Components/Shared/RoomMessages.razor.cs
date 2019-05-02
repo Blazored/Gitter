@@ -47,6 +47,18 @@ namespace Blazor.Gitter.Core.Components.Shared
             MessageFilter = filter;
         }
 
+        internal IEnumerable<IChatMessage> FilteredAndOrderedMessages()
+        {
+            return Messages
+                .Where(m =>
+                    {
+                        bool unread = ((MessageFilter.FilterUnread == false) || (m.Unread == true));
+                        bool userid = (string.IsNullOrWhiteSpace(MessageFilter.FilterByUserId) || (m.FromUser.Id == MessageFilter.FilterByUserId));
+                        return unread && userid;
+                    }
+                )
+                .OrderBy(m => m.Sent);
+        }
         private void ActivityResumed(object sender, EventArgs e)
         {
             StartRoomWatcher();
@@ -60,7 +72,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 Paused = true;
                 Invoke(StateHasChanged);
             }
-            catch 
+            catch
             {
             }
         }
@@ -155,7 +167,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             {
                 bottom = await JSRuntime.IsScrolledToBottom("blgmessagelist");
             }
-            catch 
+            catch
             {
             }
 
@@ -196,7 +208,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                         {
                             Messages.AddRange(RemoveDuplicates(Messages, messages));
                         }
-                        
+
                         await Invoke(StateHasChanged);
                         await Task.Delay(1);
                     }

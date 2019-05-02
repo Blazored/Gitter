@@ -3,5 +3,6 @@
     public interface IChatMessageFilter
     {
         bool FilterUnread { get; set; }
+        string FilterByUserId { get; set; }
     }
 }

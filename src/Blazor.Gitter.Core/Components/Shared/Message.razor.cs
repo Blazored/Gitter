@@ -70,5 +70,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         {
             State.ReplyMessage(MessageData);
         }
+        internal void FilterThisUser()
+        {
+            State.SetMessageFilter(new GitterMessageFilter() { FilterByUserId = MessageData.FromUser.Id });
+        }
+
     }
 }

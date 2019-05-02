@@ -7,5 +7,9 @@
         }
 
         public bool FilterUnread { get; set; } = false;
+        public string FilterByUserId { get; set; } = string.Empty;
+
+        public override string ToString()
+            => $"Unread: {FilterUnread} UserId: {FilterByUserId}";
     }
 }

@@ -1,4 +1,8 @@
-﻿.chat-room__filter-button {
+﻿.chat-room__filter {
+    display: inline-flex;
+}
+
+.chat-room__filter-button {
     color: $text;
     align-self: flex-start;
     border-radius: .5rem;
@@ -6,12 +10,12 @@
     color: $accent;
     border: 1px solid $accent;
     background-color: transparent;
- 
+    margin-left: 1rem;
+
     &:hover {
         color: darken($accent, 5%);
         border-color: darken($accent, 5%);
     }
-
 }
 
 .chat-room__filter-button--active {
@@ -20,7 +24,7 @@
     color: $text;
 
     &:hover {
-        color: darken($accent, 5%);
+        color: darken($text, 5%);
         border-color: darken($accent, 5%);
         background-color: darken($accent, 10%);
     }

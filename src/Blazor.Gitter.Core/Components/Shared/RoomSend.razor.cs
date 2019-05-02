@@ -13,6 +13,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal IChatUser User { get; set; }
 
+        //TODO: Implement IChatApi.GetNewMessageFilter to abstract this away
+        internal IChatMessageFilter MessageFilter = new GitterMessageFilter(); 
+
         private const string BaseClass = "chat-room__send-message";
         internal string NewMessage;
         internal string NewMessageClass = BaseClass;
@@ -22,6 +25,18 @@ namespace Blazor.Gitter.Core.Components.Shared
         {
             base.OnInit();
             State.GotMessageToQuote += QuoteMessage;
+            State.GotMessageFilter += GotMessageFilter;
+        }
+
+        private void GotMessageFilter(object sender, IChatMessageFilter filter)
+        {
+            MessageFilter = filter;
+            Invoke(StateHasChanged);
+        }
+
+        internal void RemoveUserFilter()
+        {
+            MessageFilter.FilterByUserId = string.Empty;
         }
 
         internal void SendMessage(UIEventArgs args)
@@ -36,15 +51,13 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         internal Task FilterUnread()
         {
-            switch (FilterUnreadActive)
+            switch (MessageFilter.FilterUnread)
             {
                 case false:
                     State.SetMessageFilter(new GitterMessageFilter() { FilterUnread = true });
-                    FilterUnreadActive = true;
                     break;
                 case true:
                     State.SetMessageFilter(new GitterMessageFilter() { FilterUnread = false });
-                    FilterUnreadActive = false;
                     break;
             }
             return Task.CompletedTask;
