@@ -11,3 +11,4 @@
               placeholder="Ctrl-Enter to send..." />
     <button id="@OkButtonId" type="submit" class="chat-room__send-button" @onclick="SendMessage">Ok</button>
 </div>
+<button class="chat-room__filter-button@(FilterUnreadActive ? "--active" : "")" @onclick="FilterUnread"><i class="fas fa-filter"></i></button>

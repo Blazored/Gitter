@@ -5,7 +5,7 @@ const swInstallEvent = 'install';
 const swInstalledEvent = 'installed';
 const swActivateEvent = 'activate';
 const staticCachePrefix = 'blazored-gitter-v';
-const staticCacheName = 'blazored-gitter-v0.1.0-beta201908151008';
+const staticCacheName = 'blazored-gitter-v0.1.0-beta201908161208';
 const requiredFiles = [
 "/_framework/blazor.boot.json",
 "/_framework/blazor.server.js",

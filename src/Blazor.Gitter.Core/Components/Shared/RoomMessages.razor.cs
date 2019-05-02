@@ -21,6 +21,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Parameter] internal string UserId { get; set; }
 
         internal bool LoadingMessages;
+        internal IChatMessageFilter MessageFilter = new GitterMessageFilter();
 
         internal List<IChatMessage> Messages;
         SemaphoreSlim ssScroll = new SemaphoreSlim(1, 1);
@@ -39,6 +40,12 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.ActivityTimeout += ActivityTimeout;
             State.ActivityResumed += ActivityResumed;
             State.GotMessageUpdate += GotMessageUpdate;
+            State.GotMessageFilter += GotMessageFilter;
+        }
+
+        private void GotMessageFilter(object sender, IChatMessageFilter filter)
+        {
+            MessageFilter = filter;
         }
 
         private void GotMessageUpdate(object sender, IChatMessage message)
