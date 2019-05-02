@@ -1,7 +1,5 @@
 ﻿@inherits MainLayoutModel
 
-<BlazorEmbedLibrary.EmbeddedContent Assemblies="@AssemblyList" Debug="true"/>
-
 @if (State.Initialised || !State.HasApiKey)
 {
 	<Navbar />
