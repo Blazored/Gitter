@@ -41,6 +41,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// </summary>
         public event EventHandler GotChatRooms;
         /// <summary>
+        /// Attach to this to be notified when a message filter has been requested
+        /// </summary>
+        public event EventHandler<IChatMessageFilter> GotMessageFilter;
+        /// <summary>
         /// Attach to this to be notified that some as yet undiscovered state has changed
         /// </summary>
         public event EventHandler OnChange;
@@ -127,6 +131,11 @@ namespace Blazor.Gitter.Core.Components.Shared
         void RaiseGotChatRoomsEvent()
         {
             GotChatRooms?.Invoke(this, null);
+        }
+
+        void RaiseGotMessageFilterEvent(IChatMessageFilter filter)
+        {
+            GotMessageFilter?.Invoke(this, filter);
         }
 
         void RaiseGotMessageToQuoteEvent(IChatMessage message, ChatMessageQuoteType quoteType)
@@ -275,6 +284,11 @@ namespace Blazor.Gitter.Core.Components.Shared
         public void ReplyMessage(IChatMessage message)
         {
             RaiseGotMessageToQuoteEvent(message, ChatMessageQuoteType.Reply);
+        }
+
+        public void SetMessageFilter(IChatMessageFilter filter)
+        {
+            RaiseGotMessageFilterEvent(filter);
         }
 
         public void Dispose()
