@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-
+  MSBUILDDISABLENODEREUSE: '1'
 steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Installing .NET Core SDK...'
