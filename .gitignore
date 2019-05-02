@@ -332,5 +332,5 @@ ASALocalRun/
 # generated css files
 loader.css
 loader.min.css
-blazor.gitter.core.css
-blazor.gitter.core.min.css
+blazor.gitter.css
+blazor.gitter.min.css

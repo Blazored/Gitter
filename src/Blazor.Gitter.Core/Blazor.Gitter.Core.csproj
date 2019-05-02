@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="content\css\Blazor.Gitter.Core.scss" />
+    <EmbeddedResource Remove="content\css\blazor.gitter.scss" />
     <EmbeddedResource Remove="content\css\_base.scss" />
     <EmbeddedResource Remove="content\css\_chatroom.scss" />
     <EmbeddedResource Remove="content\css\_ChatRoomList.scss" />
@@ -49,6 +49,7 @@
     <Content Include="compilerconfig.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="content\css\blazor.gitter.scss" />
   </ItemGroup>
 
   <ItemGroup>
