@@ -8,6 +8,9 @@
     </RestoreAdditionalProjectSources>
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
   </PropertyGroup>
 
