@@ -66,5 +66,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         {
             State.QuoteMessage(MessageData);
         }
+        internal void ReplyThis()
+        {
+            State.ReplyMessage(MessageData);
+        }
     }
 }
