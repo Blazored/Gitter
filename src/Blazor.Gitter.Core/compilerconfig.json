@@ -2,5 +2,13 @@
   {
     "outputFile": "content/css/blazor.gitter.css",
     "inputFile": "content/css/blazor.gitter.scss"
+  },
+  {
+    "outputFile": "../Blazor.Gitter.Client/wwwroot/css/loader.css",
+    "inputFile": "content/css/loader.scss"
+  },
+  {
+    "outputFile": "../Blazor.Gitter.Server/wwwroot/css/loader.css",
+    "inputFile": "content/css/loader.scss"
   }
 ]
