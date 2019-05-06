@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview4-19216-03" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview4-19216-03" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview4-19216-03" PrivateAssets="all" />
@@ -23,16 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- extends watching group to include *.scss files -->
-    <Watch Include="Styles\*.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\css\loader.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Styles\" />
+    <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
 </Project>

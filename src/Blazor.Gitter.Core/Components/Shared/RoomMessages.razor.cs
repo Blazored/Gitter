@@ -103,32 +103,32 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         internal async Task MessagesScrolled(UIEventArgs args)
         {
-            if (!NoMoreOldMessages && !IsFetchingOlder && Messages.Any())
+            if (!NoMoreOldMessages && Messages.Any())
             {
-                await ssScroll.WaitAsync();
-                try
+                if (await ssScroll.WaitAsync(0))
                 {
-                    var scroll = await JSRuntime.GetScrollTop("blgmessagelist");
-                    if (scroll < 100)
+                    try
                     {
-                        IsFetchingOlder = true;
-
-                        var count = await FetchOldMessages(tokenSource.Token);
-                        if (count == 0)
+                        State.RecordActivity();
+                        var scroll = await JSRuntime.GetScrollTop("blgmessagelist");
+                        if (scroll < 100)
                         {
-                            NoMoreOldMessages = true;
+
+                            var count = await FetchOldMessages(tokenSource.Token);
+                            if (count == 0)
+                            {
+                                NoMoreOldMessages = true;
+                            }
                         }
-                        IsFetchingOlder = false;
+                    }
+                    catch
+                    {
+                    }
+                    finally
+                    {
+                        ssScroll.Release();
                     }
                 }
-                catch
-                {
-                }
-                finally
-                {
-                    ssScroll.Release();
-                }
-                State.RecordActivity();
             }
         }
 
@@ -183,12 +183,13 @@ namespace Blazor.Gitter.Core.Components.Shared
                         count = messages.Count();
                         if (!string.IsNullOrWhiteSpace(options.BeforeId))
                         {
-                            Messages.InsertRange(0, messages);
+                            Messages.InsertRange(0, RemoveDuplicates(Messages, messages));
                         }
                         else
                         {
-                            Messages.AddRange(messages);
+                            Messages.AddRange(RemoveDuplicates(Messages, messages));
                         }
+                        
                         await Invoke(StateHasChanged);
                         await Task.Delay(1);
                     }
@@ -203,18 +204,24 @@ namespace Blazor.Gitter.Core.Components.Shared
                 }
             }
             return count;
+
+            IEnumerable<IChatMessage> RemoveDuplicates(IEnumerable<IChatMessage> Existing, IEnumerable<IChatMessage> Merging)
+            {
+                IEnumerable<string> ExistingIds = Existing.Select(m => m.Id);
+                return Merging.Where(m => !ExistingIds.Contains(m.Id));
+            }
         }
 
         async Task<int> FetchOldMessages(CancellationToken token)
         {
             var options = GitterApi.GetNewOptions();
             options.Lang = Localisation.LocalCultureInfo.Name;
-            if (!token.IsCancellationRequested && IsFetchingOlder)
+            options.AfterId = "";
+            if (Messages?.Any() ?? false)
             {
-                options.AfterId = "";
-                if (Messages?.Any() ?? false)
+                options.BeforeId = GetFirstMessageId();
+                if (!token.IsCancellationRequested)
                 {
-                    options.BeforeId = GetFirstMessageId();
                     var count = await FetchNewMessages(options, token);
                     await Invoke(StateHasChanged);
                     await Task.Delay(100);

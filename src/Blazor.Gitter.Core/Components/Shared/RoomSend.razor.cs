@@ -54,15 +54,27 @@ namespace Blazor.Gitter.Core.Components.Shared
         void QuoteMessage(object sender, ChatMessageEventArgs e)
         {
             IChatMessage message = e.ChatMessage;
-            if (string.IsNullOrWhiteSpace(NewMessage))
+            switch (e.QuoteType)
             {
-                NewMessage = $"> {message.Text}\r\r@{message.FromUser.Username} ";
-            } else if (NewMessage.EndsWith("\r") || NewMessage.EndsWith("\n"))
-            {
-                NewMessage = $"{NewMessage}\r> {message.Text}\r\r@{message.FromUser.Username} ";
-            } else
-            {
-                NewMessage = $"{NewMessage}\r\r> {message.Text}\r\r@{message.FromUser.Username} ";
+                case ChatMessageQuoteType.Quote:
+                    if (string.IsNullOrWhiteSpace(NewMessage))
+                    {
+                        NewMessage = $"> {message.Text}\r\r@{message.FromUser.Username} ";
+                    }
+                    else if (NewMessage.EndsWith("\r") || NewMessage.EndsWith("\n"))
+                    {
+                        NewMessage = $"{NewMessage}\r> {message.Text}\r\r@{message.FromUser.Username} ";
+                    }
+                    else
+                    {
+                        NewMessage = $"{NewMessage}\r\r> {message.Text}\r\r@{message.FromUser.Username} ";
+                    }
+                    break;
+                case ChatMessageQuoteType.Reply:
+                    NewMessage = $"{NewMessage} @{message.FromUser.Username} ".TrimStart();
+                    break;
+                default:
+                    break;
             }
             BuildClassString(NewMessage);
             Invoke(StateHasChanged);
