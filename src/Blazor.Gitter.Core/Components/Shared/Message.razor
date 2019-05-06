@@ -1,7 +1,12 @@
 ﻿@inherits MessageModel
 
 <div id="@MessageData.Id" class="@MessageClassList(MessageData)" onmouseout="@MarkRead">
-    <img src="@MessageData.FromUser.AvatarUrlSmall" width="38" height="38" class="chat-room-messages__avatar" title="Filter by @MessageData.FromUser.Username" />
+    <img src="@MessageData.FromUser.AvatarUrlSmall" 
+				 onerror="if (this.src !== '/favicon.ico') this.src='/favicon.ico';"
+				 width="38" 
+				 height="38" 
+				 class="chat-room-messages__avatar" 
+				 title="Filter by @MessageData.FromUser.Username" />
 
 		<div class="chat-room-messages__message-meta-container">
 			<div class="chat-room-messages__message-meta">
