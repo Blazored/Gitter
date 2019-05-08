@@ -18,8 +18,10 @@ namespace Blazor.Gitter.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<HttpClient>((s) => new HttpClient())
+
+            services
                 .AddScoped<IChatApi, GitterApi>()
+                .AddScoped<ICdnApi, CloudinaryApi>()
                 .AddScoped<ILocalStorageService, LocalStorageService>()
                 .AddScoped<ILocalisationHelper, LocalisationHelper>()
                 .AddScoped<IAppState, AppState>();
@@ -43,10 +45,17 @@ namespace Blazor.Gitter.Server
 
             app.UseRouting();
 
-            app.UseEndpoints(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapFallbackToPage("/_Host");
-                routes.MapBlazorHub<Core.App<Core.Components.Shared.Navbar>>("app");
+                endpoints.MapHub<ComponentHub>(
+                ComponentHub.DefaultPath,
+                o =>
+                {
+                    o.ApplicationMaxBufferSize = 102400000; // larger size
+                    o.TransportMaxBufferSize = 102400000; // larger size
+                }).AddComponent<Core.App<Core.Components.Shared.Navbar>>("app");
+
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
     }

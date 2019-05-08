@@ -1,11 +1,13 @@
 ﻿@inherits RoomSendBase
 
-<form onsubmit="@SendMessage" class="chat-room__send-message-form">
+<form onsubmit="@SendMessage" class="@FormClass" ondragenter="event.preventDefault()" ondragover="event.preventDefault()" ondrop="return chat.fileDrop(event,'blg-hdn-file')">
 	<img src="@User.AvatarUrlSmall" width="38" height="38" class="chat-room__send-message-avatar" />
 	<textarea id="messageinput"
 			  class="@NewMessageClass"
 			  bind="@NewMessage"
 			  oninput="@HandleSizing"			  
+				onpaste="chat.filePaste(event,'blg-hdn-file')"
 			  placeholder="Join the conversation..." />
 	<button type="submit" class="chat-room__send-button">Ok</button>
+	<input type="hidden" id="blg-hdn-file" onchange="@OnPasteFile" />
 </form>

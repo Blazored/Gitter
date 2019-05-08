@@ -1,4 +1,3 @@
-using System.Net.Http;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
 using Blazored.LocalStorage;
@@ -12,8 +11,9 @@ namespace Blazor.Gitter.Client
 
         public void ConfigureServices(IServiceCollection services)
         {                   
-            services.AddSingleton<HttpClient>((s) => new HttpClient())
+            services
                 .AddSingleton<IChatApi, GitterApi>()
+                .AddSingleton<ICdnApi, CloudinaryApi>()
                 .AddSingleton<ILocalStorageService, LocalStorageService>()
                 .AddSingleton<ILocalisationHelper, LocalisationHelper>()
                 .AddSingleton<IAppState, AppState>();

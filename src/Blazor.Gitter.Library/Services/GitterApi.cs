@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Library
 {
-    public class GitterApi : IChatApi
+    public class GitterApi : IChatApi, IDisposable
     {
         private const string APIBASE = "https://api.gitter.im/v1/";
         private const string APIUSERPATH = "user";
@@ -16,9 +16,9 @@ namespace Blazor.Gitter.Library
 
         private string Token { get; set; }
         private HttpClient HttpClient { get; set; }
-        public GitterApi(HttpClient httpClient = null)
+        public GitterApi()
         {
-            HttpClient = httpClient ?? throw new Exception("Make sure you have added an HttpClient to your DI Container");
+            HttpClient = new HttpClient();
         }
 
         public void SetAccessToken(string token)
@@ -109,6 +109,11 @@ namespace Blazor.Gitter.Library
         public IChatMessageOptions GetNewOptions()
         {
             return new GitterMessageOptions();
+        }
+
+        public void Dispose()
+        {
+            HttpClient.Dispose();
         }
     }
     class NewMessage

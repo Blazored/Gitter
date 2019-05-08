@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 
@@ -25,6 +26,14 @@ namespace Blazor.Gitter.Core.Browser
         public static Task<bool> ScrollIntoView(this IJSRuntime JSRuntime, string id)
         {
             return JSRuntime.InvokeAsync<bool>("chat.scrollIntoView", id);
+        }
+        public static Task<bool> InitFileDrop(this IJSRuntime JSRuntime, ElementRef elDropZone, ElementRef elInput)
+        {
+            return JSRuntime.InvokeAsync<bool>("chat.initFileDrop", elDropZone, elInput);
+        }
+        public static Task<bool> InitFilePaste(this IJSRuntime JSRuntime, ElementRef elPasteZone, ElementRef elInput)
+        {
+            return JSRuntime.InvokeAsync<bool>("chat.initFilePaste", elPasteZone, elInput);
         }
     }
 }

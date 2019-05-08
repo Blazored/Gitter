@@ -260,6 +260,11 @@
     align-items: center;
 }
 
+.chat-room__send-message-form--uploading {
+    @extend .chat-room__send-message-form;
+    border-top: 4px solid #2ecc71;
+}
+
 .chat-room__send-message-avatar {
     margin-right: 1rem;
     border-radius: .5rem;
