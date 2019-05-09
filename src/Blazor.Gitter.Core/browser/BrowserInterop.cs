@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 
@@ -25,6 +26,10 @@ namespace Blazor.Gitter.Core.Browser
         public static Task<bool> ScrollIntoView(this IJSRuntime JSRuntime, string id)
         {
             return JSRuntime.InvokeAsync<bool>("chat.scrollIntoView", id);
+        }
+        public static Task<bool> SetFocus(this IJSRuntime JSRuntime, ElementRef elementRef)
+        {
+            return JSRuntime.InvokeAsync<bool>("chat.setFocus", elementRef);
         }
     }
 }
