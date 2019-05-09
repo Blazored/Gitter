@@ -13,6 +13,7 @@ namespace Blazor.Gitter.Client
         public void ConfigureServices(IServiceCollection services)
         {                   
             services.AddSingleton<HttpClient>((s) => new HttpClient())
+                .AddSingleton<IAuthApi, GitterAuthApi>()
                 .AddSingleton<IChatApi, GitterApi>()
                 .AddSingleton<ILocalStorageService, LocalStorageService>()
                 .AddSingleton<ILocalisationHelper, LocalisationHelper>()

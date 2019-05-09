@@ -20,6 +20,7 @@ namespace Blazor.Gitter.Server
             services.AddServerSideBlazor();
             services.AddScoped<HttpClient>((s) => new HttpClient())
                 .AddScoped<IChatApi, GitterApi>()
+                .AddSingleton<IAuthApi, GitterAuthApi>()
                 .AddScoped<ILocalStorageService, LocalStorageService>()
                 .AddScoped<ILocalisationHelper, LocalisationHelper>()
                 .AddScoped<IAppState, AppState>();
