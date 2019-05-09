@@ -34,5 +34,12 @@
         } catch(e) {
             return false;
         }
+    },
+    setFocus: function (control) {
+        if (control) {
+            control.focus();
+            return true;
+        }
+        return false;
     }
 }

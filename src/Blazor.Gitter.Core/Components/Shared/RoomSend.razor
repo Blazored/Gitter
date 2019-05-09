@@ -13,6 +13,8 @@
 						class="@NewMessageClass"
 						bind="@NewMessage"
 						oninput="@HandleSizing"
-						placeholder="Join the conversation..." />
-	<button type="submit" class="chat-room__send-button">Ok</button>
+						onkeydown="@Shortcuts"
+						ref="@MessageInput"
+						placeholder="Ctrl-Enter to send..." />
+	<button type="submit" class="chat-room__send-button" ref="@OkButtonRef">Ok</button>
 </form>
