@@ -1,5 +1,7 @@
-﻿using Blazor.Gitter.Library;
+﻿using Blazor.Gitter.Core.Browser;
+using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 
@@ -9,6 +11,7 @@ namespace Blazor.Gitter.Core.Components.Shared
     {
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] IAppState State { get; set; }
+        [Inject] IJSRuntime JSRuntime { get; set; }
 
         [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal IChatUser User { get; set; }
@@ -16,6 +19,8 @@ namespace Blazor.Gitter.Core.Components.Shared
         private const string BaseClass = "chat-room__send-message";
         internal string NewMessage;
         internal string NewMessageClass = BaseClass;
+        internal ElementRef OkButtonRef;
+        internal ElementRef MessageInput;
 
         protected override void OnInit()
         {
@@ -81,6 +86,25 @@ namespace Blazor.Gitter.Core.Components.Shared
             Task.Delay(1);
         }
 
+        internal async Task Shortcuts(UIKeyboardEventArgs args)
+        {
+            if (args.CtrlKey)
+            {
+                switch (args.Key)
+                {
+                    case "Enter":
+                    case "Return":
+                        // this will trigger onchange so NewMessage is updated
+                        await JSRuntime.SetFocus(OkButtonRef); 
+                        await JSRuntime.SetFocus(MessageInput); 
+                        SendMessage(default);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return;
+        }
         public void Dispose()
         {
             State.GotMessageToQuote -= QuoteMessage;
