@@ -14,11 +14,19 @@
 				<small class="chat-room-messages__username">@($"@{MessageData.FromUser.Username}")</small>
 				<small class="chat-room-messages__timestamp">@(LocalTime(MessageData.Sent))</small>
 				<span class="chat-room-messages__actions">
-					<button onclick="@QuoteThis" style="margin-right:1em;">Q</button>					
-					<button onclick="@ReplyThis">R</button>
+					@if (MessageData.FromUser.Id.Equals(@UserId) && MessageData.Sent.AddMinutes(2) > DateTime.UtcNow)
+					{
+						<button onclick="@EditThis" style="margin-right:1em;"> Edit </button>					
+					}
+					<button onclick="@QuoteThis" style="margin-right:1em;"> Quote </button>					
+					<button onclick="@ReplyThis"> Reply </button>
 				</span>
 			</div>
-			@if (MessageData.IsStatus)
+			@if (EditMode)
+			{
+				<textarea value="@MessageData.Text" onchange="@EditOnChange" onkeydown="@EditKeyPress"></textarea>
+			}
+			else if (MessageData.IsStatus)
 			{
 				<div class="chat-room-messages__status">
 					@(new MarkupString(MessageData.Html.Replace("/me", $"@{MessageData.FromUser.Username}")))
