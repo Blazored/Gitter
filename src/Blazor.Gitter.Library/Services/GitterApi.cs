@@ -93,6 +93,13 @@ namespace Blazor.Gitter.Library
             return (await HttpClient.PostJsonAsync<GitterMessage[]>($"{APIROOMS}/{RoomId}/chatMessages", content)).First();
         }
 
+        public async Task<IChatMessage> EditChatMessage(string RoomId, string MessageId, string Message)
+        {
+            var content = new NewMessage() { text = Message };
+
+            return (await HttpClient.PutJsonAsync<GitterMessage>($"{APIROOMS}/{RoomId}/chatMessages/{MessageId}", content));
+        }
+
         public async Task<bool> MarkChatMessageAsRead(string UserId, string RoomId, string MessageId)
         {
             var content = new MarkUnread { chat = new string[] { MessageId } };
