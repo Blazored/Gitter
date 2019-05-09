@@ -40,6 +40,27 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.ActivityTimeout += ActivityTimeout;
             State.ActivityResumed += ActivityResumed;
             State.GotMessageFilter += GotMessageFilter;
+            State.GotMessageUpdate += GotMessageUpdate;
+        }
+
+        private void GotMessageUpdate(object sender, IChatMessage message)
+        {
+            if (ssFetch.Wait(-1,tokenSource.Token))
+            {
+                try
+                {
+                    var oldmessage = Messages.Find(m => m.Id == message.Id);
+                    if (oldmessage is IChatMessage)
+                    {
+                        Messages.Remove(oldmessage);
+                        Messages.Add(message);
+                    }
+                }
+                finally
+                {
+                    ssFetch.Release();   
+                }
+            }
         }
 
         private void GotMessageFilter(object sender, IChatMessageFilter filter)

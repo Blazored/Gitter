@@ -24,7 +24,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         private DateTime TimeoutTime;
         private Timer TimeoutTimer;
         private Stopwatch LastTriggerTimeOutChanged;
-
         private const int TIMEOUT = 60;
         private const string LOGINPAGE = "/";
 
@@ -64,6 +63,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// Attach to this to be notified that the time of expected user timeout has changed
         /// </summary>
         public event EventHandler<DateTime> TimeoutChanged;
+        /// <summary>
+        /// Attach to this to be notified that a message has been edited
+        /// </summary>
+        public event EventHandler<IChatMessage> GotMessageUpdate;
 
         public AppState(
             ILocalStorageService localStorage,
@@ -161,6 +164,11 @@ namespace Blazor.Gitter.Core.Components.Shared
         void RaiseTimeoutChangedEvent(DateTime dateTime)
         {
             TimeoutChanged?.Invoke(this, dateTime);
+        }
+
+        private void RaiseGotMessageUpdateEvent(IChatMessage message)
+        {
+            GotMessageUpdate?.Invoke(this, message);
         }
 
         public bool HasApiKey => !string.IsNullOrWhiteSpace(apiKey);
@@ -284,6 +292,11 @@ namespace Blazor.Gitter.Core.Components.Shared
         public void ReplyMessage(IChatMessage message)
         {
             RaiseGotMessageToQuoteEvent(message, ChatMessageQuoteType.Reply);
+        }
+
+        public void UpdateMessage(IChatMessage message)
+        {
+            RaiseGotMessageUpdateEvent(message);
         }
 
         public void SetMessageFilter(IChatMessageFilter filter)

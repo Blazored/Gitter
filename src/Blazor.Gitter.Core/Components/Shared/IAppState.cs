@@ -16,7 +16,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         event EventHandler ActivityTimeout;
         event EventHandler ActivityResumed;
         event EventHandler<DateTime> TimeoutChanged;
-
+        event EventHandler<IChatMessage> GotMessageUpdate;
         bool HasApiKey { get; }
         bool HasChatRooms { get; }
         bool HasChatUser { get; }
@@ -36,5 +36,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         void RecordActivity();
         void QuoteMessage(IChatMessage message);
         void ReplyMessage(IChatMessage message);
+        void UpdateMessage(IChatMessage message);
     }
 }

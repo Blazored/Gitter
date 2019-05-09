@@ -16,7 +16,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] ILocalisationHelper Localisation { get; set; }
         [Parameter] internal IChatMessage MessageData { get; set; }
         [Parameter] protected string RoomId { get; set; }
-        [Parameter] protected string UserId { get; set; }
+        [Parameter] internal string UserId { get; set; }
         [Parameter] protected Action<IChatMessage> QuoteMessage { get; set; }
 
         SemaphoreSlim slim = new SemaphoreSlim(1, 1);
@@ -37,6 +37,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 "G",
                 Localisation.LocalCultureInfo
             );
+        internal bool EditMode = false;
 
         internal async Task MarkRead()
         {
@@ -64,10 +65,12 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         internal void QuoteThis()
         {
+            State.RecordActivity();
             State.QuoteMessage(MessageData);
         }
         internal void ReplyThis()
         {
+            State.RecordActivity();
             State.ReplyMessage(MessageData);
         }
         internal void FilterThisUser()
@@ -75,5 +78,28 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.SetMessageFilter(new GitterMessageFilter() { FilterByUserId = MessageData.FromUser.Id });
         }
 
+        internal async Task EditOnChange(UIChangeEventArgs args)
+        {
+            if (!string.IsNullOrWhiteSpace(args.Value.ToString()))
+            {
+                EditMode = false;
+                var message = await GitterApi.EditChatMessage(RoomId, MessageData.Id, args.Value.ToString());
+                State.UpdateMessage(message);
+            }
+        }
+        internal void EditThis()
+        {
+            State.RecordActivity();
+            EditMode = true;
+        }
+        internal Task EditKeyPress(UIKeyboardEventArgs args)
+        {
+            State.RecordActivity();
+            if (args.Key.Equals("escape",StringComparison.OrdinalIgnoreCase))
+            {
+                EditMode = false;
+            }
+            return Task.CompletedTask;
+        }
     }
 }
