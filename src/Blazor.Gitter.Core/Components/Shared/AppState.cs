@@ -172,6 +172,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             apiKey = value;
             if (HasApiKey)
             {
+                initialised = true;
                 RaiseGotApiKeyEvent();
             }
         }
