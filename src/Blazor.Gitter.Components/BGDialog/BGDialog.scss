@@ -1,0 +1,39 @@
+﻿@import '../content/BGComponents.Constants.scss';
+
+/* Some common styles used by modals, though they will add others of their own */
+.bg-dialog-outer-div {
+    box-shadow: $Dialog_PopupShadow;
+    background-color: $Dialog_PopupBgn;
+    border: $Dialog_PopupBorder;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: hidden;
+}
+
+.bg-dialog-inner-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+}
+
+.bg-dialog-child-div {
+    display: flex;
+    flex-direction: column;
+    flex: 1
+}
+
+.bg-dialog-popup-titlebar {
+    background-color: #96a0a6;
+    width: 100%;
+    text-align: left;
+    padding: 16px 0px 16px 0px;
+}
+
+.bg-dialog-popup-titlebar-text {
+    padding-left: 2em;
+    padding-right: 2em;
+    font-size: larger;
+    font-weight: bold;
+}

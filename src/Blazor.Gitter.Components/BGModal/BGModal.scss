@@ -1,0 +1,23 @@
+﻿@import '../content/BGComponents.Constants.scss';
+.gc-modal-bgn1, .gc-modal-bgn2 {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gc-modal-bgn1 {
+    background-color: $Modal_BgnFill1;
+}
+
+.gc-modal-bgn2 {
+    background-color: $Modal_BgnFill2;
+}

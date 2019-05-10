@@ -1,0 +1,34 @@
+﻿@import '../content/BGComponents.Constants.scss';
+
+.gc-navmenu {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: $NavMenu_Border;
+    font-size: smaller;
+}
+
+.gc-navbrand {
+    padding: 0.25em;
+    font-size: large;
+    font-weight: bold;
+    background-color: $NavMenu_BrandBgnClr;
+    border: $NavMenu_BrandBorder;
+    text-align: center;
+    text-shadow: $NavMenu_BrandShadow;
+    margin: 8px;
+}
+
+.gc-navlink, .gc-navlink-active {
+    color: black;
+    font-size: inherit;
+    margin-left: 1em;
+    padding-right: 1em;
+    border-right: 1px solid lightgray;
+    cursor: pointer;
+}
+
+.gc-navlink-active {
+    font-weight: bolder;
+}
+

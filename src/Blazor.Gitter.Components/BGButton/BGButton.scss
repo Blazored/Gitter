@@ -1,0 +1,12 @@
+﻿@import '../content/BGComponents.Constants.scss';
+.bg-button {
+    padding: 0.5em;
+    margin: 0.25em;
+    font-size: smaller;
+    background-color: $StdButton_BgnColor;
+    color: $StdButton_TextColor;
+    border: $StdButton_Border;
+    cursor: pointer;
+    border-radius: 3px;
+    min-width: 3em;
+}

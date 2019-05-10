@@ -1,0 +1,42 @@
+﻿//
+//  These are some magic values, mostly colors, that will allow us to provide
+//  consistency more easily where we want to maintain a particular look.
+//
+
+// Modal background stuff
+$Modal_BgnFill1   : rgba(150, 150, 150, 0.5);
+$Modal_BgnFill2 : rgba(255, 255, 255, 0.001);
+
+// Dialog stuff
+$Dialog_PopupShadow  : 14px 18px 20px 8px #333333;
+$Dialog_PopupBgn : #FFFFFF;
+$Dialog_PopupBorder: 1px solid #444444;
+
+
+// Nav menu stuff
+$NavMenu_Border: 1px solid lightgray;
+$NavMenu_BrandBgnClr : lightskyblue;
+$NavMenu_BrandBorder: 1px solid #96a0a6;
+$NavMenu_BrandShadow: 0 0 0.3em lightgray;
+
+
+// Scrollabe list component stuff
+$ScrollList_BgnColor : #96a0a6;
+$ScrollList_Border: 1px solid #7e7e7e;
+$ScrollList_SelectColor : lightblue;
+$ScrollList_HeaderFill: linear-gradient(#869096, #768086);
+
+// Standard buttons stuff
+$StdButton_BgnColor : lightblue;
+$StdButton_Border: 1px solid black;
+$StdButton_TextColor : black;
+
+
+// OR Manager stuff we can use in various places for consistency
+$ORRoom_TitleBar: #c2cfd6;
+$ORRoom_TitleBorder: 1px solid black;
+$ORRoom_EvenRowBgnColor: #96a0a6;
+$ORRoom_OddRowBgnColor: #6a7276;
+$ORRoom_RoomBorder: 3px solid #7e7e7e;
+$ORRoom_InfoSlotBgn : #cfdee0;
+$ORRoom_CaseListBgn: #96a0a6;

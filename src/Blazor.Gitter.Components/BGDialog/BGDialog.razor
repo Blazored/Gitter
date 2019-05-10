@@ -1,0 +1,48 @@
+﻿@inherits BGDialogBase
+
+<BGModal ref="BGModalRef">
+
+    <div class="bg-dialog-outer-div" style="@GetSizeStyles()">
+
+        <div class="bg-dialog-inner-div">
+
+            <div class="bg-dialog-popup-titlebar">
+                <span class="bg-dialog-popup-titlebar-text">
+                    @DialogTitle
+                </span>
+            </div>
+
+            <div class="bg-dialog-child-div">
+                @ChildContent
+            </div>
+
+            <div style="display : flex; flex-direction : row; margin : 0.25em; width : 80%; justify-content : center;">
+                @if ((ButtonSelection == ButtonStyles.OK) || (ButtonSelection == ButtonStyles.OKCancel)) {
+                    <GCButton ButtonId="@BGButton.kStdId_OK" ButtonText="OK" OnClick="OnClickComplete" />
+                }
+
+                @if (ButtonSelection == ButtonStyles.YesNo) {
+                    <GCButton ButtonId="@BGButton.kStdId_Yes" ButtonText="Yes" OnClick="OnClickComplete" />
+                }
+
+                <!-- We'll generate custom buttons here, if we have any -->
+                @if (CustButtons != null)
+                { 
+                    foreach (KeyValuePair<string, string> custButt in CustButtons)
+                    {
+                        <GCButton ButtonId="@custButt.Key" ButtonText="@custButt.Value" OnClick="OnClickComplete" />
+                    }
+                }
+
+                @if (ButtonSelection == ButtonStyles.OKCancel) {
+                    <GCButton ButtonId="@BGButton.kStdId_Cancel" ButtonText="Cancel" OnClick="OnClickComplete" />
+                }
+
+                @if (ButtonSelection == ButtonStyles.YesNo) {
+                    <GCButton ButtonId="@BGButton.kStdId_No" ButtonText="No" OnClick="OnClickComplete" />
+                }
+            </div>
+        </div>
+    </div>
+
+</BGModal>

@@ -1,0 +1,32 @@
+﻿@inherits ComponentBase
+
+@inject IUriHelper UriHelper
+
+<BGNavMenu BrandText="images/favicon.ico"
+           IsImage="true"
+           MenuItems="ItemList"
+           ActiveId="home"
+           OnSelect="@(ev => OnSelect(ev))" />
+
+@functions{
+
+    protected List<BGNavMenuItemInfo> ItemList = new List<BGNavMenuItemInfo>();
+
+    protected override void OnInit()
+    {
+        // Set up our menu item list
+        if (ItemList.Count == 0)
+        {
+            ItemList.Add(new BGNavMenuItemInfo("home", "Home", true));
+            ItemList.Add(new BGNavMenuItemInfo("settings", "Settings", true));
+            ItemList.Add(new BGNavMenuItemInfo("help", "Help", true));
+        }
+    }
+
+    public void OnSelect(BGNavMenuSelection ev)
+    {
+        // Invoke a new view based on selection
+        UriHelper.NavigateTo("/" + ev.SelectedItemId);
+    }
+
+}

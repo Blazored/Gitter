@@ -1,0 +1,91 @@
+﻿.bg-button {
+  padding: 0.5em;
+  margin: 0.25em;
+  font-size: smaller;
+  background-color: lightblue;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 3px;
+  min-width: 3em; }
+
+/* Some common styles used by modals, though they will add others of their own */
+.bg-dialog-outer-div {
+  box-shadow: 14px 18px 20px 8px #333333;
+  background-color: #FFFFFF;
+  border: 1px solid #444444;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: hidden; }
+
+.bg-dialog-inner-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto; }
+
+.bg-dialog-child-div {
+  display: flex;
+  flex-direction: column;
+  flex: 1; }
+
+.bg-dialog-popup-titlebar {
+  background-color: #96a0a6;
+  width: 100%;
+  text-align: left;
+  padding: 16px 0px 16px 0px; }
+
+.bg-dialog-popup-titlebar-text {
+  padding-left: 2em;
+  padding-right: 2em;
+  font-size: larger;
+  font-weight: bold; }
+
+.gc-modal-bgn1, .gc-modal-bgn2 {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.gc-modal-bgn1 {
+  background-color: rgba(150, 150, 150, 0.5); }
+
+.gc-modal-bgn2 {
+  background-color: rgba(255, 255, 255, 0.001); }
+
+.gc-navmenu {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  font-size: smaller; }
+
+.gc-navbrand {
+  padding: 0.25em;
+  font-size: large;
+  font-weight: bold;
+  background-color: lightskyblue;
+  border: 1px solid #96a0a6;
+  text-align: center;
+  text-shadow: 0 0 0.3em lightgray;
+  margin: 8px; }
+
+.gc-navlink, .gc-navlink-active {
+  color: black;
+  font-size: inherit;
+  margin-left: 1em;
+  padding-right: 1em;
+  border-right: 1px solid lightgray;
+  cursor: pointer; }
+
+.gc-navlink-active {
+  font-weight: bolder; }
