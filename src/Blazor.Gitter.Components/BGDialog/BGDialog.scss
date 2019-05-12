@@ -37,3 +37,11 @@
     font-size: larger;
     font-weight: bold;
 }
+
+.bg-dialog-button-div {
+    display : flex;
+    flex-direction : row;
+    margin : 0.25em;
+    width : 80%;
+    justify-content : center;
+}

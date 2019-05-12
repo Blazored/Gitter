@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="1.2.1" />
     <PackageReference Include="BlazorEmbedLibrary" Version="0.1.0-beta-4" />
+    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview5-19227-01" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview5-19227-01" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview5-19227-01" PrivateAssets="all" />

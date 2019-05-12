@@ -25,4 +25,16 @@ namespace Blazor.Gitter.Components.BGButton
         [Parameter] protected string ButtonText { get; set; }
         [Parameter] protected Action<BGButtonRes> OnClick { get; set; }
     }
+
+    public class BGButtonRes : UIEventArgs
+    {
+        public BGButtonRes(string id, object data)
+        {
+            ButtonId = id;
+            UserData = data;
+        }
+
+        public string ButtonId { get; set; }
+        public object UserData { get; set; } = null;
+    };
 }

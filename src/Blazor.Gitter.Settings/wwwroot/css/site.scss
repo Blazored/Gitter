@@ -1,0 +1,20 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.settings-table-grid {
+    border-collapse: collapse;
+    border-top: 1px solid #797979;
+    border-left: 1px solid #797979;
+    border-right: 1px solid #797979;
+    border-bottom: 1px solid #797979;
+    border-spacing: 0;
+    margin-left: 50px;
+}
+
+.settings-table-grid td, th {
+    border: 1px solid #797979;
+    padding: 16px;
+}

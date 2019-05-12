@@ -16,13 +16,13 @@
                 @ChildContent
             </div>
 
-            <div style="display : flex; flex-direction : row; margin : 0.25em; width : 80%; justify-content : center;">
+            <div class="bg-dialog-button-div">
                 @if ((ButtonSelection == ButtonStyles.OK) || (ButtonSelection == ButtonStyles.OKCancel)) {
-                    <GCButton ButtonId="@BGButton.kStdId_OK" ButtonText="OK" OnClick="OnClickComplete" />
+                    <BGButton ButtonId="@BGButton.kStdId_OK" ButtonText="OK" OnClick="OnClickComplete" />
                 }
 
                 @if (ButtonSelection == ButtonStyles.YesNo) {
-                    <GCButton ButtonId="@BGButton.kStdId_Yes" ButtonText="Yes" OnClick="OnClickComplete" />
+                    <BGButton ButtonId="@BGButton.kStdId_Yes" ButtonText="Yes" OnClick="OnClickComplete" />
                 }
 
                 <!-- We'll generate custom buttons here, if we have any -->
@@ -30,16 +30,16 @@
                 { 
                     foreach (KeyValuePair<string, string> custButt in CustButtons)
                     {
-                        <GCButton ButtonId="@custButt.Key" ButtonText="@custButt.Value" OnClick="OnClickComplete" />
+                        <BGButton ButtonId="@custButt.Key" ButtonText="@custButt.Value" OnClick="OnClickComplete" />
                     }
                 }
 
                 @if (ButtonSelection == ButtonStyles.OKCancel) {
-                    <GCButton ButtonId="@BGButton.kStdId_Cancel" ButtonText="Cancel" OnClick="OnClickComplete" />
+                    <BGButton ButtonId="@BGButton.kStdId_Cancel" ButtonText="Cancel" OnClick="OnClickComplete" />
                 }
 
                 @if (ButtonSelection == ButtonStyles.YesNo) {
-                    <GCButton ButtonId="@BGButton.kStdId_No" ButtonText="No" OnClick="OnClickComplete" />
+                    <BGButton ButtonId="@BGButton.kStdId_No" ButtonText="No" OnClick="OnClickComplete" />
                 }
             </div>
         </div>

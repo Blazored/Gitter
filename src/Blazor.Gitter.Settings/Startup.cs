@@ -1,3 +1,4 @@
+using Blazor.Gitter.Components.Models.Settings;
 using Blazor.Gitter.Components.ViewModels.Settings;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Builder;
@@ -10,6 +11,7 @@ namespace Blazor.Gitter.Settings
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ILocalStorageService, LocalStorageService>();
+            services.AddSingleton<Settings_M>();
             services.AddSingleton<Settings_VM>();
         }
 

@@ -42,6 +42,13 @@
   font-size: larger;
   font-weight: bold; }
 
+.bg-dialog-button-div {
+  display: flex;
+  flex-direction: row;
+  margin: 0.25em;
+  width: 80%;
+  justify-content: center; }
+
 .gc-modal-bgn1, .gc-modal-bgn2 {
   position: fixed;
   left: 0;
@@ -89,3 +96,16 @@
 
 .gc-navlink-active {
   font-weight: bolder; }
+
+.bgsettings-table-grid {
+  border-collapse: collapse;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-spacing: 0;
+  margin: 25px; }
+
+.bgsettings-table-grid td, th {
+  border: 1px solid black;
+  padding: 20px; }

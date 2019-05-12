@@ -1,5 +1,65 @@
 ﻿@page "/"
 @page "/home"
 
-<h1>Hello from Blazor.Gitter.Settings home page!</h1>
-<h3>Current settings:</h3>
+@inherits HomeBase
+
+<h3 class="opti-header">Current settings:</h3>
+
+<table class="settings-table-grid">
+    <tbody>
+        <tr>
+            <td>
+                Accent color
+            </td>
+            <td align="left">
+                @pSettingsVM.pAccentColorText
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Chatroom update interval (s)
+            </td>
+            <td align="left">
+                @pSettingsVM.pChatroomUpdateIntervalText
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Room update interval (s)
+            </td>
+            <td align="left">
+                @pSettingsVM.pRoomUpdateIntervalText
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Submit key
+            </td>
+            <td align="left">
+                @pSettingsVM.pSubmitKeyText
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Theme
+            </td>
+            <td align="left">
+                @pSettingsVM.pThemeText
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Timeout interval (s)
+            </td>
+            <td align="left">
+                @pSettingsVM.pTimeoutIntervalText
+            </td>
+        </tr>
+
+    </tbody>
+</table>

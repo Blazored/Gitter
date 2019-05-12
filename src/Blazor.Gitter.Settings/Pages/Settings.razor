@@ -1,3 +1,10 @@
 ﻿@page "/settings"
+@inherits SettingsBase
 
-<h1>Blazor.Gitter.Settings</h1>
+<div>
+    @if (CurModal == ModalComps.SettingsDialog)
+    {
+        <BGSettings OnCompletion="BGSettingsDialogCompletedCallback" />
+    }
+
+</div>
