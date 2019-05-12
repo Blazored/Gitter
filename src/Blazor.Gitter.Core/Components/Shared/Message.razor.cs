@@ -28,15 +28,9 @@ namespace Blazor.Gitter.Core.Components.Shared
                 .AddClass("chat-room-messages__message-container--mention", message.Mentions.Any(m => m.UserId == UserId))
                 .Build();
         internal string LocalTime(DateTime dateTime) =>
-        TimeZoneInfo
-            .ConvertTime(
-                dateTime,
-                Localisation.LocalTimeZoneInfo
-            )
-            .ToString(
-                "G",
-                Localisation.LocalCultureInfo
-            );
+            TimeZoneInfo.ConvertTime(dateTime, Localisation.LocalTimeZoneInfo)
+                        .ToString("MMM dd HH:mm", Localisation.LocalCultureInfo);
+
         internal bool EditMode = false;
 
         internal async Task MarkRead()

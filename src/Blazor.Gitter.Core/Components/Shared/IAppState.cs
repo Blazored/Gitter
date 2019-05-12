@@ -16,10 +16,12 @@ namespace Blazor.Gitter.Core.Components.Shared
         event EventHandler ActivityResumed;
         event EventHandler<DateTime> TimeoutChanged;
         event EventHandler<IChatMessage> GotMessageUpdate;
+        event EventHandler MenuToggled;
         bool HasApiKey { get; }
         bool HasChatRooms { get; }
         bool HasChatUser { get; }
         bool Initialised { get; }
+        void ToggleMenu();
         string GetApiKey();
         List<IChatRoom> GetMyRooms();
         IChatRoom GetRoom(string RoomId);

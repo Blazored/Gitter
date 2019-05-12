@@ -1,42 +1,46 @@
 ﻿@inherits MessageModel
 
 <div id="@MessageData.Id" class="@MessageClassList(MessageData)" onmouseout="@MarkRead">
-    <img src="@MessageData.FromUser.AvatarUrlSmall" 
-				 onerror="if (this.src !== '/favicon.ico') this.src='/favicon.ico';"
-				 width="38" 
-				 height="38" 
-				 class="chat-room-messages__avatar" 
-				 title="Filter by @MessageData.FromUser.Username" />
+    <img src="@MessageData.FromUser.AvatarUrlSmall"
+         onerror="if (this.src !== '/favicon.ico') this.src='/favicon.ico';"
+         class="chat-room-messages__avatar"
+         title="Filter by @MessageData.FromUser.Username" />
 
-		<div class="chat-room-messages__message-meta-container">
-			<div class="chat-room-messages__message-meta">
-				<h5 class="chat-room-messages__display-name">@MessageData.FromUser.DisplayName</h5>
-				<small class="chat-room-messages__username">@($"@{MessageData.FromUser.Username}")</small>
-				<small class="chat-room-messages__timestamp">@(LocalTime(MessageData.Sent))</small>
-				<span class="chat-room-messages__actions">
-					@if (MessageData.FromUser.Id.Equals(@UserId) && MessageData.Sent.AddMinutes(2) > DateTime.UtcNow)
-					{
-						<button onclick="@EditThis" style="margin-right:1em;"> Edit </button>					
-					}
-					<button onclick="@QuoteThis" style="margin-right:1em;"> Quote </button>					
-					<button onclick="@ReplyThis"> Reply </button>
-				</span>
-			</div>
-			@if (EditMode)
-			{
-				<textarea value="@MessageData.Text" onchange="@EditOnChange" onkeydown="@EditKeyPress"></textarea>
-			}
-			else if (MessageData.IsStatus)
-			{
-				<div class="chat-room-messages__status">
-					@(new MarkupString(MessageData.Html.Replace("/me", $"@{MessageData.FromUser.Username}")))
-				</div>
-			}
-			else
-			{
-				<div class="chat-room-messages__message">
-					@(new MarkupString(MessageData.Html))
-				</div>
-			}
-		</div>
+    <div class="chat-room-messages__message-meta-container">
+        <div class="chat-room-messages__message-meta">
+            <div class="chat-room-messages__author">
+                <h5 class="chat-room-messages__display-name">@MessageData.FromUser.DisplayName</h5>
+                <small class="chat-room-messages__username">@($"@{MessageData.FromUser.Username}")</small>
+            </div>
+            <span class="chat-room-messages__actions">
+                @if (MessageData.FromUser.Id.Equals(@UserId) && MessageData.Sent.AddMinutes(2) > DateTime.UtcNow)
+                {
+                    <button onclick="@EditThis" style="margin-right:1em;"> Edit </button>
+                }
+                <button onclick="@QuoteThis" style="margin-right:1em;">
+                    <i class="fas fa-quote-left"></i>
+                </button>
+                <button onclick="@ReplyThis">
+                    <i class="fas fa-reply"></i>
+                </button>
+            </span>
+        </div>
+        @if (EditMode)
+        {
+            <textarea value="@MessageData.Text" onchange="@EditOnChange" onkeydown="@EditKeyPress"></textarea>
+        }
+        else if (MessageData.IsStatus)
+        {
+            <div class="chat-room-messages__status">
+                @(new MarkupString(MessageData.Html.Replace("/me", $"@{MessageData.FromUser.Username}")))
+            </div>
+        }
+        else
+        {
+            <div class="chat-room-messages__message">
+                @(new MarkupString(MessageData.Html))
+            </div>
+            <small class="chat-room-messages__timestamp">@(LocalTime(MessageData.Sent))</small>
+        }
+    </div>
 </div>

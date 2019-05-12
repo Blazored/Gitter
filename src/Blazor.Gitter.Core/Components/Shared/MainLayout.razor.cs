@@ -1,10 +1,8 @@
 ﻿using Blazor.Gitter.Library;
-using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Layouts;
+using Microsoft.JSInterop;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Core.Components.Shared
@@ -13,6 +11,13 @@ namespace Blazor.Gitter.Core.Components.Shared
     {
         [Inject] protected IAppState State { get; set; }
         [Inject] IChatApi GitterApi { get; set; }
+        [Inject] IJSRuntime jSRuntime { get; set; }
+
+        internal string Mode => jSRuntime is IJSInProcessRuntime ? "WASM" : "Server";
+        internal string Build => this.GetType().Assembly.GetName().Version.ToString();
+
+        protected bool MenuIsOpen;
+        protected string MenuCss { get; set; }
 
 
         protected override async Task OnInitAsync()
@@ -21,6 +26,15 @@ namespace Blazor.Gitter.Core.Components.Shared
 
             State.GotApiKey += State_GotApiKey;
             State.GotChatUser += State_GotChatUser;
+            State.MenuToggled += State_MenuToggled;
+        }
+
+        private void State_MenuToggled(object sender, EventArgs e)
+        {
+            Console.WriteLine("Menu Toggled");
+            MenuIsOpen = !MenuIsOpen;
+            MenuCss = MenuIsOpen ? "wrapper__left-menu--active" : "";
+            StateHasChanged();
         }
 
         private void State_GotChatUser(object sender, EventArgs e)

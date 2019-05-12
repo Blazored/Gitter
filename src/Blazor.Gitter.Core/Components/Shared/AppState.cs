@@ -1,7 +1,6 @@
 ﻿using Blazor.Gitter.Library;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -63,6 +62,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// Attach to this to be notified that a message has been edited
         /// </summary>
         public event EventHandler<IChatMessage> GotMessageUpdate;
+        /// <summary>
+        /// Attach to this to be notified that the menu has been toggled
+        /// </summary>
+        public event EventHandler MenuToggled;
 
         public AppState(
             ILocalStorageService localStorage,
@@ -160,6 +163,11 @@ namespace Blazor.Gitter.Core.Components.Shared
         private void RaiseGotMessageUpdateEvent(IChatMessage message)
         {
             GotMessageUpdate?.Invoke(this, message);
+        }
+
+        public void ToggleMenu()
+        {
+            MenuToggled?.Invoke(this, null);
         }
 
         public bool HasApiKey => !string.IsNullOrWhiteSpace(apiKey);

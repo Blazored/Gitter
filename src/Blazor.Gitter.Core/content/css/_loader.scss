@@ -17,7 +17,7 @@
 
     .loader {
         margin: 10px;
-        font-size: 10px;
+        font-size: 1rem;
         position: relative;
         border-top: 1.1em solid $text-dark;
         border-right: 1.1em solid $text-dark;
@@ -33,7 +33,7 @@
     .loader-logo {
         display: flex;
         align-items: center;
-        font-size: 5rem;
+        font-size: 4rem;
         text-decoration: none;
         font-weight: $font-weight-light;
         color: $text;
@@ -43,6 +43,10 @@
             color: $accent;
             text-transform: uppercase;
         }
+    }
+
+    .loader-platform {
+        color: $text-dark;
     }
 }
 

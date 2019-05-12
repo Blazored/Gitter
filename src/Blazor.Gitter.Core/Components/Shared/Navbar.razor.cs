@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System;
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
     public class NavbarBase : ComponentBase, IDisposable
-    {
-        [Inject] IJSRuntime jSRuntime { get; set; }
+    { 
         [Inject] internal IAppState State { get; set; }
-
-        internal string Mode => jSRuntime is IJSInProcessRuntime ? "WASM" : "Server";
-
-        internal string Build => this.GetType().Assembly.GetName().Version.ToString();
 
         protected override void OnInit()
         {
             State.GotChatUser += State_GotChatUser;
+        }
+
+        protected void ToggleMenu()
+        {
+            State.ToggleMenu();
         }
 
         private void State_GotChatUser(object sender, System.EventArgs e)

@@ -1,18 +1,22 @@
 @inherits NavbarBase
 
-<div class="navbar">
+    <div class="navbar">
 
-    <NavLink class="navbar__brand" href="/">
-        <span class="navbar__logo">Blazored<span>Gitter</span></span> <span class="navbar__mode">@Mode</span><span class="navbar__mode"> Version : @Build</span>
-    </NavLink>
-
-    @if (State?.HasChatUser ?? false)
-    {
-        IChatUser chatUser = State.GetMyUser();
-
-        <div class="navbar__user">
-            <img src="@chatUser.AvatarUrlMedium" />
+        <div class="navbar__menu" onclick="@ToggleMenu">
+            <i class="fas fa-bars"></i>
         </div>
-    }
 
-</div>
+        <NavLink class="navbar__brand" href="/">
+            <span class="navbar__logo">Blazored<span>Gitter</span></span>
+        </NavLink>
+
+        @if (State?.HasChatUser ?? false)
+        {
+            IChatUser chatUser = State.GetMyUser();
+
+            <div class="navbar__user">
+                <img src="@chatUser.AvatarUrlMedium" />
+            </div>
+        }
+
+    </div>
