@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Blazor.Gitter.Components.ViewModels.Settings;
 using Microsoft.AspNetCore.Components;
 
@@ -14,9 +15,9 @@ namespace Blazor.Gitter.Settings.Pages
         {
             if (m_IsFirstRendering)
             {
+                m_IsFirstRendering = false;
                 await pSettingsVM.Restore();
                 StateHasChanged();
-                m_IsFirstRendering = false;
             }
         }
     }
