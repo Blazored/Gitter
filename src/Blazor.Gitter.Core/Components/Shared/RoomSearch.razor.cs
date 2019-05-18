@@ -11,6 +11,7 @@ namespace Blazor.Gitter.Core.Components.Shared
     public class RoomSearchBase : ComponentBase
     {
         [Inject] IChatApi GitterApi { get; set; }
+        [Inject] IAppState State { get; set; }
 
         [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal string UserId { get; set; }
@@ -72,6 +73,11 @@ namespace Blazor.Gitter.Core.Components.Shared
             tokenSource.Cancel();
             Searching = false;
             return Task.CompletedTask;
+        }
+
+        internal void CloseSearchMenu()
+        {
+            State.ToggleSearchMenu();
         }
     }
 }

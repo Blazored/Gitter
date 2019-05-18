@@ -4,7 +4,7 @@
         @if (State?.HasChatRooms ?? false)
         {
             <ul class="chat-room-list__list">
-                <li>
+                <li onclick="@ToggleMenu">
                     <NavLink href="" Match="NavLinkMatch.All">
                         Home
                     </NavLink>

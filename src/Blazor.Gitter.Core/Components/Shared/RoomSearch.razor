@@ -2,51 +2,57 @@
 
 @if (Searching)
 {
-	<h3 class="chat-room__search-heading">
-		Searching...
-		@if (SearchResult?.Count > 0)
-		{
-			<small> ( @SearchResult.Count )</small>
-		}
-	</h3>
-	<div class="chat-room__search-form">
-		<input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" disabled />
-	</div>
-	<button class="chat-room__cancel-search-button" onclick="@CancelSearch">Cancel</button>
+    <div class="chat-room__search-controls">
+        <h3 class="chat-room__search-heading">
+            Searching...
+            @if (SearchResult?.Count > 0)
+            {
+                <small> ( @SearchResult.Count )</small>
+            }
+            <i class="far fa-times-circle" onclick="@CloseSearchMenu"></i>
+        </h3>
+        <div class="chat-room__search-form">
+            <input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" disabled />
+        </div>
+        <button class="chat-room__cancel-search-button" onclick="@CancelSearch">Cancel</button>
+    </div>
 }
 else
 {
-<h3 class="chat-room__search-heading">
-	Search
-	@if (SearchResult?.Count > 0)
-	{
-		<small> ( @SearchResult.Count )</small>
-	}
-</h3>
-	<form onsubmit="@Search" class="chat-room__search-form">
-		<input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" />
-	</form>
-	<button class="chat-room__clear-search-button" onclick="@ClearSearch">Clear</button>
+    <div class="chat-room__search-controls">
+        <h3 class="chat-room__search-heading">
+            Search
+            @if (SearchResult?.Count > 0)
+            {
+                <small> ( @SearchResult.Count )</small>
+            }
+            <i class="far fa-times-circle" onclick="@CloseSearchMenu"></i>
+        </h3>
+        <form onsubmit="@Search" class="chat-room__search-form">
+            <input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" />
+        </form>
+        <button class="chat-room__clear-search-button" onclick="@ClearSearch">Clear</button>
+    </div>
 }
 
 @if (Searching && SearchResult == null)
 {
-	<div class="chat-room__search-loader">
-		<div class="loader"></div>
-		<div class="loader-logo">
-			Searching...
-		</div>
-	</div>
+    <div class="chat-room__search-loader">
+        <div class="loader"></div>
+        <div class="loader-logo">
+            Searching...
+        </div>
+    </div>
 }
 else
 {
-	@if (SearchResult is object)
-	{
-		<div class="chat-room__search-results">
-			@foreach (var message in SearchResult)
-			{
-				<Message MessageData="@message" UserId="@UserId" />
-			}
-		</div>
-	}
+    @if (SearchResult is object)
+    {
+        <div class="chat-room__search-results">
+            @foreach (var message in SearchResult)
+            {
+                <Message MessageData="@message" UserId="@UserId" />
+            }
+        </div>
+    }
 }

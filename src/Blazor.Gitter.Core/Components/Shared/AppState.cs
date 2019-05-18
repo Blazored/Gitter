@@ -66,6 +66,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// Attach to this to be notified that the menu has been toggled
         /// </summary>
         public event EventHandler MenuToggled;
+        /// <summary>
+        /// Attach to this to be notified that the search menu has been toggled
+        /// </summary>
+        public event EventHandler SearchMenuToggled;
 
         public AppState(
             ILocalStorageService localStorage,
@@ -168,6 +172,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         public void ToggleMenu()
         {
             MenuToggled?.Invoke(this, null);
+        }
+        public void ToggleSearchMenu()
+        {
+            SearchMenuToggled?.Invoke(this, null);
         }
 
         public bool HasApiKey => !string.IsNullOrWhiteSpace(apiKey);

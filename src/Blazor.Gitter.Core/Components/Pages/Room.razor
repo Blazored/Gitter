@@ -16,11 +16,14 @@ else
 {
     <div class="chat-room">
         <div class="chat-room__content">
+            <div class="chat-room__search-button" onclick="@ToggleSearchMenu">
+                <i class="fas fa-search"></i>
+            </div>
             <RoomTitle ChatRoom="@ThisRoom" />
             <RoomMessages ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
             <RoomSend ChatRoom="@ThisRoom" User="@State.GetMyUser()" />
         </div>
-        <aside class="chat-room__search">
+        <aside class="chat-room__search @SearchCss">
             <RoomSearch ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
         </aside>
     </div>

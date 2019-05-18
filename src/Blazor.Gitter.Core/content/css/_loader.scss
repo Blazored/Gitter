@@ -5,8 +5,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 
     .loader,
     .loader:after {
@@ -35,6 +35,7 @@
         align-items: center;
         font-size: 4rem;
         text-decoration: none;
+        text-align: center;
         font-weight: $font-weight-light;
         color: $text;
 

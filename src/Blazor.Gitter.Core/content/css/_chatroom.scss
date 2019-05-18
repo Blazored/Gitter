@@ -15,25 +15,53 @@
     overflow-y: auto;
 }
 
+.chat-room__search-button {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: #000;
+    border-radius: 4rem;
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+    border: 2px solid #ff6600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 .chat-room__search {
     display: flex;
     position: fixed;
+    right: 0;
+    background-color: $background-darker;
     flex-direction: column;
     width: 300px;
     z-index: 2;
-    padding: 1.5rem 2rem 2rem 2rem;
-    height: 100%;
+    height: calc(100% - 56px);
     overflow-y: auto;
-    transform: translateX(-300px);
+    transform: translateX(100%);
     transition: all .4s ease-in-out;
 }
 
 .chat-room__search--active {
-    transform: translateX(0);
+    transform: translateX(0%);
+}
+
+.chat-room__search-controls {
+    padding: 1.5rem 2rem;
 }
 
 .chat-room__search-heading {
     margin-top: 0;
+
+    i {
+        float: right;
+        padding-top: 1rem;
+        color: #ff6600;
+        cursor: pointer;
+    }
 }
 
 .chat-room__search-form {
@@ -51,7 +79,8 @@
 
 .chat-room__clear-search-button, .chat-room__cancel-search-button {
     margin-bottom: 1rem;
-    padding: 1.5rem 2rem;
+    padding: 1rem 1rem;
+    width: 100%;
     border-radius: .5rem;
     border: none;
     cursor: pointer;
@@ -143,6 +172,26 @@
 
 .chat-room-messages {
     overflow-y: auto;
+    height: 100%;
+}
+
+.chat-room-messages--paused {
+    
+    ::after {
+        content: "Paused";
+        position: absolute;
+        display: flex;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        font-size: xx-large;
+        background-color: $background-darker;
+        opacity: 0.7;
+        color: $accent;
+    }
 }
 
 .chat-room-messages__list {
@@ -251,26 +300,6 @@
     @extend .chat-room-messages__message;
     color: $text-dimmed;
     font-style: italic;
-}
-
-.chat-room-messages--paused {
-    overflow-y: auto;
-}
-
-.chat-room-messages--paused::after {
-    content: "Paused";
-    position: absolute;
-    display: flex;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    align-items: center;
-    justify-content: center;
-    font-size: xx-large;
-    background-color: $background-darker;
-    opacity: 0.7;
-    color: $accent;
 }
 
 .chat-room__send-message-form {

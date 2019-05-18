@@ -16,10 +16,9 @@
     position: fixed;
     flex-direction: column;
     width: 300px;
-    height: 100%;
+    height: calc(100% - 56px);
     background-color: $background-darker;
     padding-top: 1rem;
-    padding-bottom: 56px;
     overflow-y: auto;
     z-index: 2;
     transform: translateX(-300px);

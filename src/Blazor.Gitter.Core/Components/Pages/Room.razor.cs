@@ -21,6 +21,8 @@ namespace Blazor.Gitter.Core.Components.Pages
         internal bool KeepWatching = true;
 
         protected bool IsLoading = true ;
+        protected bool SearchIsOpen;
+        protected string SearchCss = "";
 
         protected override async Task OnInitAsync()
         {
@@ -28,6 +30,7 @@ namespace Blazor.Gitter.Core.Components.Pages
             if (!State.HasChatRooms)
             {
                 State.GotChatRooms += State_GotChatRooms;
+                State.SearchMenuToggled += State_ToggleSearchMenu;
             }
             else
             {
@@ -60,6 +63,18 @@ namespace Blazor.Gitter.Core.Components.Pages
                     LoadRoom();
                 }
             }
+        }
+
+        protected void ToggleSearchMenu()
+        {
+            State.ToggleSearchMenu();
+        }
+
+        protected void State_ToggleSearchMenu(object sender, EventArgs e)
+        {
+            SearchIsOpen = !SearchIsOpen;
+            SearchCss = SearchIsOpen ? "chat-room__search--active" : "";
+            StateHasChanged();
         }
 
         private void LoadRoom()
