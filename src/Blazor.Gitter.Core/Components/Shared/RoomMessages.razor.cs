@@ -28,7 +28,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         bool IsFetchingOlder = false;
         bool NoMoreOldMessages = false;
         bool FirstLoad = true;
-        internal bool Paused = true;
+        internal bool Paused = false;
         CancellationTokenSource tokenSource;
         System.Timers.Timer RoomWatcher;
         IChatRoom LastRoom;

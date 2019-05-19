@@ -30,6 +30,11 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
         }
 
+        protected void ToggleMenu()
+        {
+            State.ToggleMenu();
+        }
+
         private void State_GotChatUser(object sender, EventArgs e)
         {
             Invoke(StateHasChanged);

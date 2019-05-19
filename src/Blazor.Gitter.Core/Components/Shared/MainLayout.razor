@@ -5,7 +5,10 @@
 	<Navbar />
 
 	<div class="wrapper">
-		<aside class="wrapper__left-menu">
+		<aside class="wrapper__left-menu @MenuCss">
+            <div class="wrapper__left-menu-footer">
+                <span class="navbar__mode">@Mode v@(Build)</span>
+            </div>
 			<ChatRoomList />
 		</aside>
 		<main class="wrapper__content">

@@ -1,9 +1,16 @@
 ﻿.navbar {
+    position: absolute;
+    width: 100%;
     display: flex;
     flex-direction: row;
     background-color: $background-darkest;
     padding: 1rem;
     justify-content: space-between;
+}
+
+.navbar__menu {
+    cursor: pointer;
+    font-size: 1.8rem;
 }
 
 .navbar__brand {

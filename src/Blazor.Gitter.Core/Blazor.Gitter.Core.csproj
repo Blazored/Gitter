@@ -29,11 +29,11 @@
 
   <ItemGroup>
     <EmbeddedResource Remove="content\css\blazor.gitter.scss" />
-    <EmbeddedResource Remove="content\css\loader.scss" />
     <EmbeddedResource Remove="content\css\_base.scss" />
     <EmbeddedResource Remove="content\css\_chatroom.scss" />
     <EmbeddedResource Remove="content\css\_ChatRoomList.scss" />
     <EmbeddedResource Remove="content\css\_layout.scss" />
+    <EmbeddedResource Remove="content\css\_loader.scss" />
     <EmbeddedResource Remove="content\css\_login.scss" />
     <EmbeddedResource Remove="content\css\_mixins.scss" />
     <EmbeddedResource Remove="content\css\_navbar.scss" />
@@ -44,15 +44,17 @@
   <ItemGroup>
     <None Remove="compilerconfig.json" />
     <None Remove="content\chat.js" />
-    <None Remove="content\css\loader.scss" />
+    <None Remove="content\css\_loader.scss" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\Blazor.Gitter.Client\wwwroot\css\blazord.gitter.css" Link="blazord.gitter.css" />
+    <Content Include="..\Blazor.Gitter.Client\wwwroot\css\blazord.gitter.min.css" Link="blazord.gitter.min.css" />
     <Content Include="compilerconfig.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="content\css\blazor.gitter.scss" />
-    <Content Include="content\css\loader.scss">
+    <Content Include="content\css\_loader.scss">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>

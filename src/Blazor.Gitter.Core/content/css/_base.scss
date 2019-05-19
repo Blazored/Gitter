@@ -1,4 +1,6 @@
-﻿*,
+﻿@import "variables";
+
+*,
 *:after,
 *:before {
     box-sizing: inherit;
@@ -7,14 +9,18 @@
 html {
     box-sizing: border-box;
     font-size: 62.5%;
+    height: 100%;
+    width: 100%;
 }
 
 body {
     color: $text;
+    height: 100%;
+    width: 100%;
     background-color: $background;
     font-family: $font-family-text;
     font-size: $font-size-default;
-    font-weight: $font-weight-regular;
+    font-weight: $font-weight-light;
     letter-spacing: $letter-spacing-default;
     line-height: $line-height-default;
 }
@@ -31,6 +37,11 @@ a {
     &:hover {
         color: darken($accent, 5%);
     }
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 @include scrollbars();
