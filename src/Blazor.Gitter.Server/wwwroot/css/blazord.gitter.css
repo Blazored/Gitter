@@ -600,6 +600,7 @@ app {
   position: fixed;
   top: 70px;
   right: 20px;
+  color: #FF6600;
   background: #000;
   border-radius: 4rem;
   width: 5rem;
