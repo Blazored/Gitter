@@ -70,6 +70,7 @@
 
 .chat-room__search-box {
     flex: 1;
+    width: 100%;
     margin-bottom: 2rem;
     line-height: 3rem;
     padding: 1rem;
@@ -281,7 +282,14 @@
 
 .chat-room-messages__message {
     font-size: $font-size-small;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
     word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 
     blockquote {
         display: block;

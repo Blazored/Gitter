@@ -370,6 +370,7 @@ app {
 
 .wrapper {
   display: flex;
+  padding-top: 56px;
   flex-direction: row;
   height: 100%; }
 
@@ -471,6 +472,8 @@ app {
     transform: rotate(360deg); } }
 
 .navbar {
+  position: absolute;
+  width: 100%;
   display: flex;
   flex-direction: row;
   background-color: #0B0B0B;
@@ -640,6 +643,7 @@ app {
 
 .chat-room__search-box {
   flex: 1;
+  width: 100%;
   margin-bottom: 2rem;
   line-height: 3rem;
   padding: 1rem;
@@ -807,7 +811,14 @@ app {
 
 .chat-room-messages__message, .chat-room-messages__status {
   font-size: 1.4rem;
-  word-break: break-word; }
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto; }
   .chat-room-messages__message blockquote, .chat-room-messages__status blockquote {
     display: block;
     border-left: 4px solid #969696;

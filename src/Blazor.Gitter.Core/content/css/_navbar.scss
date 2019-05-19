@@ -1,4 +1,6 @@
 ﻿.navbar {
+    position: absolute;
+    width: 100%;
     display: flex;
     flex-direction: row;
     background-color: $background-darkest;
