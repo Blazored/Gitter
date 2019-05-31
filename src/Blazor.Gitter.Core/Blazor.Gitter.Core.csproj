@@ -48,8 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\Blazor.Gitter.Client\wwwroot\css\blazord.gitter.css" Link="blazord.gitter.css" />
-    <Content Include="..\Blazor.Gitter.Client\wwwroot\css\blazord.gitter.min.css" Link="blazord.gitter.min.css" />
     <Content Include="compilerconfig.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
