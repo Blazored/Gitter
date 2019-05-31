@@ -27,10 +27,10 @@ namespace Blazor.Gitter.Core.Components.Pages
         protected override async Task OnInitAsync()
         {
             await base.OnInitAsync();
+            State.SearchMenuToggled += State_ToggleSearchMenu;
             if (!State.HasChatRooms)
             {
                 State.GotChatRooms += State_GotChatRooms;
-                State.SearchMenuToggled += State_ToggleSearchMenu;
             }
             else
             {
