@@ -19,8 +19,8 @@ namespace Blazor.Gitter.Core.Components.Shared
         private const string BaseClass = "chat-room__send-message";
         internal string NewMessage;
         internal string NewMessageClass = BaseClass;
-        internal ElementRef OkButtonRef;
-        internal ElementRef MessageInput;
+        internal string OkButtonId = "message-send-button";
+        internal string MessageInputId = "message-send-input";
 
         protected override void OnInit()
         {
@@ -28,14 +28,13 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.GotMessageToQuote += QuoteMessage;
         }
 
-        internal void SendMessage(UIEventArgs args)
+        internal async Task SendMessage()
         {
             if (!string.IsNullOrWhiteSpace(NewMessage))
             {
-                GitterApi.SendChatMessage(ChatRoom.Id, NewMessage);
+                await GitterApi.SendChatMessage(ChatRoom.Id, NewMessage);
                 NewMessage = "";
             }
-            return;
         }
 
         internal void HandleSizing(UIChangeEventArgs args)
@@ -94,10 +93,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 {
                     case "Enter":
                     case "Return":
-                        // this will trigger onchange so NewMessage is updated
-                        await JSRuntime.SetFocus(OkButtonRef); 
-                        await JSRuntime.SetFocus(MessageInput); 
-                        SendMessage(default);
+                        await SendMessage();
                         break;
                     default:
                         break;

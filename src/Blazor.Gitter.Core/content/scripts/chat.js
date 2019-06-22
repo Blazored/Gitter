@@ -37,8 +37,21 @@
     },
     setFocus: function (control) {
         if (control) {
-            control.focus();
-            return true;
+            if (control.focus) {
+                control.focus();
+                return true;
+            }
+        }
+        return false;
+    },
+    setFocusById: function (id) {
+        const control = document.getElementById(id);
+        console.log("setFocusById: " + id + control);
+        if (control) {
+            if (control.focus) {
+                control.focus();
+                return true;
+            }
         }
         return false;
     }

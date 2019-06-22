@@ -16,7 +16,7 @@ namespace Blazor.Gitter.Library
         IChatUrl[] Urls { get; }
         IChatMention[] Mentions { get; }
         IChatIssue[] Issues { get; }
-        object Meta { get; set; } //unused
+        object[] Meta { get; set; } //unused
         int V { get; set; }
         bool IsStatus { get; }
     }

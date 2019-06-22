@@ -45,8 +45,8 @@ namespace Blazor.Gitter.Server
 
             app.UseEndpoints(routes =>
             {
+                routes.MapBlazorHub<Core.Components.App>("app");
                 routes.MapFallbackToPage("/_Host");
-                routes.MapBlazorHub<Core.App<Core.Components.Shared.Navbar>>("app");
             });
         }
     }

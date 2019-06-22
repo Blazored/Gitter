@@ -27,9 +27,14 @@ namespace Blazor.Gitter.Core.Browser
         {
             return JSRuntime.InvokeAsync<bool>("chat.scrollIntoView", id);
         }
+        [Obsolete("Please use SetFocusById now as there is a bug in the JSInterop",true)]
         public static Task<bool> SetFocus(this IJSRuntime JSRuntime, ElementRef elementRef)
         {
             return JSRuntime.InvokeAsync<bool>("chat.setFocus", elementRef);
+        }
+        public static Task<bool> SetFocusById(this IJSRuntime JSRuntime, string id)
+        {
+            return JSRuntime.InvokeAsync<bool>("chat.setFocusById", id);
         }
     }
 }

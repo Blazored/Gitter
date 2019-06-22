@@ -11,5 +11,6 @@ namespace Blazor.Gitter.Library
 
         Task BuildLocalCulture();
         Task BuildLocalTimeZone();
+        Task<string> GetKey(string key);
     }
 }

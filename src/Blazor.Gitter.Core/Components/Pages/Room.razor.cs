@@ -75,7 +75,6 @@ namespace Blazor.Gitter.Core.Components.Pages
             SearchIsOpen = !SearchIsOpen;
             SearchCss = SearchIsOpen ? "chat-room__search--active" : "";
             StateHasChanged();
-            Console.WriteLine("Search Opened");
         }
 
         private void LoadRoom()

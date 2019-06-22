@@ -1,9 +1,0 @@
-﻿@inherits AppModel
-@typeparam T
-<Router AppAssembly="typeof(T).Assembly" />
-
-@if (EmbedRequired)
-{
-<BlazorEmbedLibrary.EmbeddedContent Assemblies="@AssemblyList" />
-}
-

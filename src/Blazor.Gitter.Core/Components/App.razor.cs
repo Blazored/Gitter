@@ -1,12 +1,10 @@
-﻿using Blazor.Gitter.Core.Components.Shared;
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Blazor.Gitter.Core
+namespace Blazor.Gitter.Core.Components
 {
     public class AppModel : ComponentBase
     {
@@ -24,7 +22,7 @@ namespace Blazor.Gitter.Core
             AssemblyList = new List<System.Reflection.Assembly>()
                 {
                     typeof(ILocalStorageService).Assembly,
-                    typeof(MainLayout).Assembly
+                    GetType().Assembly,
                 };
         }
         protected override void OnAfterRender()

@@ -90,7 +90,9 @@ namespace Blazor.Gitter.Library
         {
             var content = new NewMessage() { text = Message };
 
-            return (await HttpClient.PostJsonAsync<GitterMessage[]>($"{APIROOMS}/{RoomId}/chatMessages", content)).First();
+            var result = await HttpClient.PostJsonAsync<GitterMessage>($"{APIROOMS}/{RoomId}/chatMessages", content);
+
+            return result;
         }
 
         public async Task<IChatMessage> EditChatMessage(string RoomId, string MessageId, string Message)
@@ -103,11 +105,10 @@ namespace Blazor.Gitter.Library
         public async Task<bool> MarkChatMessageAsRead(string UserId, string RoomId, string MessageId)
         {
             var content = new MarkUnread { chat = new string[] { MessageId } };
-
             try
             {
-                var result = await HttpClient.PostJsonAsync<object>($"{APIUSERPATH}/{UserId}/{APIROOMS}/{RoomId}/unreadItems", content);
-                return true;
+                var result = await HttpClient.PostJsonAsync<SimpleSuccess>($"{APIUSERPATH}/{UserId}/{APIROOMS}/{RoomId}/unreadItems", content);
+                return result.success;
             }
             catch { }
             return false;
@@ -118,12 +119,17 @@ namespace Blazor.Gitter.Library
             return new GitterMessageOptions();
         }
     }
-    class NewMessage
+    public class NewMessage
     {
-        public string text;
+        public string text { get; set; }
     }
-    class MarkUnread
+    public class MarkUnread
     {
-        public string[] chat;
+        public string[] chat { get; set; }
+    }
+
+    public class SimpleSuccess
+    {
+        public bool success { get; set; }
     }
 }
