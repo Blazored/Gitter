@@ -1,9 +1,10 @@
-using System.Net.Http;
+using Blazor.Gitter.Core.Components;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace Blazor.Gitter.Client
 {
@@ -11,7 +12,7 @@ namespace Blazor.Gitter.Client
     {
 
         public void ConfigureServices(IServiceCollection services)
-        {                   
+        {
             services.AddSingleton<HttpClient>((s) => new HttpClient())
                 .AddSingleton<IChatApi, GitterApi>()
                 .AddSingleton<ILocalStorageService, LocalStorageService>()
@@ -21,7 +22,7 @@ namespace Blazor.Gitter.Client
 
         public void Configure(IComponentsApplicationBuilder app)
         {
-            app.AddComponent<Core.App<Core.Components.Shared.Navbar>>("app");
+            app.AddComponent<App>("app");
         }
     }
 }

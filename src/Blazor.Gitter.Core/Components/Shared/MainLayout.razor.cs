@@ -31,7 +31,6 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void State_MenuToggled(object sender, EventArgs e)
         {
-            Console.WriteLine("Menu Toggled");
             MenuIsOpen = !MenuIsOpen;
             MenuCss = MenuIsOpen ? "wrapper__left-menu--active" : "";
             StateHasChanged();

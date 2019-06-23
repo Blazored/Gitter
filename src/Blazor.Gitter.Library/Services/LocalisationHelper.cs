@@ -20,27 +20,42 @@ namespace Blazor.Gitter.Library
         }
         public async Task BuildLocalTimeZone()
         {
-            var tz = await JSRuntime.InvokeAsync<string>("eval", "Intl.DateTimeFormat().resolvedOptions().timeZone");
-            int.TryParse(await JSRuntime.InvokeAsync<string>("eval", "new Date().getTimezoneOffset()"), out int tzo);
             try
             {
+                var tz = await JSRuntime.InvokeAsync<string>("eval", "Intl.DateTimeFormat().resolvedOptions().timeZone");
+                int tzo = await JSRuntime.InvokeAsync<int>("eval", "new Date().getTimezoneOffset()");
                 localTimeZoneInfo = TimeZoneInfo.CreateCustomTimeZone(tz ?? "Unknown", new TimeSpan(0, 0 - tzo, 0), tz, tz);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 localTimeZoneInfo = TimeZoneInfo.Local;
             }
         }
         public async Task BuildLocalCulture()
         {
-            var lan = await JSRuntime.InvokeAsync<string>("eval", "navigator.language");
             try
             {
+                var lan = await JSRuntime.InvokeAsync<string>("eval", "navigator.language");
                 localCultureInfo = new CultureInfo(lan);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 localCultureInfo = CultureInfo.CurrentCulture;
+            }
+        }
+        public async Task<string> GetKey(string key)
+        {
+            try
+            {
+                string result = await JSRuntime.InvokeAsync<string>("localStorage.getItem", key);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return string.Empty;
             }
         }
     }

@@ -9,12 +9,12 @@
             {
                 <small> ( @SearchResult.Count )</small>
             }
-            <i class="far fa-times-circle" onclick="@CloseSearchMenu"></i>
+            <i class="far fa-times-circle" @onclick="@CloseSearchMenu"></i>
         </h3>
         <div class="chat-room__search-form">
-            <input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" disabled />
+            <input class="chat-room__search-box" type="text" placeholder="e.g. context" @bind="@SearchText" disabled />
         </div>
-        <button class="chat-room__cancel-search-button" onclick="@CancelSearch">Cancel</button>
+        <button class="chat-room__cancel-search-button" @onclick="@CancelSearch">Cancel</button>
     </div>
 }
 else
@@ -26,12 +26,12 @@ else
             {
                 <small> ( @SearchResult.Count )</small>
             }
-            <i class="far fa-times-circle" onclick="@CloseSearchMenu"></i>
+            <i class="far fa-times-circle" @onclick="@CloseSearchMenu"></i>
         </h3>
-        <form onsubmit="@Search" class="chat-room__search-form">
-            <input class="chat-room__search-box" type="text" placeholder="e.g. context" bind="@SearchText" />
+        <form @onsubmit="@Search" class="chat-room__search-form">
+            <input class="chat-room__search-box" type="text" placeholder="e.g. context" @bind="@SearchText" />
         </form>
-        <button class="chat-room__clear-search-button" onclick="@ClearSearch">Clear</button>
+        <button class="chat-room__clear-search-button" @onclick="@ClearSearch">Clear</button>
     </div>
 }
 

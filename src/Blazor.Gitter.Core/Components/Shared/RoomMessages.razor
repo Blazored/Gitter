@@ -1,5 +1,5 @@
 ﻿@inherits RoomMessagesBase
-<div id="blgmessagelist" class="chat-room-messages @((Paused ? "chat-room-messages--paused" : ""))" onscroll="@MessagesScrolled">
+<div id="blgmessagelist" class="chat-room-messages @((Paused ? "chat-room-messages--paused" : ""))" @onscroll="@MessagesScrolled">
     @if (LoadingMessages)
     {
         <div class="loader-container">
@@ -17,7 +17,7 @@
             <div class="chat-room-messages__list">
                 @foreach (var message in Messages.OrderBy(m => m.Sent))
                 {
-                    <Message MessageData="@message" UserId="@UserId" RoomId="@ChatRoom.Id"/>
+                    <Message @key="@message" MessageData="@message" UserId="@UserId" RoomId="@ChatRoom.Id"/>
                 }
             </div>
         }

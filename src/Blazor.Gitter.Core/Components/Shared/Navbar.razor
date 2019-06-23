@@ -1,8 +1,9 @@
+@using Blazor.Gitter.Library
 @inherits NavbarBase
 
     <div class="navbar">
 
-        <div class="navbar__menu" onclick="@ToggleMenu">
+        <div class="navbar__menu" @onclick="@ToggleMenu">
             <i class="fas fa-bars"></i>
         </div>
 
