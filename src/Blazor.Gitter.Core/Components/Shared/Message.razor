@@ -1,6 +1,6 @@
 ﻿@inherits MessageModel
 
-<div id="@MessageData.Id" class="@MessageClassList(MessageData)" @onmouseout="@MarkRead">
+<div id="@MessageData.Id" class="@MessageClassList(MessageData)" @onmouseout="MarkRead">
     <img src="@MessageData.FromUser.AvatarUrlSmall"
          onerror="if (this.src !== '/favicon.ico') this.src='/favicon.ico';"
          class="chat-room-messages__avatar"
@@ -15,19 +15,19 @@
             <span class="chat-room-messages__actions">
                 @if (MessageData.FromUser.Id.Equals(UserId) && MessageData.Sent.AddMinutes(2) > DateTime.UtcNow)
                 {
-                    <button @onclick="@EditThis" style="margin-right:1em;"> Edit </button>
+                    <button @onclick="EditThis" style="margin-right:1em;"> Edit </button>
                 }
-                <button @onclick="@QuoteThis" style="margin-right:1em;">
+                <button @onclick="QuoteThis" style="margin-right:1em;">
                     <i class="fas fa-quote-left"></i>
                 </button>
-                <button @onclick="@ReplyThis">
+                <button @onclick="ReplyThis">
                     <i class="fas fa-reply"></i>
                 </button>
             </span>
         </div>
         @if (EditMode)
         {
-            <textarea value="@MessageData.Text" @onchange="@EditOnChange" @onkeydown="@EditKeyPress"></textarea>
+            <textarea value="@MessageData.Text" @onchange="EditOnChange" @onkeydown="EditKeyPress"></textarea>
         }
         else if (MessageData.IsStatus)
         {

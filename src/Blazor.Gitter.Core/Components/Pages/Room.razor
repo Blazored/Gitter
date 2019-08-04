@@ -16,7 +16,7 @@ else
 {
     <div class="chat-room">
         <div class="chat-room__content">
-            <button class="chat-room__search-button fas fa-search" @onclick="@ToggleSearchMenu"></button>
+            <button class="chat-room__search-button fas fa-search" @onclick="ToggleSearchMenu"></button>
             <RoomTitle ChatRoom="@ThisRoom" />
             <RoomMessages ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
             <RoomSend ChatRoom="@ThisRoom" User="@State.GetMyUser()" />
