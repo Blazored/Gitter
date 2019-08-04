@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor.PWA.MSBuild" Version="0.0.1-beta20190804143933">
+    <PackageReference Include="Blazor.PWA.MSBuild" Version="0.0.1-beta20190804174318">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

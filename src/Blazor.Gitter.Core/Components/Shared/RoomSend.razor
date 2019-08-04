@@ -4,7 +4,7 @@
 	<img src="@User.AvatarUrlSmall" width="38" height="38" class="chat-room__send-message-avatar" />
 	<textarea id="@MessageInputId"
 						class="@NewMessageClass"
-						@bind-value="@NewMessage"
+						@bind-value="NewMessage"
 						@bind-value:event="oninput"
 						@onkeydown="Shortcuts"
 						placeholder="Ctrl-Enter to send..." />

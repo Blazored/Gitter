@@ -101,12 +101,12 @@ self.addEventListener(networkFetchEvent, event => {
                     .then(response => {
                         if (response.ok) {
                             if (requestUrl.origin === location.origin) {
-                                return caches.open(staticCacheName).then(cache => {
-                                    cache.put(event.request.url, response.clone());
+                                caches.open(staticCacheName).then(cache => {
+                                    cache.put(event.request.url, response);
                                 });
                             }
                         }
-                        return response;
+                        return response.clone();
                     });
             }).catch(error => {
                 console.error(error);
