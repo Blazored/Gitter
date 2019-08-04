@@ -334,3 +334,5 @@ loader.css
 loader.min.css
 blazored.gitter.css
 blazored.gitter.min.css
+/src/Blazor.Gitter.Core/content/css/blazor.gitter.min.css
+/src/Blazor.Gitter.Core/content/css/blazor.gitter.css
