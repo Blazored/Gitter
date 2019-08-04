@@ -38,7 +38,8 @@
     right: 0;
     background-color: $background-darker;
     flex-direction: column;
-    width: 300px;
+    max-width: 400px;
+    width: 90vw;
     z-index: 2;
     height: calc(100% - 56px);
     overflow-y: auto;
