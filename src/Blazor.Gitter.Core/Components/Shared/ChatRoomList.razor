@@ -4,14 +4,14 @@
         @if (State?.HasChatRooms ?? false)
         {
             <ul class="chat-room-list__list">
-                <li @onclick="@ToggleMenu">
+                <li @onclick="ToggleMenu">
                     <NavLink href="" Match="NavLinkMatch.All">
                         Home
                     </NavLink>
                 </li>
                 @foreach (IChatRoom Room in State.GetMyRooms().OrderByDescending(r => r.LastAccessTime))
                 {
-                    <li class="chat-room-list__list-item" @onclick="@ToggleMenu">
+                    <li class="chat-room-list__list-item" @onclick="ToggleMenu">
                         <NavLink class="chat-room-list__link" href=@($"/room/{Room.Id}")>
                             <img src="@Room.AvatarUrl" />
                             @Room.Name

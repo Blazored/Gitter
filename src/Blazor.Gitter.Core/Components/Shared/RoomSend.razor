@@ -6,7 +6,7 @@
 						class="@NewMessageClass"
 						@bind-value="@NewMessage"
 						@bind-value:event="oninput"
-						@onkeydown="@Shortcuts"
+						@onkeydown="Shortcuts"
 						placeholder="Ctrl-Enter to send..." />
-	<button id="@OkButtonId" type="submit" class="chat-room__send-button" @onclick="@SendMessage">Ok</button>
+	<button id="@OkButtonId" type="submit" class="chat-room__send-button" @onclick="SendMessage">Ok</button>
 </div>

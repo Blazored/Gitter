@@ -23,10 +23,10 @@ else
 {
     <div class="login">
         <h1 class="login__heading">Login</h1>
-        <input class="login__input" type="text" length="40" pattern="[a-zA-Z0-9]{40}" @bind="@ApiKey" placeholder="Enter your own Gitter API Key" required />
+        <input class="login__input" type="text" length="40" pattern="[a-zA-Z0-9]{40}" @bind="ApiKey" placeholder="Enter your own Gitter API Key" required />
         <div class="login__buttons">
-            <button type="submit" @onclick=@(() =>SignIn(true)) class="login__button login__button--primary">Sign In And Remember Me</button>
-            <button type="submit" @onclick=@(() =>SignIn(false)) class="login__button login__button--secondary">Sign In Once</button>
+            <button type="submit" @onclick="() =>SignIn(true)" class="login__button login__button--primary">Sign In And Remember Me</button>
+            <button type="submit" @onclick="() =>SignIn(false)" class="login__button login__button--secondary">Sign In Once</button>
         </div>
 
         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
