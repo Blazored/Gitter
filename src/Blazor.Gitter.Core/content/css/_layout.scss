@@ -16,13 +16,14 @@
     display: flex;
     position: fixed;
     flex-direction: column;
-    width: 300px;
+    width: 90vw;
+    max-width: 400px;
     height: calc(100% - 56px);
     background-color: $background-darker;
     padding-top: 1rem;
     overflow-y: auto;
     z-index: 2;
-    transform: translateX(-300px);
+    transform: translateX(-400px);
     transition: all .4s ease-in-out;
 }
 
