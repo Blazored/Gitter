@@ -8,10 +8,19 @@
     </RestoreAdditionalProjectSources>
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <BlazorLinkOnBuild>true</BlazorLinkOnBuild>
+    <ManifestLongName>Blazored Gitter Client (WASM) v$(Version)</ManifestLongName>
+    <ManifestShortName>Blazored Gitter</ManifestShortName>
+    <ServiceWorkerCacheName>blazored-gitter</ServiceWorkerCacheName>
+    <ServiceWorkerCacheVersion>$(VersionPrefix)</ServiceWorkerCacheVersion>
+    <ServiceWorkerForce>true</ServiceWorkerForce>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazor.PWA.MSBuild" Version="0.0.1-beta20190804143933">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview7.19365.7" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview7.19365.7" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview7.19365.7" PrivateAssets="all" />
