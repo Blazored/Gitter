@@ -15,13 +15,21 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         [Parameter] internal IChatRoom ChatRoom { get; set; }
         [Parameter] internal IChatUser User { get; set; }
+        internal string NewMessage
+        {
+            get => newMessage;
+            set
+            {
+                newMessage = value; CalculateSize(value);
+            }
+        }
 
         private const string BaseClass = "chat-room__send-message";
-        internal string NewMessage;
+        private string newMessage;
         internal string NewMessageClass = BaseClass;
         internal string OkButtonId = "message-send-button";
         internal string MessageInputId = "message-send-input";
-
+        internal int Rows = 2;
         protected override void OnInit()
         {
             base.OnInit();
@@ -42,36 +50,34 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.RecordActivity();
 
             string value = args.Value.ToString();
-            BuildClassString(value);
+            CalculateSize(value);
         }
 
-        private void BuildClassString(string value)
+        private void CalculateSize(string value)
         {
-            var lines = Math.Max(value.Split('\n').Length, value.Split('\r').Length);
-            lines = Math.Min(lines, 10);
-            NewMessageClass = new BlazorComponentUtilities.CssBuilder()
-                .AddClass(BaseClass, lines <= 1)
-                .AddClass($"{BaseClass}--sh-{lines}", lines > 1)
-                .Build();
+            Rows = Math.Max(value.Split('\n').Length, value.Split('\r').Length);
+            Rows = Math.Min(Rows, 10);
+            Rows = Math.Max(Rows, 2);
         }
 
         void QuoteMessage(object sender, ChatMessageEventArgs e)
         {
             IChatMessage message = e.ChatMessage;
+            var quotedMessage = message.Text.Replace(Environment.NewLine, $"> {Environment.NewLine}");
             switch (e.QuoteType)
             {
                 case ChatMessageQuoteType.Quote:
                     if (string.IsNullOrWhiteSpace(NewMessage))
                     {
-                        NewMessage = $"> {message.Text}\r\r@{message.FromUser.Username} ";
+                        NewMessage = $"{quotedMessage}\r\r@{message.FromUser.Username} ";
                     }
                     else if (NewMessage.EndsWith("\r") || NewMessage.EndsWith("\n"))
                     {
-                        NewMessage = $"{NewMessage}\r> {message.Text}\r\r@{message.FromUser.Username} ";
+                        NewMessage = $"{NewMessage}\r{quotedMessage}\r\r@{message.FromUser.Username} ";
                     }
                     else
                     {
-                        NewMessage = $"{NewMessage}\r\r> {message.Text}\r\r@{message.FromUser.Username} ";
+                        NewMessage = $"{NewMessage}\r\r{quotedMessage}\r\r@{message.FromUser.Username} ";
                     }
                     break;
                 case ChatMessageQuoteType.Reply:
@@ -80,7 +86,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 default:
                     break;
             }
-            BuildClassString(NewMessage);
+            CalculateSize(NewMessage);
             Invoke(StateHasChanged);
             Task.Delay(1);
         }
