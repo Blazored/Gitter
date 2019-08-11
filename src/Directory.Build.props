@@ -7,6 +7,7 @@
     <ManifestShortName>Blazored Gitter</ManifestShortName>
     <ServiceWorkerCacheName>blazored-gitter</ServiceWorkerCacheName>
     <ServiceWorkerCacheVersion>$(Version)$([System.DateTime]::UtcNow.ToString("ss"))</ServiceWorkerCacheVersion>
+    <ServiceWorkerCacheVersion Condition="'$(Configuration)' == 'Release'">$(Version)</ServiceWorkerCacheVersion>
     <ServiceWorkerForce>true</ServiceWorkerForce>
   </PropertyGroup>
 </Project>
