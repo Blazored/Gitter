@@ -1,7 +1,12 @@
 <Project>
   <PropertyGroup>
     <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>beta$([System.DateTime]::UtcNow.ToString("yyyyMMdd"))</VersionSuffix>
+    <VersionSuffix>beta$([System.DateTime]::UtcNow.ToString("yyyyMMddhhMM"))</VersionSuffix>
     <Version>$(VersionPrefix)-$(VersionSuffix)</Version>
+    <ManifestLongName>Blazored Gitter Client (WASM)</ManifestLongName>
+    <ManifestShortName>Blazored Gitter</ManifestShortName>
+    <ServiceWorkerCacheName>blazored-gitter</ServiceWorkerCacheName>
+    <ServiceWorkerCacheVersion>$(Version)$([System.DateTime]::UtcNow.ToString("ss"))</ServiceWorkerCacheVersion>
+    <ServiceWorkerForce>true</ServiceWorkerForce>
   </PropertyGroup>
 </Project>

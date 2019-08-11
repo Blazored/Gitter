@@ -1,6 +1,7 @@
 const serviceWorkerFileName = '/ServiceWorker.js';
 const swInstalledEvent = 'installed';
 const staticCachePrefix = 'blazored-gitter-v';
+const updateAlertMessage = 'Update available. Reload the page when convenient.';
 window.updateAvailable = new Promise(function (resolve, reject) {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register(serviceWorkerFileName)
@@ -26,12 +27,6 @@ window.updateAvailable = new Promise(function (resolve, reject) {
                 console.log('Service worker registration failed, error:', error));
     }
 });
-window['updateAvailable']
-    .then(isAvailable => {
-        if (isAvailable) {
-            alert("Update available. Reload the page when convenient.");
-        }
-    });
 
 window.addEventListener('beforeinstallprompt', function (e) {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -42,7 +37,12 @@ window.addEventListener('beforeinstallprompt', function (e) {
     showAddToHomeScreen();
 
 });
-
+window['updateAvailable']
+    .then(isAvailable => {
+        if (isAvailable) {
+            alert(updateAlertMessage);
+        }
+    });
 function showAddToHomeScreen() {
     var pwaInstallPrompt = document.createElement('div');
     var pwaInstallButton = document.createElement('button');
@@ -50,25 +50,34 @@ function showAddToHomeScreen() {
 
     pwaInstallPrompt.id = 'pwa-install-prompt';
     pwaInstallPrompt.style.position = 'absolute';
-    pwaInstallPrompt.style.bottom = '0';
+    pwaInstallPrompt.style.bottom = '1rem';
+    pwaInstallPrompt.style.left = '1rem';
+    pwaInstallPrompt.style.right = '1rem';
+    pwaInstallPrompt.style.padding = '0.3rem';
     pwaInstallPrompt.style.display = 'flex';
-    pwaInstallPrompt.style.width = '100vw';
-    pwaInstallPrompt.style.backgroundColor='darkslategrey';
-    pwaInstallPrompt.style.color='white';
-    pwaInstallPrompt.style.fontSize='2rem';
+    pwaInstallPrompt.style.backgroundColor = 'lightslategray';
+    pwaInstallPrompt.style.color = 'white';
+    pwaInstallPrompt.style.fontFamily = 'sans-serif';
+    pwaInstallPrompt.style.fontSize = '1.2rem';
+    pwaInstallPrompt.style.borderRadius = '4px';
 
-    pwaInstallButton.style.marginLeft='auto';
-    pwaInstallButton.style.width='4em';
-    pwaInstallButton.style.backgroundColor='green';
-    pwaInstallButton.style.color='white';
+    pwaInstallButton.style.marginLeft = 'auto';
+    pwaInstallButton.style.width = '4em';
+    pwaInstallButton.style.backgroundColor = '#00796B';
+    pwaInstallButton.style.color = 'white';
+    pwaInstallButton.style.border = 'none';
+    pwaInstallButton.style.borderRadius = '25px';
 
-    pwaCancelButton.style.marginLeft='0.3rem';
-    pwaCancelButton.style.backgroundColor='darkslategray';
-    pwaCancelButton.style.color='white';
+    pwaCancelButton.style.marginLeft = '0.3rem';
+    pwaCancelButton.style.width = '4em';
+    pwaCancelButton.style.backgroundColor = '#9d0d0d';
+    pwaCancelButton.style.color = 'white';
+    pwaCancelButton.style.border = 'none';
+    pwaCancelButton.style.borderRadius = '25px';
 
-    pwaInstallPrompt.innerText = 'Add to your homescreen!';
-    pwaInstallButton.innerText = 'OK';
-    pwaCancelButton.innerText = 'Ignore';
+    pwaInstallPrompt.innerText = 'Add to your homescreen?';
+    pwaInstallButton.innerText = 'ok';
+    pwaCancelButton.innerText = 'no';
 
     pwaInstallPrompt.appendChild(pwaInstallButton);
     pwaInstallPrompt.appendChild(pwaCancelButton);
