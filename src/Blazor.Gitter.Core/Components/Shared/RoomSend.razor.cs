@@ -63,7 +63,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         void QuoteMessage(object sender, ChatMessageEventArgs e)
         {
             IChatMessage message = e.ChatMessage;
-            var quotedMessage = message.Text.Replace(Environment.NewLine, $"> {Environment.NewLine}");
+            var quotedMessage = "> " + message.Text.Replace(Environment.NewLine, $"{Environment.NewLine}> ");
             switch (e.QuoteType)
             {
                 case ChatMessageQuoteType.Quote:
@@ -86,7 +86,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 default:
                     break;
             }
-            CalculateSize(NewMessage);
+            CalculateSize(NewMessage+Environment.NewLine);
             Invoke(StateHasChanged);
             Task.Delay(1);
         }
