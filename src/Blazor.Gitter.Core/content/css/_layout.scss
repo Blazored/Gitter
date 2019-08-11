@@ -23,12 +23,12 @@
     padding-top: 1rem;
     overflow-y: auto;
     z-index: 2;
-    transform: translateX(-400px);
+    margin-left: -400px;
     transition: all .4s ease-in-out;
 }
 
 .wrapper__left-menu--active {
-    transform: translateX(0);
+    margin-left: 0;
 }
 
 .wrapper__left-menu-footer {
