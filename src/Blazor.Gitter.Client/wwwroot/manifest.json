@@ -1,6 +1,6 @@
 {
   "short_name": "Blazored Gitter",
-  "name": "Blazored Gitter Client (WASM) v0.1.0-beta20190804",
+  "name": "Blazored Gitter Client (WASM)",
   "start_url": "/",
   "display": "standalone",
   "icons": [
