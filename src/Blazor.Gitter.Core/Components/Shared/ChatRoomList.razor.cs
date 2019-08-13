@@ -15,7 +15,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private Timer ChatRoomTimer;
         private const int CHATROOMUPDATETIME = 10000;
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ChatRoomTimer = new Timer(CHATROOMUPDATETIME) { AutoReset = false };
             ChatRoomTimer.Elapsed += ChatRoomTimer_Elapsed;
@@ -37,7 +37,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void State_GotChatUser(object sender, EventArgs e)
         {
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             State.GotChatUser -= State_GotChatUser;
             Task.Factory.StartNew(FetchRooms);
         }
@@ -51,7 +51,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         {
             try
             {
-                await Invoke(StateHasChanged);
+                await InvokeAsync(StateHasChanged);
                 State.SetMyRooms((await GitterApi.GetChatRooms(State.GetMyUser().Id)).ToList());
             }
             catch 
@@ -61,7 +61,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void RefreshRooms(object sender, EventArgs e)
         {
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             ChatRoomTimer.Start();
         }
 

@@ -28,9 +28,9 @@ namespace Blazor.Gitter.Core.Components.Shared
             .AddClass(OuterClassList,!OuterClassListIsEmpty)
             .Build();
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             State.ActivityTimeout += ActivityTimeout;
             State.ActivityResumed += ActivityResumed;
         }
@@ -38,14 +38,14 @@ namespace Blazor.Gitter.Core.Components.Shared
         private void ActivityResumed(object sender, EventArgs e)
         {
             IsPaused = false;
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             Task.Delay(1);
         }
 
         private void ActivityTimeout(object sender, EventArgs e)
         {
             IsPaused = true;
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             Task.Delay(1);
         }
 

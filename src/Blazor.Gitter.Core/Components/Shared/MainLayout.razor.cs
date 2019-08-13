@@ -1,6 +1,5 @@
 ﻿using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Layouts;
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
@@ -20,9 +19,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         protected string MenuCss { get; set; }
 
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
-            await base.OnInitAsync();
+            await base.OnInitializedAsync();
 
             State.GotApiKey += State_GotApiKey;
             State.GotChatUser += State_GotChatUser;
@@ -38,7 +37,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void State_GotChatUser(object sender, EventArgs e)
         {
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
         }
 
         private void State_GotApiKey(object sender, EventArgs e)

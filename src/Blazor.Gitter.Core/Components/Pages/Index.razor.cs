@@ -21,15 +21,15 @@ namespace Blazor.Gitter.Core.Components.Pages
             set => apiKey = value;
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             State.GotChatUser += State_GotChatUser;
         }
 
         private void State_GotChatUser(object sender, EventArgs e)
         {
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
         }
 
         internal async Task SignIn(bool remember)

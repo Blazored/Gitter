@@ -24,9 +24,9 @@ namespace Blazor.Gitter.Core.Components.Pages
         protected bool SearchIsOpen;
         protected string SearchCss = "";
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
-            await base.OnInitAsync();
+            await base.OnInitializedAsync();
             State.SearchMenuToggled += State_ToggleSearchMenu;
             if (!State.HasChatRooms)
             {

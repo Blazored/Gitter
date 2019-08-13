@@ -33,9 +33,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         System.Timers.Timer RoomWatcher;
         IChatRoom LastRoom;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             State.ActivityTimeout += ActivityTimeout;
             State.ActivityResumed += ActivityResumed;
             State.GotMessageUpdate += GotMessageUpdate;
@@ -72,7 +72,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             {
                 RoomWatcher?.Stop();
                 Paused = true;
-                Invoke(StateHasChanged);
+                InvokeAsync(StateHasChanged);
             }
             catch 
             {
@@ -118,7 +118,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             RoomWatcher.Interval = 250;
             RoomWatcher.Start();
             Paused = false;
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             Task.Delay(1);
         }
 
@@ -211,7 +211,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                             Messages.AddRange(RemoveDuplicates(Messages, messages));
                         }
                         
-                        await Invoke(StateHasChanged);
+                        await InvokeAsync(StateHasChanged);
                         await Task.Delay(1);
                     }
                 }
@@ -244,7 +244,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 if (!token.IsCancellationRequested)
                 {
                     var count = await FetchNewMessages(options, token);
-                    await Invoke(StateHasChanged);
+                    await InvokeAsync(StateHasChanged);
                     await Task.Delay(100);
                     _ = await JSRuntime.ScrollIntoView(options.BeforeId);
                     return count;

@@ -22,9 +22,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         internal string OkButtonId = "message-send-button";
         internal string MessageInputId = "message-send-input";
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             State.GotMessageToQuote += QuoteMessage;
         }
 
@@ -81,7 +81,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                     break;
             }
             BuildClassString(NewMessage);
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             Task.Delay(1);
         }
 
