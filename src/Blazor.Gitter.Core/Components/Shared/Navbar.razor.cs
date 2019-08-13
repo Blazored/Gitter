@@ -19,7 +19,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void State_GotChatUser(object sender, System.EventArgs e)
         {
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
         }
 
         public void Dispose()

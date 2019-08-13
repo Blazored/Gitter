@@ -81,7 +81,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                     break;
             }
             BuildClassString(NewMessage);
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             Task.Delay(1);
         }
 

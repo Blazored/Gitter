@@ -29,7 +29,7 @@ namespace Blazor.Gitter.Core.Components.Pages
 
         private void State_GotChatUser(object sender, EventArgs e)
         {
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
         }
 
         internal async Task SignIn(bool remember)

@@ -38,7 +38,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void State_GotChatUser(object sender, EventArgs e)
         {
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
         }
 
         private void State_GotApiKey(object sender, EventArgs e)

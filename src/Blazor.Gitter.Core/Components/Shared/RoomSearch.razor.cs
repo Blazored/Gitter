@@ -37,7 +37,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         async Task PerformSearch(CancellationToken token)
         {
             Searching = true;
-            await Invoke(StateHasChanged);
+            await InvokeAsync(StateHasChanged);
             await Task.Delay(1);
             var options = GitterApi.GetNewOptions();
             options.Query = SearchText;
@@ -48,14 +48,14 @@ namespace Blazor.Gitter.Core.Components.Shared
             while ((messages?.Any() ?? false) && !token.IsCancellationRequested)
             {
                 SearchResult?.AddRange(messages.OrderBy(m => m.Sent).Reverse());
-                await Invoke(StateHasChanged);
+                await InvokeAsync(StateHasChanged);
                 await Task.Delay(1000);
                 options.Skip += messages.Count();
                 messages = await GitterApi.SearchChatMessages(ChatRoom.Id, options);
             }
 
             Searching = false;
-            await Invoke(StateHasChanged);
+            await InvokeAsync(StateHasChanged);
             await Task.Delay(1);
 
         }

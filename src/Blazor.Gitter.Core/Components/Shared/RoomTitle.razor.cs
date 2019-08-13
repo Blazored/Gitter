@@ -38,14 +38,14 @@ namespace Blazor.Gitter.Core.Components.Shared
         private void ActivityResumed(object sender, EventArgs e)
         {
             IsPaused = false;
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             Task.Delay(1);
         }
 
         private void ActivityTimeout(object sender, EventArgs e)
         {
             IsPaused = true;
-            Invoke(StateHasChanged);
+            InvokeAsync(StateHasChanged);
             Task.Delay(1);
         }
 
