@@ -21,9 +21,9 @@ namespace Blazor.Gitter.Core.Components.Pages
             set => apiKey = value;
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             State.GotChatUser += State_GotChatUser;
         }
 

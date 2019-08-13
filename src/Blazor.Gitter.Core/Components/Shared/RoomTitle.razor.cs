@@ -28,9 +28,9 @@ namespace Blazor.Gitter.Core.Components.Shared
             .AddClass(OuterClassList,!OuterClassListIsEmpty)
             .Build();
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             State.ActivityTimeout += ActivityTimeout;
             State.ActivityResumed += ActivityResumed;
         }

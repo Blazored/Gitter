@@ -33,9 +33,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         System.Timers.Timer RoomWatcher;
         IChatRoom LastRoom;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             State.ActivityTimeout += ActivityTimeout;
             State.ActivityResumed += ActivityResumed;
             State.GotMessageUpdate += GotMessageUpdate;

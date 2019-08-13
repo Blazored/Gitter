@@ -15,7 +15,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private Timer ChatRoomTimer;
         private const int CHATROOMUPDATETIME = 10000;
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ChatRoomTimer = new Timer(CHATROOMUPDATETIME) { AutoReset = false };
             ChatRoomTimer.Elapsed += ChatRoomTimer_Elapsed;

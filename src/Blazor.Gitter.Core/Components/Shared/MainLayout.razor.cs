@@ -20,9 +20,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         protected string MenuCss { get; set; }
 
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
-            await base.OnInitAsync();
+            await base.OnInitializedAsync();
 
             State.GotApiKey += State_GotApiKey;
             State.GotChatUser += State_GotChatUser;

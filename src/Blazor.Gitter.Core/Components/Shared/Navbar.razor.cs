@@ -7,7 +7,7 @@ namespace Blazor.Gitter.Core.Components.Shared
     { 
         [Inject] internal IAppState State { get; set; }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             State.GotChatUser += State_GotChatUser;
         }

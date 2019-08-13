@@ -15,9 +15,9 @@ namespace Blazor.Gitter.Core.Components
         private bool HasLoaded;
         internal bool EmbedRequired => HasLoaded && !( JSRuntime is IJSInProcessRuntime );
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
-            await base.OnInitAsync();
+            await base.OnInitializedAsync();
 
             AssemblyList = new List<System.Reflection.Assembly>()
                 {
