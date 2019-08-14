@@ -5,7 +5,7 @@ const swInstallEvent = 'install';
 const swInstalledEvent = 'installed';
 const swActivateEvent = 'activate';
 const staticCachePrefix = 'blazored-gitter-v';
-const staticCacheName = 'blazored-gitter-v0.1.0-beta20190811010831';
+const staticCacheName = 'blazored-gitter-v0.1.0-beta20190814040818';
 const requiredFiles = [
 "/_framework/blazor.boot.json",
 "/_framework/blazor.server.js",
@@ -23,8 +23,9 @@ const requiredFiles = [
 "/_framework/_bin/BlazorEmbedLibrary.dll",
 "/_framework/_bin/Microsoft.AspNetCore.Authorization.dll",
 "/_framework/_bin/Microsoft.AspNetCore.Blazor.dll",
-"/_framework/_bin/Microsoft.AspNetCore.Components.Browser.dll",
+"/_framework/_bin/Microsoft.AspNetCore.Blazor.HttpClient.dll",
 "/_framework/_bin/Microsoft.AspNetCore.Components.dll",
+"/_framework/_bin/Microsoft.AspNetCore.Components.Web.dll",
 "/_framework/_bin/Microsoft.AspNetCore.Metadata.dll",
 "/_framework/_bin/Microsoft.Bcl.AsyncInterfaces.dll",
 "/_framework/_bin/Microsoft.Extensions.Configuration.Abstractions.dll",
@@ -50,6 +51,7 @@ const requiredFiles = [
 "/_framework/_bin/System.Net.Http.dll",
 "/_framework/_bin/System.Numerics.Vectors.dll",
 "/_framework/_bin/System.Runtime.CompilerServices.Unsafe.dll",
+"/_framework/_bin/System.Text.Encodings.Web.dll",
 "/_framework/_bin/System.Text.Json.dll",
 "/_framework/_bin/System.Threading.Tasks.Extensions.dll",
 "/css/blazored.gitter.css",
