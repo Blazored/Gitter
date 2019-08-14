@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <StaticWebAsset Remove="..\..\..\..\..\.nuget\packages\blazored.localstorage\2.0.11\staticwebassets\blazored-localstorage.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BlazorPWA.MSBuild" Version="0.0.1-beta20190810-115758">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

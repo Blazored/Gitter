@@ -5,7 +5,7 @@ const swInstallEvent = 'install';
 const swInstalledEvent = 'installed';
 const swActivateEvent = 'activate';
 const staticCachePrefix = 'blazored-gitter-v';
-const staticCacheName = 'blazored-gitter-v0.1.0-beta20190814040818';
+const staticCacheName = 'blazored-gitter-v0.1.0-beta201908140708';
 const requiredFiles = [
 "/_framework/blazor.boot.json",
 "/_framework/blazor.server.js",
@@ -13,11 +13,8 @@ const requiredFiles = [
 "/_framework/wasm/mono.js",
 "/_framework/wasm/mono.wasm",
 "/_framework/_bin/Blazor.Gitter.Client.dll",
-"/_framework/_bin/Blazor.Gitter.Client.pdb",
 "/_framework/_bin/Blazor.Gitter.Core.dll",
-"/_framework/_bin/Blazor.Gitter.Core.pdb",
 "/_framework/_bin/Blazor.Gitter.Library.dll",
-"/_framework/_bin/Blazor.Gitter.Library.pdb",
 "/_framework/_bin/BlazorComponentUtilities.dll",
 "/_framework/_bin/Blazored.LocalStorage.dll",
 "/_framework/_bin/BlazorEmbedLibrary.dll",
@@ -54,6 +51,7 @@ const requiredFiles = [
 "/_framework/_bin/System.Text.Encodings.Web.dll",
 "/_framework/_bin/System.Text.Json.dll",
 "/_framework/_bin/System.Threading.Tasks.Extensions.dll",
+"/blazored-localstorage.js",
 "/css/blazored.gitter.css",
 "/css/blazored.gitter.min.css",
 "/css/loader.css",
