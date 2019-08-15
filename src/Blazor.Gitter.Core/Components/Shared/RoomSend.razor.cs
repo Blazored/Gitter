@@ -57,7 +57,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         private void CalculateSize(string value)
         {
             Rows = Math.Max(value.Split('\n').Length, value.Split('\r').Length);
-            Rows = Math.Min(Rows, 10);
             Rows = Math.Max(Rows, 2);
         }
 

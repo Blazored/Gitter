@@ -17,7 +17,7 @@
                             @Room.Name
                             @if (Room.UnreadItems > 0)
                             {
-                                <span class="chat-room-list__unread-items">@Room.UnreadItems</span>
+                                <span class="chat-room-list__unread-items" @onclick="ToggleMenu">@Room.UnreadItems</span>
                             }
                         </NavLink>
                     </li>

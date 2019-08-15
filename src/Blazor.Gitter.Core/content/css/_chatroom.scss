@@ -337,6 +337,7 @@
     border-radius: .5rem;
     color: $text;
     transition: height 0.3s ease-out;
+    max-height: 50vh;
 }
 
 .chat-room__send-message--sh-2 {
