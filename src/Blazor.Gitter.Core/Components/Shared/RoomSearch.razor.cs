@@ -1,5 +1,6 @@
 ﻿using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] IAppState State { get; set; }
 
-        [Parameter] internal IChatRoom ChatRoom { get; set; }
-        [Parameter] internal string UserId { get; set; }
+        [Parameter] public IChatRoom ChatRoom { get; set; }
+        [Parameter] public string UserId { get; set; }
 
         internal List<IChatMessage> SearchResult;
         internal string SearchText;
@@ -22,7 +23,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         protected bool Searching;
         CancellationTokenSource tokenSource;
 
-        internal async Task Search(UIEventArgs args)
+        internal async Task Search(EventArgs args)
         {
             tokenSource = new CancellationTokenSource();
             try
@@ -60,7 +61,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         }
 
-        internal Task ClearSearch(UIMouseEventArgs args)
+        internal Task ClearSearch(MouseEventArgs args)
         {
             Searching = false;
             SearchResult = null;
@@ -68,7 +69,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             return Task.CompletedTask;
         }
 
-        internal Task CancelSearch(UIMouseEventArgs args)
+        internal Task CancelSearch(MouseEventArgs args)
         {
             tokenSource.Cancel();
             Searching = false;

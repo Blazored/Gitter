@@ -4,6 +4,7 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net.Http;
@@ -12,6 +13,13 @@ namespace Blazor.Gitter.Server
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -19,10 +27,10 @@ namespace Blazor.Gitter.Server
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<HttpClient>((s) => new HttpClient())
-                .AddScoped<IChatApi, GitterApi>()
-                .AddScoped<ILocalStorageService, LocalStorageService>()
-                .AddScoped<ILocalisationHelper, LocalisationHelper>()
-                .AddScoped<IAppState, AppState>();
+                    .AddScoped<IChatApi, GitterApi>()
+                    .AddScoped<ILocalStorageService, LocalStorageService>()
+                    .AddScoped<ILocalisationHelper, LocalisationHelper>()
+                    .AddScoped<IAppState, AppState>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +53,7 @@ namespace Blazor.Gitter.Server
 
             app.UseEndpoints(routes =>
             {
-                routes.MapBlazorHub<Core.Components.App>("app");
+                routes.MapBlazorHub();
                 routes.MapFallbackToPage("/_Host");
             });
         }

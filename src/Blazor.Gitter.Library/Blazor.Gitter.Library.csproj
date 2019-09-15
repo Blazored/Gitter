@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <PackageReference Include="BlazorComponentUtilities" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview8.19405.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview9.19424.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview9.19424.4" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0-preview8.19405.4" />
   </ItemGroup>
 

@@ -1,6 +1,7 @@
 ﻿using Blazor.Gitter.Library;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,9 +14,9 @@ namespace Blazor.Gitter.Core.Components.Shared
     public class AppState : IAppState, IDisposable
     {
         private readonly ILocalStorageService LocalStorage;
-        private readonly IComponentContext ComponentContext;
         private readonly ILocalisationHelper LocalisationHelper;
-        private readonly IUriHelper UriHelper;
+        private readonly NavigationManager UriHelper;
+
         private string apiKey;
         private IChatUser myUser;
         private List<IChatRoom> myRooms;
@@ -73,13 +74,11 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         public AppState(
             ILocalStorageService localStorage,
-            IComponentContext componentContext,
             ILocalisationHelper localisationHelper,
-            IUriHelper uriHelper
+            NavigationManager uriHelper
             )
         {
             LocalStorage = localStorage;
-            ComponentContext = componentContext;
             LocalisationHelper = localisationHelper;
             UriHelper = uriHelper;
             Task.Factory.StartNew(Initialise);
@@ -91,24 +90,21 @@ namespace Blazor.Gitter.Core.Components.Shared
             int done = 10;
             while (done-- > 0)
             {
-                if (ComponentContext.IsConnected)
+                try
                 {
-                    try
+                    await LocalisationHelper.BuildLocalCulture();
+                    await LocalisationHelper.BuildLocalTimeZone();
+                    if (!HasApiKey)
                     {
-                        await LocalisationHelper.BuildLocalCulture();
-                        await LocalisationHelper.BuildLocalTimeZone();
-                        if (!HasApiKey)
-                        {
-                            SetApiKey(await LocalStorage.GetItemAsync<string>("GitterKey"));
-                        }
-                        break;
+                        SetApiKey(await LocalStorage.GetItemAsync<string>("GitterKey"));
                     }
-                    catch (Exception ex)
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (done == 1)
                     {
-                        if (done == 1)
-                        {
-                            Console.WriteLine(ex);
-                        }
+                        Console.WriteLine(ex);
                     }
                 }
 
@@ -120,10 +116,9 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
             else
             {
-                var currentUri = UriHelper.GetAbsoluteUri();
-                var baseUri = UriHelper.GetBaseUri();
-                var currentPage = UriHelper.ToBaseRelativePath(baseUri, currentUri);
-                if (!currentPage.Equals(LOGINPAGE,StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(currentPage))
+                var currentUri = UriHelper.Uri;
+                var currentPage = UriHelper.ToBaseRelativePath(currentUri);
+                if (!currentPage.Equals(LOGINPAGE, StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(currentPage))
                 {
                     UriHelper.NavigateTo(LOGINPAGE);
                 }

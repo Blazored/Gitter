@@ -1,5 +1,6 @@
 ﻿using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,10 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] IAppState State { get; set; }
         [Inject] ILocalisationHelper Localisation { get; set; }
-        [Parameter] internal IChatMessage MessageData { get; set; }
-        [Parameter] protected string RoomId { get; set; }
-        [Parameter] internal string UserId { get; set; }
-        [Parameter] protected Action<IChatMessage> QuoteMessage { get; set; }
+        [Parameter] public IChatMessage MessageData { get; set; }
+        [Parameter] public string RoomId { get; set; }
+        [Parameter] public string UserId { get; set; }
+        [Parameter] public Action<IChatMessage> QuoteMessage { get; set; }
 
         SemaphoreSlim slim = new SemaphoreSlim(1, 1);
 
@@ -67,7 +68,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.RecordActivity();
             State.ReplyMessage(MessageData);
         }
-        internal async Task EditOnChange(UIChangeEventArgs args)
+        internal async Task EditOnChange(ChangeEventArgs args)
         {
             if (!string.IsNullOrWhiteSpace(args.Value.ToString()))
             {
@@ -81,7 +82,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.RecordActivity();
             EditMode = true;
         }
-        internal Task EditKeyPress(UIKeyboardEventArgs args)
+        internal Task EditKeyPress(KeyboardEventArgs args)
         {
             State.RecordActivity();
             if (args.Key.Equals("escape",StringComparison.OrdinalIgnoreCase))

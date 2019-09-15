@@ -7,11 +7,11 @@ namespace Blazor.Gitter.Core.Browser
 {
     static class BrowserInterop
     {
-        public static Task<double> GetScrollTop(this IJSRuntime JSRuntime, string id)
+        public static ValueTask<double> GetScrollTop(this IJSRuntime JSRuntime, string id)
         {
             return JSRuntime.InvokeAsync<double>("chat.getScrollTop",id);
         }
-        public static Task<bool> IsScrolledToBottom(this IJSRuntime JSRuntime, string id)
+        public static ValueTask<bool> IsScrolledToBottom(this IJSRuntime JSRuntime, string id)
         {
             try
             {
@@ -21,18 +21,18 @@ namespace Blazor.Gitter.Core.Browser
             {
                 Console.WriteLine($"BrowserInterop.IsScrolledToBottom: {ex.GetBaseException().Message}");
             }
-            return Task.FromResult(false);
+            return new ValueTask<bool>(Task.FromResult(false));
         }
-        public static Task<bool> ScrollIntoView(this IJSRuntime JSRuntime, string id)
+        public static ValueTask<bool> ScrollIntoView(this IJSRuntime JSRuntime, string id)
         {
             return JSRuntime.InvokeAsync<bool>("chat.scrollIntoView", id);
         }
         [Obsolete("Please use SetFocusById now as there is a bug in the JSInterop",true)]
-        public static Task<bool> SetFocus(this IJSRuntime JSRuntime, ElementReference elementRef)
+        public static ValueTask<bool> SetFocus(this IJSRuntime JSRuntime, ElementReference elementRef)
         {
             return JSRuntime.InvokeAsync<bool>("chat.setFocus", elementRef);
         }
-        public static Task<bool> SetFocusById(this IJSRuntime JSRuntime, string id)
+        public static ValueTask<bool> SetFocusById(this IJSRuntime JSRuntime, string id)
         {
             return JSRuntime.InvokeAsync<bool>("chat.setFocusById", id);
         }

@@ -17,8 +17,8 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] ILocalisationHelper Localisation { get; set; }
         [Inject] IAppState State { get; set; }
 
-        [Parameter] internal IChatRoom ChatRoom { get; set; }
-        [Parameter] internal string UserId { get; set; }
+        [Parameter] public IChatRoom ChatRoom { get; set; }
+        [Parameter] public string UserId { get; set; }
 
         internal bool LoadingMessages;
 
@@ -79,9 +79,9 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
         }
 
-        protected override void OnAfterRender()
+        protected override async Task OnAfterRenderAsync(bool FirstRender)
         {
-            base.OnAfterRender();
+            await base.OnAfterRenderAsync(FirstRender);
             if (FirstLoad && Messages?.Count > 0)
             {
                 FirstLoad = false;
@@ -122,7 +122,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             Task.Delay(1);
         }
 
-        internal async Task MessagesScrolled(UIEventArgs args)
+        internal async Task MessagesScrolled(EventArgs args)
         {
             if (!NoMoreOldMessages && Messages.Any())
             {

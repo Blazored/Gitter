@@ -11,8 +11,8 @@ namespace Blazor.Gitter.Core.Components.Shared
     {
         [Inject] IAppState State { get; set; }
 
-        [Parameter] internal IChatRoom ChatRoom { get; set; }
-        [Parameter] internal string OuterClassList { get; set; }
+        [Parameter] public IChatRoom ChatRoom { get; set; }
+        [Parameter] public string OuterClassList { get; set; }
 
         bool IsPaused = false;
 

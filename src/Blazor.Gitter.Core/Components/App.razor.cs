@@ -8,7 +8,6 @@ namespace Blazor.Gitter.Core.Components
 {
     public class AppModel : ComponentBase
     {
-        [Inject] IComponentContext ComponentContext { get; set; }
         [Inject] IJSRuntime JSRuntime { get; set; }
 
         internal List<System.Reflection.Assembly> AssemblyList;
@@ -25,10 +24,10 @@ namespace Blazor.Gitter.Core.Components
                     GetType().Assembly,
                 };
         }
-        protected override void OnAfterRender()
+        protected override void OnAfterRender(bool FirstRender)
         {
-            base.OnAfterRender();
-            if (ComponentContext.IsConnected && !HasLoaded)
+            base.OnAfterRender(FirstRender);
+            if (FirstRender)
             {
                 HasLoaded = true;
                 StateHasChanged();

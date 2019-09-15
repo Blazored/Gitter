@@ -9,10 +9,10 @@ namespace Blazor.Gitter.Core.Components.Pages
 {
     public class RoomModel : ComponentBase
     {
-        [Inject] IUriHelper UriHelper { get; set; }
+        [Inject] NavigationManager UriHelper { get; set; }
         [Inject] internal IAppState State { get; set; }
 
-        [Parameter] protected string RoomId { get; set; }
+        [Parameter] public string RoomId { get; set; }
 
         internal IChatRoom ThisRoom;
         internal bool FirstLoad = true;
@@ -44,7 +44,7 @@ namespace Blazor.Gitter.Core.Components.Pages
             State.GotChatRooms -= State_GotChatRooms;
         }
 
-        protected override void OnAfterRender()
+        protected override void OnAfterRender(bool FirstRender)
         {
             if (CheckStateForRedirect())
             {

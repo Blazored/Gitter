@@ -33,7 +33,7 @@ namespace Blazor.Gitter.Library
             {
                 HttpClient.BaseAddress = new Uri(APIBASE);
                 HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+                HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token.Replace("\"",String.Empty)}");
             }
         }
 
