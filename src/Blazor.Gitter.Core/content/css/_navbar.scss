@@ -6,11 +6,13 @@
     background-color: $background-darkest;
     padding: 1rem;
     justify-content: space-between;
+    align-items: center;
 }
 
 .navbar__menu {
     cursor: pointer;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
+    line-height: 2.2rem;
 }
 
 .navbar__brand {
