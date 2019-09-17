@@ -1,3 +1,5 @@
+using Blazor.Gitter.Components.Models.Settings;
+using Blazor.Gitter.Components.ViewModels.Settings;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
 using Blazored.LocalStorage;
@@ -31,6 +33,8 @@ namespace Blazor.Gitter.Server
                     .AddScoped<ILocalStorageService, LocalStorageService>()
                     .AddScoped<ILocalisationHelper, LocalisationHelper>()
                     .AddScoped<IAppState, AppState>();
+            services.AddScoped<Settings_M>();
+            services.AddScoped<Settings_VM>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

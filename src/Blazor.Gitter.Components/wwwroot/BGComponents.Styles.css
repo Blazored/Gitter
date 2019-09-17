@@ -1,0 +1,12 @@
+﻿.bgsettings-table-grid {
+  border-collapse: collapse;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-spacing: 0;
+  margin: 25px; }
+
+.bgsettings-table-grid td, th {
+  border: 1px solid black;
+  padding: 20px; }

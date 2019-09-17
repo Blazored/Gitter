@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		src\README.md = src\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Gitter.Components", "src\Blazor.Gitter.Components\Blazor.Gitter.Components.csproj", "{DC01DE86-0704-4F90-9C64-51D96A7F8F78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Gitter.Settings", "src\Blazor.Gitter.Settings\Blazor.Gitter.Settings.csproj", "{E7346C6B-EFE8-4303-A84B-EF87A00F39D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,14 @@ Global
 		{F40F2548-F756-4F17-ACB7-D5AC10D7DF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F40F2548-F756-4F17-ACB7-D5AC10D7DF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F40F2548-F756-4F17-ACB7-D5AC10D7DF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC01DE86-0704-4F90-9C64-51D96A7F8F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC01DE86-0704-4F90-9C64-51D96A7F8F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC01DE86-0704-4F90-9C64-51D96A7F8F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC01DE86-0704-4F90-9C64-51D96A7F8F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7346C6B-EFE8-4303-A84B-EF87A00F39D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7346C6B-EFE8-4303-A84B-EF87A00F39D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7346C6B-EFE8-4303-A84B-EF87A00F39D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7346C6B-EFE8-4303-A84B-EF87A00F39D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

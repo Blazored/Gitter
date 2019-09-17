@@ -43,6 +43,7 @@
     <None Remove="Components\App.razor" />
     <None Remove="Components\Pages\Index.razor" />
     <None Remove="Components\Pages\Room.razor" />
+    <None Remove="Components\Pages\Settings.razor" />
     <None Remove="Components\Pages\_Imports.razor" />
     <None Remove="Components\Shared\ChatRoomList.razor" />
     <None Remove="Components\Shared\MainLayout.razor" />
@@ -65,6 +66,10 @@
     <Content Include="Components\App.razor" />
     <Content Include="Components\Pages\Index.razor" />
     <Content Include="Components\Pages\Room.razor" />
+    <Content Include="Components\Pages\Settings.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
     <Content Include="Components\Pages\_Imports.razor" />
     <Content Include="Components\Shared\ChatRoomList.razor" />
     <Content Include="Components\Shared\MainLayout.razor" />
@@ -92,6 +97,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Blazor.Gitter.Components\Blazor.Gitter.Components.csproj" />
     <ProjectReference Include="..\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj" />
   </ItemGroup>
 

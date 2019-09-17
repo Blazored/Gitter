@@ -1,0 +1,94 @@
+﻿@page "/settings"
+@inject IModalService pModal
+@inject Settings_VM pSettingsVM
+
+<h1>Settings</h1>
+
+<table class="bgsettings-table-grid">
+    <tbody>
+        <tr>
+            <th>
+                Accent color
+            </th>
+            <td align="left">
+                <input type="radio" name="accent" checked=@(pSettingsVM.pAccentColor == 0) /> Light cyan<br />
+                <input type="radio" name="accent" checked=@(pSettingsVM.pAccentColor == 1) /> Light red
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Chatroom update interval (s)
+            </th>
+            <td align="left">
+                @pSettingsVM.pChatroomUpdateInterval.ToString()
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Room update interval (s)
+            </th>
+            <td align="left">
+                @pSettingsVM.pRoomUpdateInterval.ToString()
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Submit key
+            </th>
+            <td align="left">
+                <input type="radio" name="submit" checked=@(pSettingsVM.pSubmitKey == 0) /> Enter<br />
+                <input type="radio" name="submit" checked=@(pSettingsVM.pSubmitKey == 1) /> Ctrl-Enter
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Theme
+            </th>
+            <td align="left">
+                <input type="radio" name="theme" checked=@(pSettingsVM.pTheme == 0) /> Dark<br />
+                <input type="radio" name="theme" checked=@(pSettingsVM.pTheme == 1) /> Light
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Timeout interval (s)
+            </th>
+            <td align="left">
+                @pSettingsVM.pTimeoutInterval.ToString()
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+<br />
+<button class="btn btn-primary" @onclick="@ShowModal">Click to use settings dialog</button>
+
+@code {
+
+    void ShowModal()
+    {
+        pModal.OnClose += ModalClosed;
+        pModal.Show("Settings", typeof(BGSettings));
+    }
+
+    void ModalClosed(ModalResult modalResult)
+    {
+        if (modalResult.Cancelled)
+        {
+            Console.WriteLine("Modal was cancelled");
+        }
+        else
+        {
+            Console.WriteLine(modalResult.Data);
+            StateHasChanged();
+        }
+
+        pModal.OnClose -= ModalClosed;
+    }
+
+}

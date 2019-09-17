@@ -8,6 +8,11 @@
                     <NavLink href="" Match="NavLinkMatch.All">
                         Home
                     </NavLink>
+                    </li>
+                <li @onclick="ToggleMenu">
+                    <NavLink href="/settings" Match="NavLinkMatch.Prefix">
+                        Settings
+                    </NavLink>
                 </li>
                 @foreach (IChatRoom Room in State.GetMyRooms().OrderByDescending(r => r.LastAccessTime))
                 {

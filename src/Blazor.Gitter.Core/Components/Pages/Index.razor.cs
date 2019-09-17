@@ -1,4 +1,5 @@
-﻿using Blazor.Gitter.Core.Components.Shared;
+﻿using Blazor.Gitter.Components.ViewModels.Settings;
+using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -11,6 +12,7 @@ namespace Blazor.Gitter.Core.Components.Pages
     {
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] internal IAppState State { get; set; }
+        [Inject] Settings_VM pSettingsVM { get; set; }
 
         internal string ErrorMessage;
         string apiKey;
@@ -25,6 +27,13 @@ namespace Blazor.Gitter.Core.Components.Pages
         {
             base.OnInitialized();
             State.GotChatUser += State_GotChatUser;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            await pSettingsVM.Restore();
         }
 
         private void State_GotChatUser(object sender, EventArgs e)

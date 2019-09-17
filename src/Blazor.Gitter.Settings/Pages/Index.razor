@@ -1,0 +1,15 @@
+﻿@page "/"
+@inject Settings_VM pSettingsVM
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        await pSettingsVM.Restore();
+    }
+}
