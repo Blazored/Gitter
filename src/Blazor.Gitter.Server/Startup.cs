@@ -3,6 +3,7 @@ using Blazor.Gitter.Components.ViewModels.Settings;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
 using Blazored.LocalStorage;
+using Blazored.Modal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,7 @@ namespace Blazor.Gitter.Server
                     .AddScoped<IAppState, AppState>();
             services.AddScoped<Settings_M>();
             services.AddScoped<Settings_VM>();
+            services.AddBlazoredModal();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
