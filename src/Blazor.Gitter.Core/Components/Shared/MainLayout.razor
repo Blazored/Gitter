@@ -1,27 +1,29 @@
 ﻿@inherits MainLayoutModel
 
+<BlazoredModal HideCloseButton="true" />
+
 @if (State.Initialised || !State.HasApiKey)
 {
-	<Navbar />
+    <Navbar />
 
-	<div class="wrapper">
-		<aside class="wrapper__left-menu @MenuCss">
+    <div class="wrapper">
+        <aside class="wrapper__left-menu @MenuCss">
             <div class="wrapper__left-menu-footer">
                 <span class="navbar__mode">@Mode v@(Build)</span>
             </div>
-			<ChatRoomList />
-		</aside>
-		<main class="wrapper__content">
-			@Body
-		</main>
-	</div>
+            <ChatRoomList />
+        </aside>
+        <main class="wrapper__content">
+            @Body
+        </main>
+    </div>
 }
 else
 {
-	<div class="loader-container">
-		<div class="loader"></div>
-		<div class="loader-logo">
-			Attempting Login...
-		</div>
-	</div>
+    <div class="loader-container">
+        <div class="loader"></div>
+        <div class="loader-logo">
+            Attempting Login...
+        </div>
+    </div>
 }
