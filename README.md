@@ -8,15 +8,13 @@ This is a work in progress, not production ready.
 
 ## Get Involved
 
-You will need Visual Studio 2019 16.1.0 Preview 2.0 or newer.
+You will need Visual Studio 2019 16.4.0 or newer.
 
-You will also need the Blazor extension version 16.0.19216.3
+(VS Code and VS Mac are gaining support — you may find those work as well.)
 
-(VS Code is gaining support - you may find that works as well)
+You will need to download and install the [.Net Core SDK 3.1.102 / runtime 3.1.2](https://dotnet.microsoft.com/download/dotnet-core/3.1).
 
-You will need to download and install the .Net Core SDK 3.0.100-preview4-011223
-
-Fork the repo, open and run the Blazor.Gitter.Client project.
+Fork the repo, open and run the `Blazor.Gitter.Client` project.
 
 To log in, you will need a Gitter API Token, which you can get by visiting https://developer.gitter.im/docs/welcome
 and signing in using your normal Gitter credentials.
