@@ -2,16 +2,18 @@ trigger:
 - master
 
 pool:
-  vmImage: 'vs2017-win2016'
+  vmImage: 'windows-2019'
 
 variables:
   buildConfiguration: 'Release'
   MSBUILDDISABLENODEREUSE: '1'
 steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Installing .NET Core SDK...'
+- task: UseDotNet@2
+  displayName: ‘Use .NET Core sdk’
   inputs:
+    packageType: sdk
     version: 3.1.102
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - script: dotnet build --configuration $(buildConfiguration) src/Blazor.Gitter.client/Blazor.Gitter.client.csproj
   displayName: 'Building $(buildConfiguration)...'
