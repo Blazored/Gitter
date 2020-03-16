@@ -31,6 +31,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         internal string OkButtonId = "message-send-button";
         internal string MessageInputId = "message-send-input";
         internal int Rows = 2;
+        internal bool FilterUnreadActive = false;
 
         protected override void OnInitialized()
         {
@@ -45,6 +46,22 @@ namespace Blazor.Gitter.Core.Components.Shared
                 await GitterApi.SendChatMessage(ChatRoom.Id, NewMessage);
                 NewMessage = "";
             }
+        }
+
+        internal Task FilterUnread()
+        {
+            switch (FilterUnreadActive)
+            {
+                case false:
+                    State.SetMessageFilter(new GitterMessageFilter() { FilterUnread = true });
+                    FilterUnreadActive = true;
+                    break;
+                case true:
+                    State.SetMessageFilter(new GitterMessageFilter() { FilterUnread = false });
+                    FilterUnreadActive = false;
+                    break;
+            }
+            return Task.CompletedTask;
         }
 
         internal void HandleSizing(ChangeEventArgs args)
