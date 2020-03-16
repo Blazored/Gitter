@@ -81,7 +81,6 @@
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="2.1.1" />
     <PackageReference Include="BlazorComponentUtilities" Version="1.6.0" />
-    <PackageReference Include="BlazorEmbedLibrary" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
