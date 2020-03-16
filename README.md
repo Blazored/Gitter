@@ -8,13 +8,13 @@ This is a work in progress, not production ready.
 
 ## Get Involved
 
-You will need Visual Studio 2019 16.1.0 Preview 2.0 or newer.
-
-You will also need the Blazor extension version 16.0.19216.3
+You will need Visual Studio 2019 16.4.6 or newer.
 
 (VS Code is gaining support - you may find that works as well)
 
-You will need to download and install the .Net Core SDK 3.0.100-preview4-011223
+You will need to download and install the .Net Core SDK 3.1.2
+
+You wil need node.js and npm, either as part of Visual Studio 2019, or separately installed.
 
 Fork the repo, open and run the Blazor.Gitter.Client project.
 

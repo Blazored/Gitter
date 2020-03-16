@@ -29,7 +29,7 @@ namespace Blazor.Gitter.Library
 
         private void PrepareHttpClient()
         {
-            if (!(HttpClient.BaseAddress is object))
+            if (HttpClient.BaseAddress == null || HttpClient.BaseAddress.ToString() != APIBASE)
             {
                 HttpClient.BaseAddress = new Uri(APIBASE);
                 HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -39,7 +39,15 @@ namespace Blazor.Gitter.Library
 
         public async Task<IChatUser> GetCurrentUser()
         {
-            return (await HttpClient.GetJsonAsync<GitterUser[]>(APIUSERPATH)).First();
+            try
+            {
+                Console.WriteLine("Fetching gitter user.");
+                return (await HttpClient.GetJsonAsync<GitterUser[]>(APIUSERPATH)).First();
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
         }
 
         public Task<IChatUser> GetChatUser(string UserId)
