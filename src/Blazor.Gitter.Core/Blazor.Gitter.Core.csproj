@@ -52,6 +52,7 @@
     <None Remove="Components\Shared\_Imports.razor" />
     <None Remove="Components\_Imports.razor" />
     <None Remove="content\chat.js" />
+    <None Remove="content\css\_chatroom_send.scss" />
     <None Remove="content\css\_loader.scss" />
   </ItemGroup>
 
