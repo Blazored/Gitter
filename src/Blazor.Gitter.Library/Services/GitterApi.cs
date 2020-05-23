@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace Blazor.Gitter.Library
@@ -42,7 +43,7 @@ namespace Blazor.Gitter.Library
             try
             {
                 Console.WriteLine("Fetching gitter user.");
-                return (await HttpClient.GetJsonAsync<GitterUser[]>(APIUSERPATH)).First();
+                return (await HttpClient.GetFromJsonAsync<GitterUser[]>(APIUSERPATH)).First();
             } catch (Exception ex)
             {
                 Console.WriteLine(ex);
@@ -67,12 +68,14 @@ namespace Blazor.Gitter.Library
                 {"id", RoomId}
             });
 
-            return (await HttpClient.PostJsonAsync<GitterRoom[]>($"{APIUSERPATH}/{UserId}/{APIROOMS}", content)).First();
+            var response = await HttpClient.PostAsJsonAsync($"{APIUSERPATH}/{UserId}/{APIROOMS}", content);
+
+            return (await response.Content.ReadFromJsonAsync<GitterRoom[]>()).First();
         }
 
         public async Task<IEnumerable<IChatRoom>> GetChatRooms(string UserId)
         {
-            return await HttpClient.GetJsonAsync<GitterRoom[]>($"{APIUSERPATH}/{UserId}/{APIROOMS}");
+            return await HttpClient.GetFromJsonAsync<GitterRoom[]>($"{APIUSERPATH}/{UserId}/{APIROOMS}");
         }
 
         public Task<IChatMessage> GetChatMessage(string RoomId, string MessageId)
@@ -82,7 +85,7 @@ namespace Blazor.Gitter.Library
 
         public async Task<IEnumerable<IChatMessage>> GetChatMessages(string RoomId, IChatMessageOptions Options)
         {
-            return await HttpClient.GetJsonAsync<GitterMessage[]>($"{APIROOMS}/{RoomId}/chatMessages{Options}");
+            return await HttpClient.GetFromJsonAsync<GitterMessage[]>($"{APIROOMS}/{RoomId}/chatMessages{Options}");
         }
 
         public async Task<IEnumerable<IChatMessage>> SearchChatMessages(string RoomId, IChatMessageOptions Options)
@@ -98,7 +101,9 @@ namespace Blazor.Gitter.Library
         {
             var content = new NewMessage() { text = Message };
 
-            var result = await HttpClient.PostJsonAsync<GitterMessage>($"{APIROOMS}/{RoomId}/chatMessages", content);
+            var response = await HttpClient.PostAsJsonAsync($"{APIROOMS}/{RoomId}/chatMessages", content);
+
+            var result = await response.Content.ReadFromJsonAsync<GitterMessage>();
 
             return result;
         }
@@ -107,7 +112,9 @@ namespace Blazor.Gitter.Library
         {
             var content = new NewMessage() { text = Message };
 
-            return (await HttpClient.PutJsonAsync<GitterMessage>($"{APIROOMS}/{RoomId}/chatMessages/{MessageId}", content));
+            var response = await HttpClient.PutAsJsonAsync($"{APIROOMS}/{RoomId}/chatMessages/{MessageId}", content);
+
+            return await response.Content.ReadFromJsonAsync<GitterMessage>();
         }
 
         public async Task<bool> MarkChatMessageAsRead(string UserId, string RoomId, string MessageId)
@@ -115,7 +122,9 @@ namespace Blazor.Gitter.Library
             var content = new MarkUnread { chat = new string[] { MessageId } };
             try
             {
-                var result = await HttpClient.PostJsonAsync<SimpleSuccess>($"{APIUSERPATH}/{UserId}/{APIROOMS}/{RoomId}/unreadItems", content);
+                var response = await HttpClient.PostAsJsonAsync($"{APIUSERPATH}/{UserId}/{APIROOMS}/{RoomId}/unreadItems", content);
+
+                var result = await response.Content.ReadFromJsonAsync<SimpleSuccess>();
                 return result.success;
             }
             catch { }
