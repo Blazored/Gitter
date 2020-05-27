@@ -1,5 +1,5 @@
-﻿window.chat = {
-    getScrollTop: function (id) {
+﻿(<any>window).chat = {
+    getScrollTop: function (id: string) {
         const el = document.getElementById(id);
         try {
             if (el) {
@@ -11,7 +11,7 @@
             return -1;
         }
     },
-    isScrolledToBottom: function (id) {
+    isScrolledToBottom: function (id: string) {
         const el = document.getElementById(id);
         try {
             if (el) {
@@ -23,7 +23,7 @@
             return false;
         }
     },
-    scrollIntoView: function (id) {
+    scrollIntoView: function (id: string) {
         const el = document.getElementById(id);
         try {
             if (el) {
@@ -31,11 +31,11 @@
                 return true;
             }
             return false;
-        } catch(e) {
+        } catch (e) {
             return false;
         }
     },
-    setFocus: function (control) {
+    setFocus: function (control: HTMLElement) {
         if (control) {
             if (control.focus) {
                 control.focus();
@@ -44,7 +44,7 @@
         }
         return false;
     },
-    setFocusById: function (id) {
+    setFocusById: function (id: string) {
         const control = document.getElementById(id);
         console.log("setFocusById: " + id + control);
         if (control) {
