@@ -335,3 +335,6 @@ loader.min.css
 blazored.gitter.min.css
 blazored.gitter.min.css.map
 
+src/Blazor.Gitter.Client/wwwroot/scripts/chat.js*
+src/Blazor.Gitter.Server/wwwroot/scripts/chat.js*
+src/Blazor.Gitter.Core/content/scripts/chat.js*
