@@ -13,7 +13,7 @@ namespace Blazor.Gitter.Library
         public override string ToString()
         {
             StringBuilder s = new StringBuilder("?");
-
+            
             if (!string.IsNullOrWhiteSpace(AfterId))
             {
                 s.Append($"afterId={AfterId.Trim()}");

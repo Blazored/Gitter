@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -55,9 +54,9 @@ namespace Blazor.Gitter.Library
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IChatUser>> GetChatRoomUsers(string RoomId)
+        public async Task<IEnumerable<IChatUser>> GetChatRoomUsers(string RoomId, IRoomUserOptions Options)
         {
-            throw new NotImplementedException();
+            return await HttpClient.GetJsonAsync<GitterUser[]>($"{APIROOMS}/{RoomId}/users{Options}");
         }
 
         public async Task<IChatRoom> GetChatRoom(string UserId, string RoomId)
