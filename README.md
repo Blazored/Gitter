@@ -28,3 +28,11 @@ Of course, this is your own personal token - don't share it.
 Once you are up and running, take a look at the issues list and see if you can help.
 
 **Note** There is currently an issue with a couple of Gitter APIs that don't work in a purely client-based application like this. The streaming API is one, so we have to poll for new messages. The other is Authentication, which is why, for now at least, we are using personal tokens. 
+
+### Projects
+
+Blazored Gitter consists of four projects:
+
+* **Blazor.Gitter.Library** is a C# API client for the gitter API.
+* **Blazor.Gitter.Client** and **Blazor.Gitter.Server** are the Blazor WebAssembly and Blazor Server front-ends, respectively.
+* **Blazor.Gitter.Core** contains the Razor components for the UI, as well as other code that is shared between the Client and Server projects.
