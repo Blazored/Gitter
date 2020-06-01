@@ -87,6 +87,9 @@
     <ProjectReference Include="..\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Target Name="PreBuildTask" BeforeTargets="BeforeBuild">
     <Exec Command="npm install" />
     <Exec Command="npm run build" />

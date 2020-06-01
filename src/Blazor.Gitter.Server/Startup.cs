@@ -1,3 +1,4 @@
+using Blazor.Gitter.Core;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
 using Blazored.LocalStorage;

@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace Blazor.Gitter.Library
+namespace Blazor.Gitter.Core
 {
     public class LocalisationHelper : ILocalisationHelper
     {
