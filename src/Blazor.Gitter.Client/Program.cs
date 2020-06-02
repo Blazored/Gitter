@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Blazor.Gitter.Core.Components;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
@@ -13,7 +15,7 @@ namespace Blazor.Gitter.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.Services.AddBaseAddressHttpClient()
+            builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
                 .AddSingleton<IChatApi, GitterApi>()
                 .AddSingleton<ILocalStorageService, LocalStorageService>()
                 .AddSingleton<ILocalisationHelper, LocalisationHelper>()

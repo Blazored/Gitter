@@ -79,7 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="2.1.1" />
+    <PackageReference Include="Blazored.LocalStorage" Version="2.1.6" />
     <PackageReference Include="BlazorComponentUtilities" Version="1.6.0" />
   </ItemGroup>
 
