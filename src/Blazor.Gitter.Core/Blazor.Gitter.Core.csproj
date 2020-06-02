@@ -99,14 +99,13 @@
 
   <Target Name="PreBuildTask" BeforeTargets="BeforeBuild">
     <Exec Command="npm install" />
-    <Exec Command="npm run build" />
   </Target>
   
   <Target Name="BuildSass" BeforeTargets="BeforeBuild">
-    <Exec Command="gulp sass" />
+    <Exec Command="npx gulp sass" />
   </Target>
 
   <Target Name="CopyJs" AfterTargets="CompileTypeScript">
-    <Exec Command="gulp copyJs" />
+    <Exec Command="npx gulp copyJs" />
   </Target>
 </Project>
