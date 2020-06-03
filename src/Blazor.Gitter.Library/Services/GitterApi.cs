@@ -57,7 +57,7 @@ namespace Blazor.Gitter.Library
 
         public async Task<IEnumerable<IChatUser>> GetChatRoomUsers(string RoomId, IRoomUserOptions Options)
         {
-            return await HttpClient.GetJsonAsync<GitterUser[]>($"{APIROOMS}/{RoomId}/users{Options}");
+            return await HttpClient.GetFromJsonAsync<GitterUser[]>($"{APIROOMS}/{RoomId}/users{Options}");
         }
 
         public async Task<IChatRoom> GetChatRoom(string UserId, string RoomId)
