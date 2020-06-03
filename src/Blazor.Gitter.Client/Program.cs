@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazor.Gitter.Core;
 using Blazor.Gitter.Core.Components;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;

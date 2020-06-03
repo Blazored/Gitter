@@ -81,6 +81,10 @@
     </Content>
         
     <TypeScriptCompile Remove="node_modules\**\*" />
+        
+    <Compile Include="Services\ILocalisationHelper.cs" />
+        
+    <Compile Include="Services\LocalisationHelper.cs" />
     <TypeScriptCompile Include="content\scripts\chat.ts" />
   </ItemGroup>
 
@@ -95,10 +99,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
   <Target Name="PreBuildTask" BeforeTargets="BeforeBuild">
     <Exec Command="npm install" />
