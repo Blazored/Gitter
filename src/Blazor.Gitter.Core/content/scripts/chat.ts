@@ -1,4 +1,15 @@
 ﻿(<any>window).chat = {
+    getSelectionStart: function (id: string) {
+        const el = document.getElementById(id) as HTMLInputElement;
+        try {
+            if (el) {
+                return el.selectionStart;
+            }
+        }
+        catch { }
+
+        return -1;
+    },
     getScrollTop: function (id: string) {
         const el = document.getElementById(id);
         try {
