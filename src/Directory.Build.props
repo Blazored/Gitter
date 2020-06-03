@@ -1,7 +1,5 @@
 <Project>
  <PropertyGroup>
-   <BlazorClientVersion>3.0.0-preview6.19307.2</BlazorClientVersion>
-   <BlazorServerVersion>3.0.0-preview6.19307.2</BlazorServerVersion>
    <ReleaseVersion>0.1.0-beta-1</ReleaseVersion>
  </PropertyGroup>
 </Project>
