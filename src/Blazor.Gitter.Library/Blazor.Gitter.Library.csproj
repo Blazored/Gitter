@@ -9,6 +9,7 @@
     <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0-preview.4.20251.6" />
   </ItemGroup>
 
 </Project>

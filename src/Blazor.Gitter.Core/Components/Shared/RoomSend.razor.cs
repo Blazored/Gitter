@@ -14,6 +14,8 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] IAppState State { get; set; }
         [Inject] IJSRuntime JSRuntime { get; set; }
 
+        [Inject] Library.Services.RoomUsersRepository RoomUsersRepository { get; set; }
+
         [Parameter] public IChatRoom ChatRoom { get; set; }
         [Parameter] public IChatUser User { get; set; }
         internal string NewMessage
