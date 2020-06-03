@@ -2,10 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <IsPackable>true</IsPackable>
-    <BlazorWebAssemblyEnableLinking>true</BlazorWebAssemblyEnableLinking>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -14,77 +11,7 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <!-- .js/.css files will be referenced via <script>/<link> tags; other content files will just be included in the app's 'dist' directory without any tags referencing them -->
-    <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
-    <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Services\**" />
-    <Content Remove="Services\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="content\css\blazor.gitter.scss" />
-    <EmbeddedResource Remove="content\css\_base.scss" />
-    <EmbeddedResource Remove="content\css\_chatroom.scss" />
-    <EmbeddedResource Remove="content\css\_ChatRoomList.scss" />
-    <EmbeddedResource Remove="content\css\_layout.scss" />
-    <EmbeddedResource Remove="content\css\_loader.scss" />
-    <EmbeddedResource Remove="content\css\_login.scss" />
-    <EmbeddedResource Remove="content\css\_mixins.scss" />
-    <EmbeddedResource Remove="content\css\_navbar.scss" />
-    <EmbeddedResource Remove="content\css\_normalize.scss" />
-    <EmbeddedResource Remove="content\css\_variables.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Components\App.razor" />
-    <None Remove="Components\Pages\Index.razor" />
-    <None Remove="Components\Pages\Room.razor" />
-    <None Remove="Components\Pages\_Imports.razor" />
-    <None Remove="Components\Shared\ChatRoomList.razor" />
-    <None Remove="Components\Shared\MainLayout.razor" />
-    <None Remove="Components\Shared\Message.razor" />
-    <None Remove="Components\Shared\Navbar.razor" />
-    <None Remove="Components\Shared\RoomMessages.razor" />
-    <None Remove="Components\Shared\RoomSearch.razor" />
-    <None Remove="Components\Shared\RoomSend.razor" />
-    <None Remove="Components\Shared\RoomTitle.razor" />
-    <None Remove="Components\Shared\_Imports.razor" />
-    <None Remove="Components\_Imports.razor" />
-    <None Remove="content\css\_loader.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Components\App.razor" />
-    <Content Include="Components\Pages\Index.razor" />
-    <Content Include="Components\Pages\Room.razor" />
-    <Content Include="Components\Pages\_Imports.razor" />
-    <Content Include="Components\Shared\ChatRoomList.razor" />
-    <Content Include="Components\Shared\MainLayout.razor" />
-    <Content Include="Components\Shared\Message.razor" />
-    <Content Include="Components\Shared\Navbar.razor" />
-    <Content Include="Components\Shared\RoomMessages.razor" />
-    <Content Include="Components\Shared\RoomSearch.razor" />
-    <Content Include="Components\Shared\RoomSend.razor" />
-    <Content Include="Components\Shared\RoomTitle.razor" />
-    <Content Include="Components\Shared\_Imports.razor" />
-    <Content Include="Components\_Imports.razor">
-      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
-    </Content>
-    <Content Include="content\css\blazor.gitter.scss" />
-    <Content Include="content\css\_loader.scss">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-        
     <TypeScriptCompile Remove="node_modules\**\*" />
-        
-    <Compile Include="Services\ILocalisationHelper.cs" />
-        
-    <Compile Include="Services\LocalisationHelper.cs" />
     <TypeScriptCompile Include="content\scripts\chat.ts" />
   </ItemGroup>
 
@@ -100,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj" />
   </ItemGroup>
+
   <Target Name="PreBuildTask" BeforeTargets="BeforeBuild">
     <Exec Command="npm install" />
   </Target>
