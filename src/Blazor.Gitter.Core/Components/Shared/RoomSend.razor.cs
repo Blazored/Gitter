@@ -125,6 +125,46 @@ namespace Blazor.Gitter.Core.Components.Shared
                         break;
                 }
             }
+            else
+            {
+                switch (args.Key)
+                {
+                    case "@":
+                        var selectionStart = await BrowserInterop.GetSelectionStart(JSRuntime, MessageInputId);
+
+                        Console.WriteLine($"Selection start: {selectionStart}");
+
+                        // the input field only contains '@', or there's whitespace next to our caret
+
+                        if (selectionStart < 0 ||
+                            NewMessage.Length == 1 ||
+                            (selectionStart == 0 && char.IsWhiteSpace(NewMessage[selectionStart + 1])) ||
+                            (selectionStart == NewMessage.Length && char.IsWhiteSpace(NewMessage[selectionStart - 1])))
+                        {
+                            string query = NewMessage.Substring(selectionStart);
+
+                            Console.WriteLine($"Should pop up! Will query: {query}");
+
+                            var chatRoomUsers = await RoomUsersRepository.QueryAsync(this.ChatRoom, query);
+
+                            // TODO:
+                            // * display result in popup
+                            // * allow arrow up/down selection
+
+                            foreach (var item in chatRoomUsers)
+                            {
+                                Console.WriteLine(item.DisplayName);
+                            }
+                        }
+                        break;
+
+                    case "Escape":
+                        // TODO: close popup
+
+                        break;
+                }
+
+            }
             return;
         }
         public void Dispose()
