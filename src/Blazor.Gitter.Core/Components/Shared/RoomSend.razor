@@ -5,9 +5,10 @@
     <textarea id="@MessageInputId"
               rows="@Rows"
               class="@NewMessageClass"
-              @bind-value="@NewMessage"
+              @bind-value="NewMessage"
               @bind-value:event="oninput"
               @onkeydown="Shortcuts"
               placeholder="Ctrl-Enter to send..." />
     <button id="@OkButtonId" type="submit" class="chat-room__send-button" @onclick="SendMessage">Ok</button>
 </div>
+<button class="chat-room__filter-button@(FilterUnreadActive ? "--active" : "")" @onclick="FilterUnread"><i class="fas fa-filter"></i></button>

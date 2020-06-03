@@ -21,6 +21,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Parameter] public string UserId { get; set; }
 
         internal bool LoadingMessages;
+        internal IChatMessageFilter MessageFilter = new GitterMessageFilter();
 
         internal List<IChatMessage> Messages;
         SemaphoreSlim ssScroll = new SemaphoreSlim(1, 1);
@@ -39,6 +40,12 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.ActivityTimeout += ActivityTimeout;
             State.ActivityResumed += ActivityResumed;
             State.GotMessageUpdate += GotMessageUpdate;
+            State.GotMessageFilter += GotMessageFilter;
+        }
+
+        private void GotMessageFilter(object sender, IChatMessageFilter filter)
+        {
+            MessageFilter = filter;
         }
 
         private void GotMessageUpdate(object sender, IChatMessage message)
@@ -86,6 +93,7 @@ namespace Blazor.Gitter.Core.Components.Shared
             {
                 FirstLoad = false;
                 State.RecordActivity();
+                await JSRuntime.ScrollIntoView(GetLastMessageId());
             }
         }
 
@@ -104,6 +112,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 StartRoomWatcher();
 
                 LoadingMessages = false;
+                FirstLoad = true;
             }
         }
 
@@ -164,14 +173,14 @@ namespace Blazor.Gitter.Core.Components.Shared
             options.Lang = Localisation.LocalCultureInfo.Name;
             options.AfterId = "";
 
-            bool bottom = false;
-            try
-            {
-                bottom = await JSRuntime.IsScrolledToBottom("blgmessagelist");
-            }
-            catch 
-            {
-            }
+            //bool bottom = false;
+            //try
+            //{
+            //    bottom = await JSRuntime.IsScrolledToBottom("blgmessagelist");
+            //}
+            //catch 
+            //{
+            //}
 
             if (Messages?.Any() ?? false)
             {
@@ -179,13 +188,13 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
             await FetchNewMessages(options, tokenSource.Token);
 
-            if (Messages?.Any() ?? false)
-            {
-                if (bottom)
-                {
-                    _ = await JSRuntime.ScrollIntoView(GetLastMessageId());
-                }
-            }
+            //if (Messages?.Any() ?? false)
+            //{
+            //    if (bottom)
+            //    {
+            //        _ = await JSRuntime.ScrollIntoView(GetLastMessageId());
+            //    }
+            //}
             RoomWatcher?.Start();
         }
 
@@ -245,8 +254,8 @@ namespace Blazor.Gitter.Core.Components.Shared
                 {
                     var count = await FetchNewMessages(options, token);
                     await InvokeAsync(StateHasChanged);
-                    await Task.Delay(100);
-                    _ = await JSRuntime.ScrollIntoView(options.BeforeId);
+                    //await Task.Delay(100);
+                    //_ = await JSRuntime.ScrollIntoView(options.BeforeId);
                     return count;
                 }
             }
