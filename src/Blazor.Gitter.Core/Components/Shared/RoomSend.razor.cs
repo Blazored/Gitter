@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 #nullable enable
@@ -49,6 +50,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         {
             if (!NewMessage.Contains("@"))
             {
+                State.CancelRoomUserSearch();
                 _IsShowingUsernameAutocomplete = false;
                 return;
             }
@@ -58,6 +60,15 @@ namespace Blazor.Gitter.Core.Components.Shared
             Console.WriteLine($"Should pop up! Will query: {query}");
 
             var chatRoomUsers = await RoomUsersRepository.QueryAsync(this.ChatRoom, query);
+
+            if (chatRoomUsers.Any())
+            {
+                State.ShowRoomUserSearchResults(chatRoomUsers);
+            }
+            else
+            {
+                State.CancelRoomUserSearch();
+            }
 
             // TODO:
             // * display result in popup

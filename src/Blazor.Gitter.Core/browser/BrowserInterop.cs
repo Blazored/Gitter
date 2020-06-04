@@ -7,6 +7,9 @@ namespace Blazor.Gitter.Core.Browser
 {
     static class BrowserInterop
     {
+        public static ValueTask RepositionRoomSearchResults(this IJSRuntime jsRuntime)
+            => jsRuntime.InvokeVoidAsync("chat.repositionRoomSearchResults");
+
         public static ValueTask<int> GetSelectionStart(this IJSRuntime JSRuntime, string id)
         {
             return JSRuntime.InvokeAsync<int>("chat.getSelectionStart", id);

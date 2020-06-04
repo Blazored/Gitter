@@ -1,0 +1,11 @@
+﻿@inherits RoomUserSearchResultsBase
+
+@if (IsVisible)
+{
+    <div class="chat-room__roomusersearchresults">
+        @foreach (var item in Results)
+        {
+            <p>@item.DisplayName <small>@item.Username</small></p>
+        }
+    </div>
+}

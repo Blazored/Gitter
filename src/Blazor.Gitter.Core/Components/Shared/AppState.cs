@@ -76,6 +76,9 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// </summary>
         public event EventHandler SearchMenuToggled;
 
+        public event EventHandler RoomUserSearchCancelled;
+        public event EventHandler<IEnumerable<IChatUser>> RoomUserSearchPerformed;
+
         public AppState(
             ILocalStorageService localStorage,
             ILocalisationHelper localisationHelper,
@@ -186,6 +189,15 @@ namespace Blazor.Gitter.Core.Components.Shared
         public void ToggleSearchMenu()
         {
             SearchMenuToggled?.Invoke(this, null);
+        }
+
+        public void CancelRoomUserSearch()
+        {
+            RoomUserSearchCancelled?.Invoke(this, null);
+        }
+        public void ShowRoomUserSearchResults(IEnumerable<IChatUser> results)
+        {
+            RoomUserSearchPerformed?.Invoke(this, results);
         }
 
         public bool HasApiKey => !string.IsNullOrWhiteSpace(apiKey);

@@ -24,5 +24,8 @@ else
         <aside class="chat-room__search @SearchCss">
             <RoomSearch ChatRoom="@ThisRoom" UserId="@State.GetMyUser().Id" />
         </aside>
+
+        <!-- FIXME: technically needs to be positioned inside RoomMessages -->
+        <RoomUserSearchResults />
     </div>
 }

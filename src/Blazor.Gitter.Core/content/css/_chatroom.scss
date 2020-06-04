@@ -315,3 +315,12 @@
     font-style: italic;
 }
 
+.chat-room__roomusersearchresults {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    padding: 1em;
+    height: 300px;
+    width: 300px;
+    background-color: $background-lighter;
+}
