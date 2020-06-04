@@ -74,7 +74,6 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
 
             // TODO:
-            // * display result in popup
             // * allow arrow up/down selection
 
             foreach (var item in chatRoomUsers)

@@ -37,13 +37,13 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private async void SearchPerformed(object sender, IEnumerable<IChatUser> results)
         {
-            await BrowserInterop.RepositionRoomSearchResults(JSRuntime);
-
             Results = results;
 
             IsVisible = true;
 
             StateHasChanged();
+
+            await BrowserInterop.RepositionRoomSearchResults(JSRuntime);
         }
     }
 }

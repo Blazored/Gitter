@@ -7,12 +7,13 @@
 
         const resultsPopup = document.querySelector(".chat-room__roomusersearchresults") as HTMLElement;
 
-        // CHECK: doesn't work right yet
         if (resultsPopup == null)
             return;
 
-        resultsPopup.style.left = resultsIndex.toString();
-        resultsPopup.style.bottom = input.style.height;
+        // TODO: position horizontally
+        //resultsPopup.style.left = window.pageXOffset;
+
+        resultsPopup.style.bottom = `${input.clientHeight}px`;
     },
     getSelectionStart: function (id: string) {
         const el = document.getElementById(id) as HTMLInputElement;
