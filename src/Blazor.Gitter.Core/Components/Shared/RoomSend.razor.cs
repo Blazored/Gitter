@@ -48,7 +48,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private async Task QueryRoomUsersAsync()
         {
-            if (!NewMessage.Contains("@"))
+            if (!_IsShowingUsernameAutocomplete || !NewMessage.Contains("@"))
             {
                 State.CancelRoomUserSearch();
                 _IsShowingUsernameAutocomplete = false;
@@ -206,6 +206,8 @@ namespace Blazor.Gitter.Core.Components.Shared
 
                     case "Escape":
                         _IsShowingUsernameAutocomplete = false;
+                        State.CancelRoomUserSearch();
+
                         break;
                 }
 

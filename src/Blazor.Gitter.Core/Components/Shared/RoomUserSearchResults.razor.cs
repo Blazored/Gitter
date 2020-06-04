@@ -28,11 +28,11 @@ namespace Blazor.Gitter.Core.Components.Shared
             State.RoomUserSearchPerformed += SearchPerformed;
         }
 
-        private void SearchCancelled(object sender, EventArgs e)
+        private async void SearchCancelled(object sender, EventArgs e)
         {
             IsVisible = false;
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         private async void SearchPerformed(object sender, IEnumerable<IChatUser> results)
@@ -41,7 +41,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
             IsVisible = true;
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
 
             await BrowserInterop.RepositionRoomSearchResults(JSRuntime);
         }
