@@ -59,6 +59,9 @@ namespace Blazor.Gitter.Core.Components.Shared
 
             Console.WriteLine($"Should pop up! Will query: {query}");
 
+            if (string.IsNullOrWhiteSpace(query))
+                return;
+
             var chatRoomUsers = await RoomUsersRepository.QueryAsync(this.ChatRoom, query);
 
             if (chatRoomUsers.Any())
