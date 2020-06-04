@@ -18,6 +18,8 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         [Parameter] public IChatRoom ChatRoom { get; set; }
         [Parameter] public IChatUser User { get; set; }
+
+        private string newMessage = "";
         internal string NewMessage
         {
             get => newMessage;
@@ -28,7 +30,6 @@ namespace Blazor.Gitter.Core.Components.Shared
         }
 
         private const string BaseClass = "chat-room__send-message";
-        private string newMessage;
         internal string NewMessageClass = BaseClass;
         internal string OkButtonId = "message-send-button";
         internal string MessageInputId = "message-send-input";
