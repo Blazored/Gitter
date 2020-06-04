@@ -31,33 +31,41 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
         }
 
+        private readonly DebounceHelper debouncer = new DebounceHelper();
         protected async Task OnInput(ChangeEventArgs e)
         {
             NewMessage = e.Value as string ?? "";
 
             if (_IsShowingUsernameAutocomplete)
             {
-                if (!NewMessage.Contains("@"))
+                await debouncer.DebounceAsync(async (cancellationToken) =>
                 {
-                    _IsShowingUsernameAutocomplete = false;
-                    return;
-                }
+                    await QueryRoomUsersAsync();
+                }, delayMilliseconds: 300);
+            }
+        }
 
-                string query = NewMessage.Substring(_UsernameAutocompleteStartIndex);
+        private async Task QueryRoomUsersAsync()
+        {
+            if (!NewMessage.Contains("@"))
+            {
+                _IsShowingUsernameAutocomplete = false;
+                return;
+            }
 
-                Console.WriteLine($"Should pop up! Will query: {query} (index {_UsernameAutocompleteStartIndex}");
+            string query = NewMessage.Substring(_UsernameAutocompleteStartIndex);
 
-                var chatRoomUsers = await RoomUsersRepository.QueryAsync(this.ChatRoom, query);
+            Console.WriteLine($"Should pop up! Will query: {query}");
 
-                // TODO:
-                // * display result in popup
-                // * allow arrow up/down selection
-                // * we need to throttle this (yikes) to ~200ms
+            var chatRoomUsers = await RoomUsersRepository.QueryAsync(this.ChatRoom, query);
 
-                foreach (var item in chatRoomUsers)
-                {
-                    Console.WriteLine(item.DisplayName);
-                }
+            // TODO:
+            // * display result in popup
+            // * allow arrow up/down selection
+
+            foreach (var item in chatRoomUsers)
+            {
+                Console.WriteLine(item.DisplayName);
             }
         }
 
