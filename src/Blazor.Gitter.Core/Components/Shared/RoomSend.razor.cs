@@ -29,6 +29,11 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
         }
 
+        protected async Task OnInput(ChangeEventArgs e)
+        {
+            NewMessage = e.Value as string ?? "";
+        }
+
         private const string BaseClass = "chat-room__send-message";
         internal string NewMessageClass = BaseClass;
         internal string OkButtonId = "message-send-button";

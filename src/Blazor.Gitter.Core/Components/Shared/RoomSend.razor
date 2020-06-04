@@ -5,8 +5,8 @@
     <textarea id="@MessageInputId"
               rows="@Rows"
               class="@NewMessageClass"
-              @bind-value="NewMessage"
-              @bind-value:event="oninput"
+              value="@NewMessage"
+              @oninput="OnInput"
               @onkeydown="Shortcuts"
               placeholder="Ctrl-Enter to send..." />
     <button id="@OkButtonId" type="submit" class="chat-room__send-button" @onclick="SendMessage">Ok</button>
