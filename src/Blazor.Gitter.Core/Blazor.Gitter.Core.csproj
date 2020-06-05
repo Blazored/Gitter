@@ -36,7 +36,15 @@
     <Exec Command="npx gulp sass" />
   </Target>
 
-  <Target Name="CopyJs" AfterTargets="CompileTypeScript">
-    <Exec Command="npx gulp copyJs" />
+  <ItemGroup>
+    <JsSourceFiles Include="content/scripts/chat.js*" />
+  </ItemGroup>
+
+  <Target Name="CopyJsFiles" AfterTargets="CompileTypeScript">
+    <Copy SourceFiles="@(JsSourceFiles)" 
+          DestinationFolder="..\Blazor.Gitter.Client\wwwroot\scripts" />
+
+    <Copy SourceFiles="@(JsSourceFiles)" 
+          DestinationFolder="..\Blazor.Gitter.Server\wwwroot\scripts" />
   </Target>
 </Project>

@@ -24,13 +24,3 @@ gulp.task("sass", async function () {
 
     return es.concat(client, server);
 });
-
-gulp.task("copyJs", async function () {
-    var client = gulp.src('content/scripts/chat.js*')
-        .pipe(gulp.dest('../Blazor.Gitter.Client/wwwroot/scripts'));
-
-    var server = gulp.src('content/scripts/chat.js*')
-        .pipe(gulp.dest('../Blazor.Gitter.Server/wwwroot/scripts'));
-
-    return es.concat(client, server);
-});
