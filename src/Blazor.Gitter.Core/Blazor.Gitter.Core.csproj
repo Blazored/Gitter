@@ -27,9 +27,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj" />
   </ItemGroup>
+    
+  <Target Name="RestoreDotnetTools" BeforeTargets="CompileCss">
+    <Exec Command="dotnet tool restore" />
+  </Target>
   
   <Target Name="CompileCss" BeforeTargets="BeforeBuild">
-    <Exec Command="dotnet tool run webcompiler content/css" />
+    <Exec Command="dotnet tool run webcompiler -r content/css" />
   </Target>
 
   <ItemGroup>
