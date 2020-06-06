@@ -27,24 +27,27 @@
   <ItemGroup>
     <ProjectReference Include="..\Blazor.Gitter.Library\Blazor.Gitter.Library.csproj" />
   </ItemGroup>
-
-  <Target Name="PreBuildTask" BeforeTargets="BeforeBuild">
-    <Exec Command="npm install" />
-  </Target>
   
-  <Target Name="BuildSass" BeforeTargets="BeforeBuild">
-    <Exec Command="npx gulp sass" />
+  <Target Name="CompileCss" BeforeTargets="BeforeBuild">
+    <Exec Command="dotnet tool run webcompiler content/css" />
   </Target>
 
   <ItemGroup>
     <JsSourceFiles Include="content/scripts/chat.js*" />
+    <CssSourceFiles Include="content/css/*.min.css" />
   </ItemGroup>
 
-  <Target Name="CopyJsFiles" AfterTargets="CompileTypeScript">
+  <Target Name="CopyContentFiles" AfterTargets="CompileTypeScript">
     <Copy SourceFiles="@(JsSourceFiles)" 
           DestinationFolder="..\Blazor.Gitter.Client\wwwroot\scripts" />
 
     <Copy SourceFiles="@(JsSourceFiles)" 
           DestinationFolder="..\Blazor.Gitter.Server\wwwroot\scripts" />
+
+    <Copy SourceFiles="@(CssSourceFiles)" 
+          DestinationFolder="..\Blazor.Gitter.Client\wwwroot\css" />
+
+    <Copy SourceFiles="@(CssSourceFiles)" 
+          DestinationFolder="..\Blazor.Gitter.Server\wwwroot\css" />
   </Target>
 </Project>
