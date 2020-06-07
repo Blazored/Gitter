@@ -1,6 +1,7 @@
 ﻿using Blazor.Gitter.Library;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         private readonly ILocalStorageService LocalStorage;
         private readonly ILocalisationHelper LocalisationHelper;
         private readonly NavigationManager UriHelper;
-
+        private readonly ILogger<AppState> Log;
         private string apiKey;
         private IChatUser myUser;
         private List<IChatRoom> myRooms;
@@ -76,15 +77,16 @@ namespace Blazor.Gitter.Core.Components.Shared
         /// </summary>
         public event EventHandler SearchMenuToggled;
 
-        public AppState(
-            ILocalStorageService localStorage,
-            ILocalisationHelper localisationHelper,
-            NavigationManager uriHelper
-            )
+        public AppState(ILocalStorageService localStorage,
+                        ILocalisationHelper localisationHelper,
+                        NavigationManager uriHelper,
+                        ILogger<AppState> log)
         {
             LocalStorage = localStorage;
             LocalisationHelper = localisationHelper;
             UriHelper = uriHelper;
+            Log = log;
+
             Task.Factory.StartNew(Initialise);
         }
 
@@ -108,7 +110,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 {
                     if (done == 1)
                     {
-                        Console.WriteLine(ex);
+                        Log.LogError(ex, "Couldn't initialize AppState");
                     }
                 }
 

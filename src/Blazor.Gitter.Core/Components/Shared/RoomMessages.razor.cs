@@ -1,6 +1,7 @@
 ﻿using Blazor.Gitter.Core.Browser;
 using Blazor.Gitter.Library;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] ILocalisationHelper Localisation { get; set; }
         [Inject] IAppState State { get; set; }
+        [Inject] ILogger<RoomMessagesBase> Log { get; set; }
 
         [Parameter] public IChatRoom ChatRoom { get; set; }
         [Parameter] public string UserId { get; set; }
@@ -224,9 +226,9 @@ namespace Blazor.Gitter.Core.Components.Shared
                         await Task.Delay(1);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"RoomMessages.FetchNewMessages: {e.GetBaseException().Message}");
+                    Log.LogError(ex, "Failed to fetch new room messages");
                 }
                 finally
                 {
