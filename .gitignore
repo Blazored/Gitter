@@ -332,8 +332,9 @@ ASALocalRun/
 # generated css files
 loader.css
 loader.min.css
+blazored.gitter.css
 blazored.gitter.min.css
-blazored.gitter.min.css.map
+blazored.gitter.min.css.*
 
 src/Blazor.Gitter.Client/wwwroot/scripts/chat.js*
 src/Blazor.Gitter.Server/wwwroot/scripts/chat.js*
