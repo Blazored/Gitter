@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
@@ -11,7 +12,9 @@ namespace Blazor.Gitter.Core.Browser
         {
             return JSRuntime.InvokeAsync<double>("chat.getScrollTop",id);
         }
-        public static ValueTask<bool> IsScrolledToBottom(this IJSRuntime JSRuntime, string id)
+        public static ValueTask<bool> IsScrolledToBottom(this IJSRuntime JSRuntime,
+                                                         ILogger log,
+                                                         string id)
         {
             try
             {
@@ -19,7 +22,7 @@ namespace Blazor.Gitter.Core.Browser
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"BrowserInterop.IsScrolledToBottom: {ex.GetBaseException().Message}");
+                log.LogError(ex, "BrowserInterop.IsScrolledToBottom failed");
             }
             return new ValueTask<bool>(Task.FromResult(false));
         }

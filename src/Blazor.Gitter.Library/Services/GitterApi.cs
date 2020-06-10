@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Blazor.Gitter.Library
 {
@@ -16,9 +17,13 @@ namespace Blazor.Gitter.Library
 
         private string Token { get; set; }
         private HttpClient HttpClient { get; set; }
-        public GitterApi(HttpClient httpClient = null)
+
+        private readonly ILogger<GitterApi> Log;
+
+        public GitterApi(HttpClient httpClient = null, ILogger<GitterApi> log = null)
         {
             HttpClient = httpClient ?? throw new Exception("Make sure you have added an HttpClient to your DI Container");
+            Log = log;
         }
 
         public void SetAccessToken(string token)
@@ -41,11 +46,12 @@ namespace Blazor.Gitter.Library
         {
             try
             {
-                Console.WriteLine("Fetching gitter user.");
+                Log.LogDebug("Fetching gitter user.");
                 return (await HttpClient.GetFromJsonAsync<GitterUser[]>(APIUSERPATH)).First();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Log.LogError(ex, "Failed to fetch gitter user");
                 throw;
             }
         }
