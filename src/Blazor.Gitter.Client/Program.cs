@@ -5,6 +5,7 @@ using Blazor.Gitter.Core;
 using Blazor.Gitter.Core.Components;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
+using Blazor.Gitter.Library.Services;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace Blazor.Gitter.Client
                 .AddSingleton<IChatApi, GitterApi>()
                 .AddSingleton<ILocalStorageService, LocalStorageService>()
                 .AddSingleton<ILocalisationHelper, LocalisationHelper>()
+                .AddSingleton<RoomUsersRepository>()
                 .AddSingleton<IAppState, AppState>();
             builder.RootComponents.Add<App>("app");
 

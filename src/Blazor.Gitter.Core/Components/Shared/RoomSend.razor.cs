@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+
+#nullable enable
 
 namespace Blazor.Gitter.Core.Components.Shared
 {
@@ -14,8 +17,12 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] IAppState State { get; set; }
         [Inject] IJSRuntime JSRuntime { get; set; }
 
+        [Inject] Library.Services.RoomUsersRepository RoomUsersRepository { get; set; }
+
         [Parameter] public IChatRoom ChatRoom { get; set; }
         [Parameter] public IChatUser User { get; set; }
+
+        private string newMessage = "";
         internal string NewMessage
         {
             get => newMessage;
@@ -25,8 +32,57 @@ namespace Blazor.Gitter.Core.Components.Shared
             }
         }
 
+        private readonly DebounceHelper debouncer = new DebounceHelper();
+        protected async Task OnInput(ChangeEventArgs e)
+        {
+            NewMessage = e.Value as string ?? "";
+
+            if (_IsShowingUsernameAutocomplete)
+            {
+                await debouncer.DebounceAsync(async (cancellationToken) =>
+                {
+                    await QueryRoomUsersAsync();
+                }, delayMilliseconds: 300);
+            }
+        }
+
+        private async Task QueryRoomUsersAsync()
+        {
+            if (!_IsShowingUsernameAutocomplete || !NewMessage.Contains("@"))
+            {
+                State.CancelRoomUserSearch();
+                _IsShowingUsernameAutocomplete = false;
+                return;
+            }
+
+            string query = NewMessage.Substring(_UsernameAutocompleteStartIndex);
+
+            Console.WriteLine($"Should pop up! Will query: {query}");
+
+            if (string.IsNullOrWhiteSpace(query))
+                return;
+
+            var chatRoomUsers = await RoomUsersRepository.QueryAsync(this.ChatRoom, query);
+
+            if (chatRoomUsers.Any())
+            {
+                State.ShowRoomUserSearchResults(chatRoomUsers);
+            }
+            else
+            {
+                State.CancelRoomUserSearch();
+            }
+
+            // TODO:
+            // * allow arrow up/down selection
+
+            foreach (var item in chatRoomUsers)
+            {
+                Console.WriteLine(item.DisplayName);
+            }
+        }
+
         private const string BaseClass = "chat-room__send-message";
-        private string newMessage;
         internal string NewMessageClass = BaseClass;
         internal string OkButtonId = "message-send-button";
         internal string MessageInputId = "message-send-input";
@@ -109,6 +165,9 @@ namespace Blazor.Gitter.Core.Components.Shared
             Task.Delay(1);
         }
 
+        private bool _IsShowingUsernameAutocomplete;
+        private int _UsernameAutocompleteStartIndex;
+
         internal async Task Shortcuts(KeyboardEventArgs args)
         {
             if (args.CtrlKey)
@@ -122,6 +181,36 @@ namespace Blazor.Gitter.Core.Components.Shared
                     default:
                         break;
                 }
+            }
+            else
+            {
+                switch (args.Key)
+                {
+                    case "@":
+                        var selectionStart = await BrowserInterop.GetSelectionStart(JSRuntime, MessageInputId);
+
+                        Console.WriteLine($"Selection start: {selectionStart}");
+
+                        // the input field only contains '@', or there's whitespace next to our caret
+                        // note that NewMessage represents the state _before_ oninput
+                        if (selectionStart < 0 ||
+                            NewMessage.Length == 0 ||
+                            (selectionStart == 0 && char.IsWhiteSpace(NewMessage[selectionStart + 1])) ||
+                            (selectionStart == NewMessage.Length && char.IsWhiteSpace(NewMessage[selectionStart - 1])))
+                        {
+                            _IsShowingUsernameAutocomplete = true;
+                            _UsernameAutocompleteStartIndex = selectionStart + 1;
+                        }
+
+                        break;
+
+                    case "Escape":
+                        _IsShowingUsernameAutocomplete = false;
+                        State.CancelRoomUserSearch();
+
+                        break;
+                }
+
             }
             return;
         }

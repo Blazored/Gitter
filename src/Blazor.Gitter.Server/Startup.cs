@@ -1,6 +1,7 @@
 using Blazor.Gitter.Core;
 using Blazor.Gitter.Core.Components.Shared;
 using Blazor.Gitter.Library;
+using Blazor.Gitter.Library.Services;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Server;
@@ -31,6 +32,7 @@ namespace Blazor.Gitter.Server
                     .AddScoped<IChatApi, GitterApi>()
                     .AddScoped<ILocalStorageService, LocalStorageService>()
                     .AddScoped<ILocalisationHelper, LocalisationHelper>()
+                    .AddScoped<RoomUsersRepository>()
                     .AddScoped<IAppState, AppState>();
         }
 

@@ -1,5 +1,6 @@
 ﻿using Blazor.Gitter.Core.Browser;
 using Blazor.Gitter.Library;
+using Blazor.Gitter.Library.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -16,6 +17,7 @@ namespace Blazor.Gitter.Core.Components.Shared
         [Inject] IChatApi GitterApi { get; set; }
         [Inject] ILocalisationHelper Localisation { get; set; }
         [Inject] IAppState State { get; set; }
+        [Inject] RoomUsersRepository RoomUsersRepository { get; set; } // maybe inject this per-room?
 
         [Parameter] public IChatRoom ChatRoom { get; set; }
         [Parameter] public string UserId { get; set; }
@@ -50,7 +52,7 @@ namespace Blazor.Gitter.Core.Components.Shared
 
         private void GotMessageUpdate(object sender, IChatMessage message)
         {
-            if (ssFetch.Wait(-1,tokenSource.Token))
+            if (ssFetch.Wait(-1, tokenSource.Token))
             {
                 try
                 {
@@ -63,7 +65,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 }
                 finally
                 {
-                    ssFetch.Release();   
+                    ssFetch.Release();
                 }
             }
         }
@@ -81,7 +83,7 @@ namespace Blazor.Gitter.Core.Components.Shared
                 Paused = true;
                 InvokeAsync(StateHasChanged);
             }
-            catch 
+            catch
             {
             }
         }
@@ -219,7 +221,9 @@ namespace Blazor.Gitter.Core.Components.Shared
                         {
                             Messages.AddRange(RemoveDuplicates(Messages, messages));
                         }
-                        
+
+                        await RoomUsersRepository.AddOrUpdateRangeAsync(messages.Select(m => m.FromUser));
+
                         await InvokeAsync(StateHasChanged);
                         await Task.Delay(1);
                     }

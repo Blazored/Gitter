@@ -1,4 +1,31 @@
 ﻿(<any>window).chat = {
+    repositionRoomSearchResults: function () {
+        const input = document.querySelector("#message-send-input") as HTMLInputElement;
+
+        // TODO: get the @ that's nearest to getSelectionStart
+        const resultsIndex = input.value.indexOf("@") + 1;
+
+        const resultsPopup = document.querySelector(".chat-room__roomusersearchresults") as HTMLElement;
+
+        if (resultsPopup == null)
+            return;
+
+        // TODO: position horizontally
+        //resultsPopup.style.left = window.pageXOffset;
+
+        resultsPopup.style.bottom = `${input.clientHeight}px`;
+    },
+    getSelectionStart: function (id: string) {
+        const el = document.getElementById(id) as HTMLInputElement;
+        try {
+            if (el) {
+                return el.selectionStart;
+            }
+        }
+        catch { }
+
+        return -1;
+    },
     getScrollTop: function (id: string) {
         const el = document.getElementById(id);
         try {
